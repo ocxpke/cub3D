@@ -1,55 +1,14 @@
-# Prerequisites
-*.d
-
-# Object files
+# Ignoramos los .o y la libreria build
+build/
 *.o
-*.ko
-*.obj
-*.elf
 
-# Linker output
-*.ilk
-*.map
-*.exp
+# Ignoramos el archivo ejecutable final
+cub3d
 
-# Precompiled Headers
-*.gch
-*.pch
+# Ignoramos los archivos generados por la compilacion de la MLX42
+lib/MLX42/build/
+lib/libft/*.o
+lib/libft/libft.a
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
-
-# debug information files
-*.dwo
+# Ignoramos la carpeta .vscode
+.vscode/
