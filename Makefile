@@ -3,7 +3,6 @@ CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
 LIBMLX	:= ./lib/MLX42
 LIBFT	:= ./lib/libft
 
-HEADERS	:= -I ./include -I $(LIBMLX)/include
 LIBS	:= $(LIBFT)/libft.a $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
 VIEWS	:= src/views/map_view.c \
@@ -30,14 +29,14 @@ libmlx:
 libft:
 	make -C $(LIBFT)
 
-$(OBJS) : $(OBJ_DIR)/%.o : %.c $(HEADERS)
+$(OBJS) : $(OBJ_DIR)/%.o : %.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 	@printf "\033[34mCompiling: \033[0m$<\n"
 
 $(NAME): $(OBJS)
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBS) -o $(NAME)
 
 clean:
 	make clean -C $(LIBFT)
