@@ -6,44 +6,53 @@
 // arreglar esta mierda
 void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1, uint32_t color, int mode)
 {
-	// 1. Calculamos la diferencia entre los puntos
 	float dx = x1 - x0;
 	float dy = y1 - y0;
 
-	// 2. ¿Qué lado es más largo? Ese será nuestro número total de "pasos" a pintar
 	float steps = fabs(dx) > fabs(dy) ? fabs(dx) : fabs(dy);
 
-	// 3. Calculamos cuánto hay que avanzar en X y en Y por cada paso
+	// 1. PROTECCIÓN: Evitamos la división por cero si es un solo punto
+	if (steps == 0)
+		steps = 1;
+
 	float x_inc = dx / steps;
 	float y_inc = dy / steps;
 
-	// Empezamos en el punto de origen
 	float current_x = x0;
 	float current_y = y0;
 
-	// 4. Bucle simple: pintamos y avanzamos hasta llegar a los 'pasos' totales
+	// 2. OPTIMIZACIÓN: Elegimos el "view" destino una sola vez fuera del bucle
+	// Asumo que map_view y game_view son de tipo mlx_image_t* (MLX42) o similar
+	void *target_view; // Cambia 'void *' por 'mlx_image_t *' o tu struct de imagen
+	int max_width, max_height;
+
+	if (!mode)
+	{
+		target_view = game->map_view;
+		max_width = game->map_view->width;
+		max_height = game->map_view->height;
+	}
+	else
+	{
+		target_view = game->game_view;
+		max_width = game->game_view->width;
+		max_height = game->game_view->height;
+	}
+
+	// Bucle para pintar
 	for (int i = 0; i <= steps; i++)
 	{
-		// Protección para no salirnos de la ventana (Segfault)
+		// 3. PRECISIÓN: Redondeamos en lugar de truncar
+		int pixel_x = (int)roundf(current_x);
+		int pixel_y = (int)roundf(current_y);
 
-		if (!mode)
+		// Comprobación de límites (una sola vez)
+		if (pixel_x >= 0 && pixel_x < max_width &&
+			pixel_y >= 0 && pixel_y < max_height)
 		{
-			if (current_x >= 0 && current_x < game->map_view->width &&
-				current_y >= 0 && current_y < game->map_view->height)
-			{
-				mlx_put_pixel(game->map_view, (int)current_x, (int)current_y, color);
-			}
-		}
-		else
-		{
-			if (current_x >= 0 && current_x < game->game_view->width &&
-				current_y >= 0 && current_y < game->game_view->height)
-			{
-				mlx_put_pixel(game->game_view, (int)current_x, (int)current_y, color);
-			}
+			mlx_put_pixel(target_view, pixel_x, pixel_y, color);
 		}
 
-		// Avanzamos un pasito hacia el destino
 		current_x += x_inc;
 		current_y += y_inc;
 	}

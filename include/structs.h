@@ -23,15 +23,15 @@ typedef struct s_player
 
 typedef struct s_game
 {
-	mlx_t *mlx;
+	mlx_t *window;
 	mlx_image_t *map_view;
 	mlx_image_t *game_view;
 	char **map;
 	int map_width;
 	int map_height;
 	t_player player;
-	int init_width;
-	int init_heigth;
+	uint32_t init_width;
+	uint32_t init_height;
 } t_game;
 
 typedef struct s_all

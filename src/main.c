@@ -63,32 +63,16 @@ int main(int argc, char **argv)
 	(void)argv;
 
 	set_init_vals(&game_wrap, &player_info);
-	mlx_set_setting(MLX_MAXIMIZED, 1);
-	mlx_t *mlx = mlx_init(1, 1, "cub3d", false);
-	if (!mlx)
-		exit(EXIT_FAILURE);
-	take_window_data(&game_wrap);
-	mlx_image_t *game_view = mlx_new_image(mlx, game_wrap.init_width, game_wrap.init_heigth);
-	if (!game_view || (mlx_image_to_window(mlx, game_view, 0, 0) < 0))
-		exit(EXIT_FAILURE);
+	manage_mlx42_resources(&game_wrap);
 
-	/**
-	 * @note Revisar los valores hardcodeados
-	 */
-	mlx_image_t *map_view = mlx_new_image(mlx, 300, 200);
-	if (!map_view || (mlx_image_to_window(mlx, map_view, game_wrap.init_width - 300, 0) < 0))
-		exit(EXIT_FAILURE);
 
-	// Init game components
-	game_wrap.mlx = mlx;
-	game_wrap.map_view = map_view;
-	game_wrap.game_view = game_view;
+	// Wrapper components
 	all.game_wrap = &game_wrap;
 	all.player_info = &player_info;
 
 	re_draw(&game_wrap, &player_info);
-	mlx_key_hook(mlx, key_hook, &all);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	mlx_key_hook(game_wrap.window, key_hook, &all);
+	mlx_loop(game_wrap.window);
+	mlx_terminate(game_wrap.window);
 	return (EXIT_SUCCESS);
 }

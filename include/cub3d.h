@@ -12,6 +12,7 @@
 # include "mlx42_mng.h"
 # include "draw_utils.h"
 # include "raycasting.h"
+# include <GLFW/glfw3.h>
 
 #define BPP sizeof(int32_t)
 #define PI 3.1415926535

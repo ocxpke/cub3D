@@ -4,6 +4,6 @@
 # include "cub3d.h"
 
 void key_hook(mlx_key_data_t keydata, void *param);
-void	take_window_data(t_game *game_wrap);
+int manage_mlx42_resources(t_game *game_wrap);
 
 #endif

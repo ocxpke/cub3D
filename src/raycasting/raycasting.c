@@ -15,6 +15,14 @@ static inline float dist(float x0, float y0, float x1, float y1)
 	return (sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
 }
 
+static inline void check_angle_bounds(float *angle)
+{
+	if (*angle < 0)
+		*angle += PI_360_DEG;
+	else if (*angle > PI_360_DEG)
+		*angle -= PI_360_DEG;
+}
+
 /**
  * @brief The raycaster itself. Here we calculate what player sees, the player view field is
  * 60º, and we create rays on that player view field and calculate where they hit to display a vertical wall.
@@ -38,10 +46,7 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 	int rayGross = game_wrap->game_view->width / (FOV * RESOLUTION);
 
 	ra = player_info->ang - ((ONE_DEGREE / RESOLUTION) * (HALF_FOV * RESOLUTION));
-	if (ra < 0)
-		ra += PI_360_DEG;
-	else if (ra > PI_360_DEG)
-		ra -= PI_360_DEG;
+	check_angle_bounds(&ra);
 
 	for (r = 0; r < (FOV * RESOLUTION); r++)
 	{
@@ -144,13 +149,17 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 			distT = distV;
 		}
 
+		/**
+		 * @todo VER MEJOR COMO TRATAR EL OJO DE PEZ
+		*/
 		float ca = player_info->ang - ra;
 		if (ca < 0)
 			ca += 2 * PI;
 		if (ca > 2 * PI)
 			ca -= 2 * PI;
-		// Waht?????
 		distT = distT * cos(ca);
+
+		/*** */
 		float lineH = (CUBSIZE * game_wrap->game_view->height) / distT;
 		if (lineH > game_wrap->game_view->height)
 			lineH = game_wrap->game_view->height;
@@ -175,10 +184,6 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 		vertical_offset = (game_wrap->map_view->height - (map_cube_size * game_wrap->map_height)) / 2;
 		draw_line_simple(game_wrap, player_info->posX * map_cube_size + horizontal_offset, player_info->posY * map_cube_size + vertical_offset, (rx / CUBSIZE) * map_cube_size + horizontal_offset, (ry / CUBSIZE) * map_cube_size + vertical_offset, 0x00FF00FF, 0);
 		ra += (ONE_DEGREE / RESOLUTION);
-
-		if (ra < 0)
-			ra += PI_360_DEG;
-		else if (ra > PI_360_DEG)
-			ra -= PI_360_DEG;
+		check_angle_bounds(&ra);
 	}
 }
