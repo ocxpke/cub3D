@@ -1,5 +1,13 @@
 #include "../../include/cub3d.h"
 
+/**
+ * @brief Here we draw in the image map_view the player actual position as a dot
+ *
+ * @param game_wrap Represents the structure that contains all map content and info needed
+ * @param player_info Represents the strcuture that contains all player info needed
+ *
+ * @return Void
+ */
 void draw_player(t_game *game_wrap, t_player *player_info)
 {
 	// Otra pedazo de mierda

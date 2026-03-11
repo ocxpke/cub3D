@@ -1,5 +1,15 @@
 #include "../../include/cub3d.h"
 
+/**
+ * @brief We calculate the distance from point (x0, y0) to point (x1, y1). Pythagorean theorem
+ *
+ * @note Read more about mlx_key_data_t
+ *
+ * @param keydata MLX structure that contains all keyboard data needed
+ * @param param Here we get one pointer to pass as a param so we pass a wrapper structure
+ *
+ * @return Void
+ */
 void key_hook(mlx_key_data_t keydata, void *param)
 {
 	t_all *all_info = (t_all *)param;

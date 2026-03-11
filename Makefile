@@ -8,7 +8,8 @@ LIBS	:= $(LIBFT)/libft.a $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 VIEWS	:= src/views/map_view.c \
 			src/views/player_view.c
 
-MLX42_MNG := src/mlx42_management/hooks.c
+MLX42_MNG := src/mlx42_management/hooks.c \
+				src/mlx42_management/window_management.c
 
 DRAW_UTILS := src/draw_utils/line_algorithym.c
 

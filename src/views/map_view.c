@@ -1,5 +1,12 @@
 #include "../../include/cub3d.h"
 
+/**
+ * @brief Here we calculate every pixel that needs to be drawed and draw the map grid
+ *
+ * @param game_wrap Represents the structure that contains all map content and info needed
+ *
+ * @return Void
+ */
 void draw_map(t_game *game_wrap)
 {
 	int map_cube_size;

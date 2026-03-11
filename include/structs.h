@@ -30,6 +30,8 @@ typedef struct s_game
 	int map_width;
 	int map_height;
 	t_player player;
+	int init_width;
+	int init_heigth;
 } t_game;
 
 typedef struct s_all

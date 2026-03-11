@@ -1,5 +1,8 @@
 #include "../../include/cub3d.h"
 
+/**
+ * @note No la documento por q esto va a cambiar
+ */
 // arreglar esta mierda
 void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1, uint32_t color, int mode)
 {

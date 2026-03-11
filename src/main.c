@@ -13,6 +13,14 @@ char *MAP[] = {
 	"1111111111111111",
 	NULL};
 
+/**
+ * @brief Initialise every parameter needed
+ *
+ * @param game_wrap Represents the structure that contains all map content and info needed
+ * @param player_info Represents the strcuture that contains all player info needed
+ *
+ * @return Void
+ */
 static void set_init_vals(t_game *game_wrap, t_player *player_info)
 {
 	game_wrap->map = MAP;
@@ -25,6 +33,17 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
 	player_info->dirY = sin(player_info->ang) / 8;
 }
 
+/**
+ * @brief This function clears both images (map_view & game_view) and
+ * displays a new image, recalculating everything
+ *
+ * @note If there is something slow when displaying at exec time is in this function
+ *
+ * @param game_wrap Represents the structure that contains all map content and info needed
+ * @param player_info Represents the strcuture that contains all player info needed
+ *
+ * @return Void
+ */
 void re_draw(t_game *game_wrap, t_player *player_info)
 {
 	ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
@@ -44,17 +63,20 @@ int main(int argc, char **argv)
 	(void)argv;
 
 	set_init_vals(&game_wrap, &player_info);
-	mlx_set_setting(MLX_MAXIMIZED, true);
-	mlx_t *mlx = mlx_init(1920, 900, "cub3d", false);
+	mlx_set_setting(MLX_MAXIMIZED, 1);
+	mlx_t *mlx = mlx_init(1, 1, "cub3d", false);
 	if (!mlx)
 		exit(EXIT_FAILURE);
-
-	mlx_image_t *game_view = mlx_new_image(mlx, mlx->width, mlx->height);
+	take_window_data(&game_wrap);
+	mlx_image_t *game_view = mlx_new_image(mlx, game_wrap.init_width, game_wrap.init_heigth);
 	if (!game_view || (mlx_image_to_window(mlx, game_view, 0, 0) < 0))
 		exit(EXIT_FAILURE);
 
+	/**
+	 * @note Revisar los valores hardcodeados
+	 */
 	mlx_image_t *map_view = mlx_new_image(mlx, 300, 200);
-	if (!map_view || (mlx_image_to_window(mlx, map_view, mlx->width - 300, 0) < 0))
+	if (!map_view || (mlx_image_to_window(mlx, map_view, game_wrap.init_width - 300, 0) < 0))
 		exit(EXIT_FAILURE);
 
 	// Init game components

@@ -1,10 +1,32 @@
 #include "../../include/cub3d.h"
 
+/**
+ * @brief We calculate the distance from point (x0, y0) to point (x1, y1). Pythagorean theorem
+ *
+ * @param x0 First point X axis value
+ * @param y0 First point Y axis value
+ * @param x1 Second point X axis value
+ * @param y1 Second point Y axis value
+ *
+ * @return The distance calculated
+ */
 static inline float dist(float x0, float y0, float x1, float y1)
 {
 	return (sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
 }
 
+/**
+ * @brief The raycaster itself. Here we calculate what player sees, the player view field is
+ * 60º, and we create rays on that player view field and calculate where they hit to display a vertical wall.
+ *
+ * @note Needs to be sliced and optimized
+ * @note This documentation will be updated
+ *
+ * @param game_wrap Represents the structure that contains all map content and info needed
+ * @param player_info Represents the strcuture that contains all player info needed
+ *
+ * @return Void
+ */
 void draw_rays(t_game *game_wrap, t_player *player_info)
 {
 	int r = 0, mx = 0, my = 0, dof = 0;
