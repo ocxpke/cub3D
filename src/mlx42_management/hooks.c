@@ -1,6 +1,15 @@
 #include "../../include/cub3d.h"
 
 /**
+ * @note Ver si esto funciona
+ */
+void resize_hook(int32_t width, int32_t height, void* param){
+	t_all *all_things = (t_all*)param;
+	mlx_resize_image(all_things->game_wrap->game_view, width, height);
+	all_things->game_wrap->map_view->instances[0].x = width - all_things->game_wrap->map_view->width;
+}
+
+/**
  * @brief We calculate the distance from point (x0, y0) to point (x1, y1). Pythagorean theorem
  *
  * @note Read more about mlx_key_data_t
@@ -26,7 +35,7 @@ void key_hook(mlx_key_data_t keydata, void *param)
 		all_info->player_info->posY -= all_info->player_info->dirY;
 	}
 
-	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		all_info->player_info->ang -= 0.1;
 		if (all_info->player_info->ang < 0)
@@ -35,7 +44,7 @@ void key_hook(mlx_key_data_t keydata, void *param)
 		all_info->player_info->dirY = sin(all_info->player_info->ang) / 8;
 	}
 
-	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		all_info->player_info->ang += 0.1;
 		if (all_info->player_info->ang > (2 * PI))

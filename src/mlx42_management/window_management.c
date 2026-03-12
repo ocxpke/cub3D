@@ -45,11 +45,12 @@ int manage_mlx42_resources(t_game *game_wrap)
 	game_view = mlx_new_image(game_wrap->window, game_wrap->init_width, game_wrap->init_height);
 	if (!game_view || (mlx_image_to_window(game_wrap->window, game_view, 0, 0) < 0))
 		exit(EXIT_FAILURE);
+	game_wrap->game_view = game_view;
 
-	map_view = mlx_new_image(game_wrap->window, 300, 200);
-	if (!map_view || (mlx_image_to_window(game_wrap->window, map_view, game_wrap->init_width - 300, 0) < 0))
+	map_view = mlx_new_image(game_wrap->window, MAP_CUB_SIZE * game_wrap->map_width, MAP_CUB_SIZE * game_wrap->map_height);
+	if (!map_view || (mlx_image_to_window(game_wrap->window, map_view, game_view->width - map_view->width, 0) < 0))
 		exit(EXIT_FAILURE);
 	game_wrap->map_view = map_view;
-	game_wrap->game_view = game_view;
+	printf("MAP_CUBE IS %d AND POS IS %d\n", MAP_CUB_SIZE * game_wrap->map_width, game_view->width - map_view->width);
 	return 0;
 }

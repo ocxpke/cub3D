@@ -26,7 +26,9 @@
 #define FOV 60 // @note check for 360º as light source
 #define HALF_FOV FOV / 2
 #define RESOLUTION 16
-#define PLAYER_PIX_SIZE 6
+#define MAP_CUB_SIZE 20
+#define PLAYER_PIX_SIZE MAP_CUB_SIZE / 2
+
 
 void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1, uint32_t color, int mode);
 void re_draw(t_game *game_wrap, t_player *player_info);

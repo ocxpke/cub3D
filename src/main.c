@@ -13,6 +13,30 @@ char *MAP[] = {
 	"1111111111111111",
 	NULL};
 
+char *MAP_WOLF[] = {
+    "1111111111111111",
+    "1000010000100001",
+    "1010010100101001",
+    "1011000100001001",
+    "1000011111011001",
+    "1110110001010011",
+    "1000000000000001",
+    "1001100001100001",
+	"1010111100010011",
+	"1111111111111111",
+    NULL};
+
+char *MAP_LONG[] = {
+    "111111111111111111111111",
+    "100000000000000000000001",
+    "101111011110111101111001",
+    "100001010000100001001001",
+    "100001010110101101001001",
+    "101111010010100001111001",
+    "100000000000000000000001",
+    "111111111111111111111111",
+    NULL};
+
 /**
  * @brief Initialise every parameter needed
  *
@@ -50,9 +74,35 @@ void re_draw(t_game *game_wrap, t_player *player_info)
 	ft_memset(game_wrap->game_view->pixels, 0, game_wrap->game_view->width * game_wrap->game_view->height * BPP);
 	draw_map(game_wrap);
 	draw_player(game_wrap, player_info);
-	// draw_direction(game_wrap, player_info);
 	draw_rays(game_wrap, player_info);
 }
+
+void my_scrollhook(double xdelta, double ydelta, void* param)
+{
+	(void) param;
+	// Simple up or down detection.
+	if (ydelta > 0)
+		puts("Up!");
+	else if (ydelta < 0)
+		puts("Down!");
+
+	// Can also detect a mousewheel that goes along the X (e.g: MX Master 3)
+	if (xdelta < 0)
+		puts("Sliiiide to the left!");
+	else if (xdelta > 0)
+		puts("Sliiiide to the right!");
+}
+
+/**
+ * This function sets the scroll callback, which is called when a scrolling
+ * device is used, such as a mouse wheel.
+ *
+ * @param[in] mlx The MLX instance handle.
+ * @param[in] func The scroll wheel callback function.
+ * @param[in] param An additional optional parameter.
+ */
+void mlx_scroll_hook(mlx_t* mlx, mlx_scrollfunc func, void* param);
+
 
 int main(int argc, char **argv)
 {
@@ -65,13 +115,14 @@ int main(int argc, char **argv)
 	set_init_vals(&game_wrap, &player_info);
 	manage_mlx42_resources(&game_wrap);
 
-
 	// Wrapper components
 	all.game_wrap = &game_wrap;
 	all.player_info = &player_info;
 
 	re_draw(&game_wrap, &player_info);
 	mlx_key_hook(game_wrap.window, key_hook, &all);
+	//mlx_resize_hook(game_wrap.window, resize_hook, &all);
+	mlx_scroll_hook(game_wrap.window, &my_scrollhook, NULL);
 	mlx_loop(game_wrap.window);
 	mlx_terminate(game_wrap.window);
 	return (EXIT_SUCCESS);

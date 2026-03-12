@@ -15,6 +15,13 @@ static inline float dist(float x0, float y0, float x1, float y1)
 	return (sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
 }
 
+/**
+ * @brief Here we check if the angle passed as a parameter has got out of bounds
+ *
+ * @param angle The angle to be check
+ *
+ * @return Void
+ */
 static inline void check_angle_bounds(float *angle)
 {
 	if (*angle < 0)
@@ -29,6 +36,7 @@ static inline void check_angle_bounds(float *angle)
  *
  * @note Needs to be sliced and optimized
  * @note This documentation will be updated
+ * @note How palyer will see something that is too far away?
  *
  * @param game_wrap Represents the structure that contains all map content and info needed
  * @param player_info Represents the strcuture that contains all player info needed
@@ -151,7 +159,7 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 
 		/**
 		 * @todo VER MEJOR COMO TRATAR EL OJO DE PEZ
-		*/
+		 */
 		float ca = player_info->ang - ra;
 		if (ca < 0)
 			ca += 2 * PI;
@@ -172,17 +180,10 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 				draw_line_simple(game_wrap, (rayGross * r) + i, lineO, (rayGross * r) + i, lineH + lineO, 0xFFDD00FF, 1);
 		}
 
-		int map_cube_size;
-		int horizontal_offset;
-		int vertical_offset;
-
-		if (game_wrap->map_width >= game_wrap->map_height)
-			map_cube_size = game_wrap->map_view->width / game_wrap->map_width;
-		else
-			map_cube_size = game_wrap->map_view->height / game_wrap->map_height;
-		horizontal_offset = (game_wrap->map_view->width - (map_cube_size * game_wrap->map_width)) / 2;
-		vertical_offset = (game_wrap->map_view->height - (map_cube_size * game_wrap->map_height)) / 2;
-		draw_line_simple(game_wrap, player_info->posX * map_cube_size + horizontal_offset, player_info->posY * map_cube_size + vertical_offset, (rx / CUBSIZE) * map_cube_size + horizontal_offset, (ry / CUBSIZE) * map_cube_size + vertical_offset, 0x00FF00FF, 0);
+		/**
+		 * @todo Centrar bien los rayos con el centor del jugador
+		 */
+		draw_line_simple(game_wrap, player_info->posX * MAP_CUB_SIZE, player_info->posY * MAP_CUB_SIZE, (rx / CUBSIZE) * MAP_CUB_SIZE, (ry / CUBSIZE) * MAP_CUB_SIZE, 0x00FF00FF, 0);
 		ra += (ONE_DEGREE / RESOLUTION);
 		check_angle_bounds(&ra);
 	}
