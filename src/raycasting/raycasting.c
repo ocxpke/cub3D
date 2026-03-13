@@ -167,7 +167,6 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 			ca -= 2 * PI;
 		distT = distT * cos(ca);
 
-		/*** */
 		float lineH = (CUBSIZE * game_wrap->game_view->height) / distT;
 		if (lineH > game_wrap->game_view->height)
 			lineH = game_wrap->game_view->height;
@@ -175,9 +174,9 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 		for (int i = 0; i < rayGross; i++)
 		{
 			if (distH <= distV)
-				draw_line_simple(game_wrap, (rayGross * r) + i, lineO, (rayGross * r) + i, lineH + lineO, 0xFFFF00FF, 1);
+				draw_player_view_line(game_wrap, (rayGross * r) + i, lineO, lineH + lineO, 0xFFFF00FF);
 			else
-				draw_line_simple(game_wrap, (rayGross * r) + i, lineO, (rayGross * r) + i, lineH + lineO, 0xFFDD00FF, 1);
+				draw_player_view_line(game_wrap, (rayGross * r) + i, lineO, lineH + lineO, 0xFFDD00FF);
 		}
 
 		/**

@@ -1,7 +1,7 @@
 #ifndef STRUCTS_H
-# define STRUCTS_H
+#define STRUCTS_H
 
-# include "cub3d.h"
+#include "cub3d.h"
 
 /**
  * @brief Describes player's state
@@ -14,6 +14,8 @@
  */
 typedef struct s_player
 {
+	int8_t look_ns;
+	int8_t look_ew;
 	float posX;
 	float posY;
 	float dirX;
@@ -32,6 +34,8 @@ typedef struct s_game
 	t_player player;
 	uint32_t init_width;
 	uint32_t init_height;
+	uint32_t ceiling;
+	uint32_t floor;
 } t_game;
 
 typedef struct s_all

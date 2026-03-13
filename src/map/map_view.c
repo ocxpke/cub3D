@@ -28,11 +28,10 @@ void draw_map(t_game *game_wrap)
 					}
 				}
 				draw_line_simple(game_wrap, startX, 0, startX, game_wrap->map_view->height, 0xFFFFFFFF, 0);
-				draw_line_simple(game_wrap, 0,  startY, game_wrap->map_view->width, startY, 0xFFFFFFFF, 0);
+				draw_line_simple(game_wrap, 0, startY, game_wrap->map_view->width, startY, 0xFFFFFFFF, 0);
 			}
 		}
 	}
-	// Last column and last row
 	draw_line_simple(game_wrap, game_wrap->map_view->width, 0, game_wrap->map_view->width, game_wrap->map_view->height, 0xFFFFFFFF, 0);
 	draw_line_simple(game_wrap, 0, game_wrap->map_view->height, game_wrap->map_view->width, game_wrap->map_view->height, 0xFFFFFFFF, 0);
 }

@@ -5,8 +5,10 @@ LIBFT	:= ./lib/libft
 
 LIBS	:= $(LIBFT)/libft.a $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
-VIEWS	:= src/views/map_view.c \
-			src/views/player_view.c
+MAP	:= src/map/map_view.c
+
+PLAYER := src/player/player_view.c \
+			src/player/player_movement.c
 
 MLX42_MNG := src/mlx42_management/hooks.c \
 				src/mlx42_management/window_management.c
@@ -16,6 +18,7 @@ DRAW_UTILS := src/draw_utils/line_algorithym.c
 RAYCASTING := src/raycasting/raycasting.c
 
 SRCS	= $(VIEWS) $(MLX42_MNG) $(DRAW_UTILS) $(RAYCASTING)\
+			$(MAP) $(PLAYER) \
 			src/main.c
 
 OBJ_DIR	:= build/objs

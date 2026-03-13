@@ -1,18 +1,19 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../lib/libft/libft.h"
-# include "../lib/MLX42/include/MLX42/MLX42.h"
-# include "structs.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <math.h>
-# include "views.h"
+# include <GLFW/glfw3.h>
+# include "../lib/libft/libft.h"
+# include "../lib/MLX42/include/MLX42/MLX42.h"
+# include "structs.h"
 # include "mlx42_mng.h"
 # include "draw_utils.h"
 # include "raycasting.h"
-# include <GLFW/glfw3.h>
+# include "player.h"
+# include "map.h"
 
 #define BPP sizeof(int32_t)
 #define PI 3.1415926535
