@@ -179,9 +179,6 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 				draw_player_view_line(game_wrap, (rayGross * r) + i, lineO, lineH + lineO, 0xFFDD00FF);
 		}
 
-		/**
-		 * @todo Centrar bien los rayos con el centor del jugador
-		 */
 		draw_line_simple(game_wrap, player_info->posX * MAP_CUB_SIZE, player_info->posY * MAP_CUB_SIZE, (rx / CUBSIZE) * MAP_CUB_SIZE, (ry / CUBSIZE) * MAP_CUB_SIZE, 0x00FF00FF, 0);
 		ra += (ONE_DEGREE / RESOLUTION);
 		check_angle_bounds(&ra);

@@ -54,7 +54,7 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
 	game_wrap->floor = 0x404040FF;	 // gris castillo
 	player_info->posX = 4.5;
 	player_info->posY = 2.5;
-	player_info->ang = PI_90_DEG;
+	player_info->ang = PI_360_DEG;
 	player_info->look_ns = 1;
 	player_info->look_ew = 0;
 	player_info->dirX = cos(player_info->ang) / 8;

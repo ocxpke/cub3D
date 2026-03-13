@@ -60,12 +60,12 @@ void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1, uint
 
 void draw_player_view_line(t_game *game, float x, float y0, float y1, uint32_t color)
 {
-	uint32_t x_trunc = (uint32_t)roundf(x);
-	uint32_t y0_trunc = (uint32_t)roundf(y0);
-	uint32_t y1_trunc = (uint32_t)roundf(y1);
+	uint32_t x_trunc = (uint32_t)x;
+	uint32_t y0_trunc = (uint32_t)y0;
+	uint32_t y1_trunc = (uint32_t)y1;
 	for (uint32_t i = 0; i < game->game_view->height; i++)
 	{
-		if (i >= y0_trunc && i <= y1_trunc)
+		if ((i >= y0_trunc) && (i <= y1_trunc))
 			mlx_put_pixel(game->game_view, x_trunc, i, color);
 		else if (i < y0_trunc)
 			mlx_put_pixel(game->game_view, x_trunc, i, game->ceiling);
