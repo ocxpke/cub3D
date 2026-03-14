@@ -1,7 +1,7 @@
 #ifndef STRUCTS_H
-#define STRUCTS_H
+# define STRUCTS_H
 
-#include "cub3d.h"
+# include "cub3d.h"
 
 /**
  * @brief Describes player's state
@@ -12,6 +12,17 @@
  * @param dirY Describes where the player is looking at on the Y axis
  *
  */
+
+typedef struct s_keys
+{
+	uint8_t left_arrow;
+	uint8_t right_arrow;
+	uint8_t w_key;
+	uint8_t s_key;
+	uint8_t a_key;
+	uint8_t d_key;
+}	t_keys;
+
 typedef struct s_player
 {
 	int8_t look_ns;
@@ -21,6 +32,7 @@ typedef struct s_player
 	float dirX;
 	float dirY;
 	float ang;
+	t_keys key_control;
 } t_player;
 
 typedef struct s_game

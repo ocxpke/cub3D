@@ -10,26 +10,6 @@ void resize_hook(int32_t width, int32_t height, void *param)
 	all_things->game_wrap->map_view->instances[0].x = width - all_things->game_wrap->map_view->width;
 }
 
-inline void check_facing_ns(t_player *player_info, float ang)
-{
-	if (ang > PI_180_DEG && ang < PI_360_DEG)
-		player_info->look_ns = -1;
-	else if (ang < PI_180_DEG || ang > PI_360_DEG)
-		player_info->look_ns = 1;
-	else if (ang == PI_180_DEG || ang == PI_360_DEG)
-		player_info->look_ns = 0;
-}
-
-inline void check_facing_ew(t_player *player_info, float ang)
-{
-	if (ang > PI_90_DEG && ang < PI_270_DEG)
-		player_info->look_ew = -1;
-	else if (ang < PI_90_DEG || ang > PI_270_DEG)
-		player_info->look_ew = 1;
-	else if (ang == PI_90_DEG || ang == PI_270_DEG)
-		player_info->look_ew = 0;
-}
-
 /**
  * @brief We calculate the distance from point (x0, y0) to point (x1, y1). Pythagorean theorem
  *
@@ -43,49 +23,68 @@ inline void check_facing_ew(t_player *player_info, float ang)
 void key_hook(mlx_key_data_t keydata, void *param)
 {
 	t_all *all_info = (t_all *)param;
+	t_keys *player_keyboard = &(all_info->player_info->key_control);
 
-	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
 	{
-		move_forward(all_info->game_wrap, all_info->player_info);
+		player_keyboard->w_key = 1;
 	}
 
-	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_S && keydata.action == MLX_PRESS)
 	{
-		move_backwards(all_info->game_wrap, all_info->player_info);
+		player_keyboard->s_key = 1;
 	}
 
-	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
 	{
-		move_to_left(all_info->game_wrap, all_info->player_info);
+		player_keyboard->a_key = 1;
 	}
 
-	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
 	{
-		move_to_right(all_info->game_wrap, all_info->player_info);
+		player_keyboard->d_key = 1;
 	}
 
-	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		all_info->player_info->ang -= 0.1;
-		if (all_info->player_info->ang < 0)
-			all_info->player_info->ang += (2 * PI);
-		all_info->player_info->dirX = cos(all_info->player_info->ang) / 8;
-		all_info->player_info->dirY = sin(all_info->player_info->ang) / 8;
+	// AAAAAAAAAAAAAAAAAAAAAA
 
-		check_facing_ns(all_info->player_info, all_info->player_info->ang);
-		check_facing_ew(all_info->player_info, all_info->player_info->ang);
+	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
+	{
+		player_keyboard->w_key = 0;
 	}
 
-	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
 	{
-		all_info->player_info->ang += 0.1;
-		if (all_info->player_info->ang > (2 * PI))
-			all_info->player_info->ang -= (2 * PI); // Por que no simplemente =??
-		all_info->player_info->dirX = cos(all_info->player_info->ang) / 8;
-		all_info->player_info->dirY = sin(all_info->player_info->ang) / 8;
+		player_keyboard->s_key = 0;
+	}
 
-		check_facing_ns(all_info->player_info, all_info->player_info->ang);
-		check_facing_ew(all_info->player_info, all_info->player_info->ang);
+	if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
+	{
+		player_keyboard->a_key = 0;
+	}
+
+	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
+	{
+		player_keyboard->d_key = 0;
+	}
+
+	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
+	{
+		player_keyboard->left_arrow = 1;
+	}
+
+	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
+	{
+		player_keyboard->right_arrow = 1;
+	}
+
+	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
+	{
+		player_keyboard->left_arrow = 0;
+	}
+
+	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
+	{
+		player_keyboard->right_arrow = 0;
 	}
 
 	re_draw(all_info->game_wrap, all_info->player_info);

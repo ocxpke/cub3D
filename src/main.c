@@ -59,6 +59,12 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
 	player_info->look_ew = 0;
 	player_info->dirX = cos(player_info->ang) / 8;
 	player_info->dirY = sin(player_info->ang) / 8;
+	player_info->key_control.w_key = 0;
+	player_info->key_control.s_key = 0;
+	player_info->key_control.a_key = 0;
+	player_info->key_control.d_key = 0;
+	player_info->key_control.left_arrow = 0;
+	player_info->key_control.right_arrow = 0;
 }
 
 /**
@@ -77,19 +83,11 @@ void re_draw(t_game *game_wrap, t_player *player_info)
 	ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
 	ft_memset(game_wrap->game_view->pixels, 0, game_wrap->game_view->width * game_wrap->game_view->height * BPP);
 	draw_map(game_wrap);
+	player_key_rotation(player_info);
+	player_key_movement(game_wrap, player_info);
 	draw_player(game_wrap, player_info);
 	draw_rays(game_wrap, player_info);
 }
-
-/**
- * This function sets the scroll callback, which is called when a scrolling
- * device is used, such as a mouse wheel.
- *
- * @param[in] mlx The MLX instance handle.
- * @param[in] func The scroll wheel callback function.
- * @param[in] param An additional optional parameter.
- */
-void mlx_scroll_hook(mlx_t *mlx, mlx_scrollfunc func, void *param);
 
 int main(int argc, char **argv)
 {
