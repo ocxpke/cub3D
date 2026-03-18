@@ -5,6 +5,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <math.h>
+# include <stdbool.h>
 # include <GLFW/glfw3.h>
 # include "../lib/libft/libft.h"
 # include "../lib/MLX42/include/MLX42/MLX42.h"
@@ -30,8 +31,7 @@
 #define MAP_CUB_SIZE 20
 #define PLAYER_PIX_SIZE MAP_CUB_SIZE / 2
 
-
-void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1, uint32_t color, int mode);
 void re_draw(t_game *game_wrap, t_player *player_info);
+void exit_mlx42(t_game *game_wrap);
 
 #endif

@@ -56,4 +56,7 @@ re: clean all
 run: all
 	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3d
 
-.PHONY: all clean fclean re libmlx run
+valgrind_run: all
+	valgrind -s ./cub3d
+
+.PHONY: all clean fclean re libmlx run valgrind_run

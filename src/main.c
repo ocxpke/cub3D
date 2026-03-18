@@ -89,6 +89,15 @@ void re_draw(t_game *game_wrap, t_player *player_info)
 	draw_rays(game_wrap, player_info);
 }
 
+void exit_mlx42(t_game *game_wrap)
+{
+	mlx_delete_image(game_wrap->window, game_wrap->map_view);
+	mlx_delete_image(game_wrap->window, game_wrap->game_view);
+	mlx_close_window(game_wrap->window);
+	mlx_terminate(game_wrap->window);
+	exit (0);
+}
+
 int main(int argc, char **argv)
 {
 	t_game game_wrap;
@@ -99,15 +108,19 @@ int main(int argc, char **argv)
 
 	set_init_vals(&game_wrap, &player_info);
 	manage_mlx42_resources(&game_wrap);
+	// game_wrap.window->delta_time;
 
 	// Wrapper components
 	all.game_wrap = &game_wrap;
 	all.player_info = &player_info;
 
 	re_draw(&game_wrap, &player_info);
-	mlx_key_hook(game_wrap.window, key_hook, &all);
+	// mlx_key_hook(game_wrap.window, key_hook, &all);
+	mlx_loop_hook(game_wrap.window, key_hook, &all);
 	// mlx_resize_hook(game_wrap.window, resize_hook, &all);
 	mlx_loop(game_wrap.window);
-	mlx_terminate(game_wrap.window);
+
+	exit_mlx42(&game_wrap);
+
 	return (EXIT_SUCCESS);
 }

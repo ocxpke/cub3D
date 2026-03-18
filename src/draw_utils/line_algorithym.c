@@ -58,15 +58,33 @@ void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1, uint
 	}
 }
 
-void draw_player_view_line(t_game *game, float x, float y0, float y1, uint32_t color)
+uint32_t get_color_from_texture(mlx_texture_t *texture, uint16_t x, uint16_t y)
+{
+	uint32_t base = (x + (y * texture->width)) * 4;
+	uint8_t valR = texture->pixels[base];
+	uint8_t valG = texture->pixels[base + 1];
+	uint8_t valB = texture->pixels[base + 2];
+	uint32_t finalColor = valR << 24 | valG << 16 | valB << 8 | 0xFF;
+	return (finalColor);
+}
+
+void draw_player_view_line(t_game *game, float x, float y0, float y1, float wallHitPoint)
 {
 	uint32_t x_trunc = (uint32_t)x;
 	uint32_t y0_trunc = (uint32_t)y0;
 	uint32_t y1_trunc = (uint32_t)y1;
+	float wallHitPixel = 0;
+	float steps = (float)game->texture->height / (y1 - y0);
+	uint16_t wallHitX = (uint16_t)(game->texture->width * wallHitPoint);
+
 	for (uint32_t i = 0; i < game->game_view->height; i++)
 	{
 		if ((i >= y0_trunc) && (i <= y1_trunc))
-			mlx_put_pixel(game->game_view, x_trunc, i, color);
+		{
+			uint32_t color_text = get_color_from_texture(game->texture, wallHitX, (uint16_t)wallHitPixel);
+			mlx_put_pixel(game->game_view, x_trunc, i, color_text);
+			wallHitPixel += steps;
+		}
 		else if (i < y0_trunc)
 			mlx_put_pixel(game->game_view, x_trunc, i, game->ceiling);
 		else

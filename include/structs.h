@@ -15,12 +15,12 @@
 
 typedef struct s_keys
 {
-	uint8_t left_arrow;
-	uint8_t right_arrow;
-	uint8_t w_key;
-	uint8_t s_key;
-	uint8_t a_key;
-	uint8_t d_key;
+	bool left_arrow;
+	bool right_arrow;
+	bool w_key;
+	bool s_key;
+	bool a_key;
+	bool d_key;
 }	t_keys;
 
 typedef struct s_player
@@ -40,6 +40,7 @@ typedef struct s_game
 	mlx_t *window;
 	mlx_image_t *map_view;
 	mlx_image_t *game_view;
+	mlx_texture_t *texture;
 	char **map;
 	int map_width;
 	int map_height;
@@ -48,6 +49,7 @@ typedef struct s_game
 	uint32_t init_height;
 	uint32_t ceiling;
 	uint32_t floor;
+
 } t_game;
 
 typedef struct s_all

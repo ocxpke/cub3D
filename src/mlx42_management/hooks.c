@@ -20,72 +20,20 @@ void resize_hook(int32_t width, int32_t height, void *param)
  *
  * @return Void
  */
-void key_hook(mlx_key_data_t keydata, void *param)
+void key_hook(void *param)
 {
 	t_all *all_info = (t_all *)param;
 	t_keys *player_keyboard = &(all_info->player_info->key_control);
 
-	if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
-	{
-		player_keyboard->w_key = 1;
-	}
+	player_keyboard->w_key = mlx_is_key_down(all_info->game_wrap->window, MLX_KEY_W);
+	player_keyboard->s_key = mlx_is_key_down(all_info->game_wrap->window, MLX_KEY_S);
+	player_keyboard->a_key = mlx_is_key_down(all_info->game_wrap->window, MLX_KEY_A);
+	player_keyboard->d_key = mlx_is_key_down(all_info->game_wrap->window, MLX_KEY_D);
+	player_keyboard->left_arrow = mlx_is_key_down(all_info->game_wrap->window, MLX_KEY_LEFT);
+	player_keyboard->right_arrow = mlx_is_key_down(all_info->game_wrap->window, MLX_KEY_RIGHT);
 
-	if (keydata.key == MLX_KEY_S && keydata.action == MLX_PRESS)
-	{
-		player_keyboard->s_key = 1;
-	}
-
-	if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
-	{
-		player_keyboard->a_key = 1;
-	}
-
-	if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
-	{
-		player_keyboard->d_key = 1;
-	}
-
-	// AAAAAAAAAAAAAAAAAAAAAA
-
-	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
-	{
-		player_keyboard->w_key = 0;
-	}
-
-	if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
-	{
-		player_keyboard->s_key = 0;
-	}
-
-	if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
-	{
-		player_keyboard->a_key = 0;
-	}
-
-	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
-	{
-		player_keyboard->d_key = 0;
-	}
-
-	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
-	{
-		player_keyboard->left_arrow = 1;
-	}
-
-	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
-	{
-		player_keyboard->right_arrow = 1;
-	}
-
-	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
-	{
-		player_keyboard->left_arrow = 0;
-	}
-
-	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
-	{
-		player_keyboard->right_arrow = 0;
-	}
+	if (mlx_is_key_down(all_info->game_wrap->window, MLX_KEY_ESCAPE))
+		return exit_mlx42(all_info->game_wrap);
 
 	re_draw(all_info->game_wrap, all_info->player_info);
 }

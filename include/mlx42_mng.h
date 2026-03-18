@@ -3,7 +3,7 @@
 
 # include "cub3d.h"
 
-void key_hook(mlx_key_data_t keydata, void *param);
+void key_hook(void *param);
 int manage_mlx42_resources(t_game *game_wrap);
 void resize_hook(int32_t width, int32_t height, void* param);
 

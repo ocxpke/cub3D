@@ -52,6 +52,7 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 	float vx = 0, vy = 0, hx = 0, hy = 0;
 	float distT;
 	int rayGross = game_wrap->game_view->width / (FOV * RESOLUTION);
+	float wallHitPoint = 0;
 
 	ra = player_info->ang - ((ONE_DEGREE / RESOLUTION) * (HALF_FOV * RESOLUTION));
 	check_angle_bounds(&ra);
@@ -149,14 +150,16 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 			rx = hx;
 			ry = hy;
 			distT = distH;
+			wallHitPoint = rx / CUBSIZE;
 		}
 		else
 		{
 			rx = vx;
 			ry = vy;
 			distT = distV;
+			wallHitPoint = ry / CUBSIZE;
 		}
-
+		wallHitPoint -= floor(wallHitPoint);
 		/**
 		 * @todo VER MEJOR COMO TRATAR EL OJO DE PEZ
 		 */
@@ -174,9 +177,9 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 		for (int i = 0; i < rayGross; i++)
 		{
 			if (distH <= distV)
-				draw_player_view_line(game_wrap, (rayGross * r) + i, lineO, lineH + lineO, 0xFFFF00FF);
+				draw_player_view_line(game_wrap, (rayGross * r) + i, lineO, lineH + lineO, wallHitPoint);
 			else
-				draw_player_view_line(game_wrap, (rayGross * r) + i, lineO, lineH + lineO, 0xFFDD00FF);
+				draw_player_view_line(game_wrap, (rayGross * r) + i, lineO, lineH + lineO, wallHitPoint);
 		}
 
 		draw_line_simple(game_wrap, player_info->posX * MAP_CUB_SIZE, player_info->posY * MAP_CUB_SIZE, (rx / CUBSIZE) * MAP_CUB_SIZE, (ry / CUBSIZE) * MAP_CUB_SIZE, 0x00FF00FF, 0);
