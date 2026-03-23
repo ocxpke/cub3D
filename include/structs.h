@@ -44,7 +44,6 @@ typedef struct s_game
 	char **map;
 	int map_width;
 	int map_height;
-	t_player player;
 	uint32_t init_width;
 	uint32_t init_height;
 	uint32_t ceiling;

@@ -171,15 +171,21 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 		distT = distT * cos(ca);
 
 		float lineH = (CUBSIZE * game_wrap->game_view->height) / distT;
+
+		float wallHitPixel = 0;
+		float steps = (float)game_wrap->texture->height / lineH;
 		if (lineH > game_wrap->game_view->height)
+		{
+			wallHitPixel = ((lineH - game_wrap->game_view->height) / 2) * steps;
 			lineH = game_wrap->game_view->height;
+		}
 		float lineO = (game_wrap->game_view->height - lineH) / 2;
 		for (int i = 0; i < rayGross; i++)
 		{
 			if (distH <= distV)
-				draw_player_view_line(game_wrap, (rayGross * r) + i, lineO, lineH + lineO, wallHitPoint);
+				draw_player_view_line(game_wrap, player_info, (rayGross * r) + i, lineO, lineH + lineO, wallHitPoint, wallHitPixel, steps);
 			else
-				draw_player_view_line(game_wrap, (rayGross * r) + i, lineO, lineH + lineO, wallHitPoint);
+				draw_player_view_line(game_wrap, player_info, (rayGross * r) + i, lineO, lineH + lineO, wallHitPoint, wallHitPixel, steps);
 		}
 
 		draw_line_simple(game_wrap, player_info->posX * MAP_CUB_SIZE, player_info->posY * MAP_CUB_SIZE, (rx / CUBSIZE) * MAP_CUB_SIZE, (ry / CUBSIZE) * MAP_CUB_SIZE, 0x00FF00FF, 0);

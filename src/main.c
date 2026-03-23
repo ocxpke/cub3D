@@ -85,6 +85,7 @@ void re_draw(t_game *game_wrap, t_player *player_info)
 	draw_map(game_wrap);
 	player_key_rotation(player_info);
 	player_key_movement(game_wrap, player_info);
+	//printf("[%d, %d]\n", player_info->look_ns, player_info->look_ew);
 	draw_player(game_wrap, player_info);
 	draw_rays(game_wrap, player_info);
 }
@@ -115,7 +116,6 @@ int main(int argc, char **argv)
 	all.player_info = &player_info;
 
 	re_draw(&game_wrap, &player_info);
-	// mlx_key_hook(game_wrap.window, key_hook, &all);
 	mlx_loop_hook(game_wrap.window, key_hook, &all);
 	// mlx_resize_hook(game_wrap.window, resize_hook, &all);
 	mlx_loop(game_wrap.window);

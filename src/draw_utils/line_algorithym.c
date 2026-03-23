@@ -68,15 +68,14 @@ uint32_t get_color_from_texture(mlx_texture_t *texture, uint16_t x, uint16_t y)
 	return (finalColor);
 }
 
-void draw_player_view_line(t_game *game, float x, float y0, float y1, float wallHitPoint)
+void draw_player_view_line(t_game *game, t_player *player_info, float x, float y0, float y1, float wallHitPoint, float wallHitPixel, float steps)
 {
 	uint32_t x_trunc = (uint32_t)x;
 	uint32_t y0_trunc = (uint32_t)y0;
 	uint32_t y1_trunc = (uint32_t)y1;
-	float wallHitPixel = 0;
-	float steps = (float)game->texture->height / (y1 - y0);
 	uint16_t wallHitX = (uint16_t)(game->texture->width * wallHitPoint);
-
+	if (player_info->look_ns == -1)
+		wallHitX = game->texture->width - 1 - wallHitX;
 	for (uint32_t i = 0; i < game->game_view->height; i++)
 	{
 		if ((i >= y0_trunc) && (i <= y1_trunc))

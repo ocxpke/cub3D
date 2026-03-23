@@ -12,3 +12,6 @@ lib/libft/libft.a
 
 # Ignoramos la carpeta .vscode
 .vscode/
+
+# Ignoramos docs
+docs/
