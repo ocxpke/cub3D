@@ -42,7 +42,6 @@ char *MAP_LONG[] = {
  *
  * @param game_wrap Represents the structure that contains all map content and info needed
  * @param player_info Represents the strcuture that contains all player info needed
- *
  * @return Void
  */
 static void set_init_vals(t_game *game_wrap, t_player *player_info)
@@ -54,8 +53,7 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
 	game_wrap->floor = 0x404040FF;	 // gris castillo
 	player_info->posX = 4.5;
 	player_info->posY = 2.5;
-	player_info->ang = PI_360_DEG;
-	player_info->look_ns = 1;
+	player_info->ang = PI_270_DEG;
 	player_info->look_ew = 0;
 	player_info->dirX = cos(player_info->ang) / 8;
 	player_info->dirY = sin(player_info->ang) / 8;
@@ -81,7 +79,7 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
 void re_draw(t_game *game_wrap, t_player *player_info)
 {
 	ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
-	ft_memset(game_wrap->game_view->pixels, 0, game_wrap->game_view->width * game_wrap->game_view->height * BPP);
+	//No need to clean frame we overwrite ft_memset(game_wrap->game_view->pixels, 0, game_wrap->game_view->width * game_wrap->game_view->height * BPP);
 	draw_map(game_wrap);
 	player_key_rotation(player_info);
 	player_key_movement(game_wrap, player_info);
@@ -95,6 +93,9 @@ void exit_mlx42(t_game *game_wrap)
 	mlx_delete_image(game_wrap->window, game_wrap->map_view);
 	mlx_delete_image(game_wrap->window, game_wrap->game_view);
 	mlx_close_window(game_wrap->window);
+	/**
+	 * @note frames need to be cleaned
+	 */
 	mlx_terminate(game_wrap->window);
 	exit (0);
 }
@@ -116,8 +117,8 @@ int main(int argc, char **argv)
 	all.player_info = &player_info;
 
 	re_draw(&game_wrap, &player_info);
+	mlx_resize_hook(game_wrap.window, resize_hook, &all);
 	mlx_loop_hook(game_wrap.window, key_hook, &all);
-	// mlx_resize_hook(game_wrap.window, resize_hook, &all);
 	mlx_loop(game_wrap.window);
 
 	exit_mlx42(&game_wrap);

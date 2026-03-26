@@ -18,18 +18,20 @@
 
 #define BPP sizeof(int32_t)
 #define PI 3.1415926535
-#define PI_90_DEG PI / 2
+#define PI_90_DEG (PI / 2)
 #define PI_180_DEG PI
-#define PI_270_DEG 3 * PI / 2
-#define PI_360_DEG 2 * PI
+#define PI_270_DEG (3 * PI / 2)
+#define PI_360_DEG (2 * PI)
 #define ONE_DEGREE 0.0174533 // one degree in radians
 #define CUBSIZE 64			 // We can use bit shifting ( << 6 || >> 6 (2⁶ == 64))
+#define BIT_SHIFT ((uint16_t)log2(CUBSIZE))
 #define FOG 10
 #define FOV 60 // @note check for 360º as light source
-#define HALF_FOV FOV / 2
-#define RESOLUTION 16
+#define HALF_FOV (FOV / 2)
+#define RESOLUTION 16 // We need to test previous to image RESOLUTION * FOV less than PIXELS WIDTH
 #define MAP_CUB_SIZE 20
-#define PLAYER_PIX_SIZE MAP_CUB_SIZE / 2
+#define PLAYER_PIX_SIZE (MAP_CUB_SIZE / 2)
+#define MAX_PLAYER_VIEW_DIST (FOG * CUBSIZE)
 
 void re_draw(t_game *game_wrap, t_player *player_info);
 void exit_mlx42(t_game *game_wrap);

@@ -8,6 +8,9 @@ void resize_hook(int32_t width, int32_t height, void *param)
 	t_all *all_things = (t_all *)param;
 	mlx_resize_image(all_things->game_wrap->game_view, width, height);
 	all_things->game_wrap->map_view->instances[0].x = width - all_things->game_wrap->map_view->width;
+	all_things->game_wrap->pixels_cols = FOV * RESOLUTION;
+	if ((FOV * RESOLUTION) > width)
+		all_things->game_wrap->pixels_cols = width;
 }
 
 /**

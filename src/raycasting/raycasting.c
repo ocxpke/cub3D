@@ -51,13 +51,13 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 	float distV = 1000000, distH = 1000000;
 	float vx = 0, vy = 0, hx = 0, hy = 0;
 	float distT;
-	int rayGross = game_wrap->game_view->width / (FOV * RESOLUTION);
+	int rayGross = game_wrap->game_view->width / game_wrap->pixels_cols;
 	float wallHitPoint = 0;
 
-	ra = player_info->ang - ((ONE_DEGREE / RESOLUTION) * (HALF_FOV * RESOLUTION));
+	ra = player_info->ang - (ONE_DEGREE * HALF_FOV);
 	check_angle_bounds(&ra);
 
-	for (r = 0; r < (FOV * RESOLUTION); r++)
+	for (r = 0; r < game_wrap->pixels_cols; r++)
 	{
 		// horizontal
 		dof = 0;
@@ -67,14 +67,14 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 
 		if (ra < PI)
 		{
-			ry = (((int)playerY >> 6) << 6) + CUBSIZE;
+			ry = (((int)playerY >> BIT_SHIFT) << BIT_SHIFT) + CUBSIZE;
 			rx = (playerY - ry) * aTan + playerX;
 			yo = CUBSIZE;
 			xo = -yo * aTan;
 		}
 		if (ra > PI)
 		{
-			ry = (((int)playerY >> 6) << 6) - 0.0001;
+			ry = (((int)playerY >> BIT_SHIFT) << BIT_SHIFT) - 0.0001;
 			rx = (playerY - ry) * aTan + playerX;
 			yo = -1 * CUBSIZE;
 			xo = -yo * aTan;
@@ -88,8 +88,8 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 
 		while (dof < FOG)
 		{
-			mx = (int)(rx) >> 6;
-			my = (int)(ry) >> 6;
+			mx = (int)(rx) >> BIT_SHIFT;
+			my = (int)(ry) >> BIT_SHIFT;
 			if ((mx >= 0 && mx < game_wrap->map_width) && (my >= 0 && my < game_wrap->map_height) && (game_wrap->map[my][mx] == '1'))
 				dof = FOG;
 			else
@@ -109,14 +109,14 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 
 		if (ra < PI_90_DEG || ra > PI_270_DEG)
 		{
-			rx = (((int)playerX >> 6) << 6) + CUBSIZE;
+			rx = (((int)playerX >> BIT_SHIFT) << BIT_SHIFT) + CUBSIZE;
 			ry = (playerX - rx) * nTan + playerY;
 			xo = CUBSIZE;
 			yo = -xo * nTan;
 		}
 		if (ra > PI_90_DEG && ra < PI_270_DEG)
 		{
-			rx = (((int)playerX >> 6) << 6) - 0.0001;
+			rx = (((int)playerX >> BIT_SHIFT) << BIT_SHIFT) - 0.0001;
 			ry = (playerX - rx) * nTan + playerY;
 			xo = -1 * CUBSIZE;
 			yo = -xo * nTan;
@@ -130,8 +130,8 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 
 		while (dof < FOG)
 		{
-			mx = (int)(rx) >> 6;
-			my = (int)(ry) >> 6;
+			mx = (int)(rx) >> BIT_SHIFT;
+			my = (int)(ry) >> BIT_SHIFT;
 			if ((mx >= 0 && mx < game_wrap->map_width) && (my >= 0 && my < game_wrap->map_height) && (game_wrap->map[my][mx] == '1'))
 				dof = FOG;
 			else
@@ -183,13 +183,13 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 		for (int i = 0; i < rayGross; i++)
 		{
 			if (distH <= distV)
-				draw_player_view_line(game_wrap, player_info, (rayGross * r) + i, lineO, lineH + lineO, wallHitPoint, wallHitPixel, steps);
+				draw_player_view_line(game_wrap, player_info, (rayGross * r) + i, lineO, lineH + lineO, wallHitPoint, wallHitPixel, steps, distH);
 			else
-				draw_player_view_line(game_wrap, player_info, (rayGross * r) + i, lineO, lineH + lineO, wallHitPoint, wallHitPixel, steps);
+				draw_player_view_line(game_wrap, player_info, (rayGross * r) + i, lineO, lineH + lineO, wallHitPoint, wallHitPixel, steps, distV);
 		}
 
 		draw_line_simple(game_wrap, player_info->posX * MAP_CUB_SIZE, player_info->posY * MAP_CUB_SIZE, (rx / CUBSIZE) * MAP_CUB_SIZE, (ry / CUBSIZE) * MAP_CUB_SIZE, 0x00FF00FF, 0);
-		ra += (ONE_DEGREE / RESOLUTION);
+		ra += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
 		check_angle_bounds(&ra);
 	}
 }

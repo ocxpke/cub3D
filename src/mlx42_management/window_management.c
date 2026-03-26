@@ -19,7 +19,7 @@ static inline void create_window(t_game *game_wrap)
 	// 1-> Forzamos a que la ventana se cree maximizada para ocupar el workarea
 	glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 	mlx_set_setting(MLX_MAXIMIZED, 1);
-	window = mlx_init(1, 1, "cub3d", true);
+	window = mlx_init(750, 750, "cub3d", true);
 	if (!window)
 		return (perror("Error creating window"));
 	game_wrap->window = window;
@@ -54,5 +54,8 @@ int manage_mlx42_resources(t_game *game_wrap)
 	game_wrap->texture = mlx_load_png("./src/nazeemPIX.png");
 	if (!game_wrap->texture)
 		perror("Fallo imagen");
+	game_wrap->pixels_cols = FOV * RESOLUTION;
+	if ((FOV * RESOLUTION) > game_wrap->map_view->width)
+		game_wrap->pixels_cols = game_wrap->map_view->width;
 	return 0;
 }

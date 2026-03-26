@@ -48,7 +48,7 @@ typedef struct s_game
 	uint32_t init_height;
 	uint32_t ceiling;
 	uint32_t floor;
-
+	uint16_t pixels_cols;
 } t_game;
 
 typedef struct s_all
