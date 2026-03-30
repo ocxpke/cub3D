@@ -58,7 +58,7 @@ void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1, uint
 	}
 }
 
-static uint32_t get_color_from_texture(mlx_texture_t *texture, uint16_t x, uint16_t y, float dist)
+uint32_t get_color_from_texture(mlx_texture_t *texture, uint16_t x, uint16_t y, float dist)
 {
 	/**
 	 * @note ver mejor lo de la intensidad
@@ -96,6 +96,8 @@ void draw_player_view_line(t_game *game, t_player *player_info, float x, float y
 		else if (i < y0_trunc)
 			mlx_put_pixel(game->game_view, x_trunc, i, game->ceiling);
 		else
+		{
 			mlx_put_pixel(game->game_view, x_trunc, i, game->floor);
+		}
 	}
 }

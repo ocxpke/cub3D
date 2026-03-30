@@ -188,6 +188,63 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 				draw_player_view_line(game_wrap, player_info, (rayGross * r) + i, lineO, lineH + lineO, wallHitPoint, wallHitPixel, steps, distV);
 		}
 
+		// ESTO SE REHARA ENTERO (LA FUNCION DE DIBUJAR SUELO)
+
+		// --- 1. ESTO VA FUERA DEL BUCLE PRINCIPAL DE RAYOS ---
+		// (Se calcula solo 1 vez por cada fotograma)
+		float horizon = game_wrap->game_view->height / 2.0;
+		float planeDist = (game_wrap->game_view->width / 2.0) / tan(30.0 * ONE_DEGREE);
+		float playerHeight = 64.0 / 2.0;
+
+		// Bucle principal de columnas/rayos (Seguramente ya tienes algo parecido)
+		// for (uint32_t ray_index = 0; ray_index < NUM_RAYS; ray_index++) {
+
+		// ... aquí calculas el muro para este ray_index y sacas lineO y lineH ...
+
+		// --- 2. ESTO VA FUERA DEL BUCLE VERTICAL 'Y' ---
+		// (Se calcula solo 1 vez por rayo/columna)
+		float deg = ra * ONE_DEGREE;
+		float newAng = player_info->ang - ra;
+		check_angle_bounds(&newAng);
+
+		float raFix = cos(newAng * ONE_DEGREE);
+		float cos_deg = cos(deg); // ¡Guardamos el coseno para no recalcularlo!
+		float sin_deg = sin(deg); // ¡Guardamos el seno para no recalcularlo!
+
+		// --- 3. BUCLE VERTICAL DEL SUELO ---
+		for (uint32_t y = lineO + lineH; y < game_wrap->game_view->height; y++)
+		{
+			// Distancia vertical desde el horizonte
+			float dy = y - horizon;
+
+			// Distancia real a la fila del suelo (el raFix arregla el ojo de pez)
+			float rowDistance = (planeDist * playerHeight) / dy / raFix;
+
+			// Coordenadas exactas en el mundo 2D
+			float tx = player_info->posX + cos_deg * rowDistance;
+			float ty = player_info->posY - sin_deg * rowDistance;
+
+			// Mapeo de textura para 64x64
+			int tex_x = (int)tx & 63;
+			int tex_y = (int)ty & 63;
+
+			// Obtenemos el color
+			uint32_t color = get_color_from_texture(game_wrap->texture, tex_x, tex_y, 0);
+
+			// DIBUJAMOS EN LA PANTALLA (usando ray_index e 'y')
+			// Si tu rayGross engorda el rayo visualmente, multiplicamos el índice de la pantalla
+			for (int i = 0; i < rayGross; i++)
+			{
+				uint32_t screen_x = (r * rayGross) + i;
+
+				// Verificación de seguridad vital en C
+				if (screen_x < game_wrap->game_view->width && y < game_wrap->game_view->height)
+				{
+					mlx_put_pixel(game_wrap->game_view, screen_x, y, color);
+				}
+			}
+		}
+
 		draw_line_simple(game_wrap, player_info->posX * MAP_CUB_SIZE, player_info->posY * MAP_CUB_SIZE, (rx / CUBSIZE) * MAP_CUB_SIZE, (ry / CUBSIZE) * MAP_CUB_SIZE, 0x00FF00FF, 0);
 		ra += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
 		check_angle_bounds(&ra);
