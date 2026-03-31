@@ -1,5 +1,23 @@
 #include "../../include/cub3d.h"
 
+#include <sys/time.h>
+#include <stddef.h>
+
+// --- Variables de tu Sprite ---
+int total_frames = 4;	 // Si tu carrusel tiene 4 imágenes
+int frame_width = 64;	 // Cada imagen mide 64 píxeles de ancho
+int anim_speed_ms = 150; // Cambiar de imagen cada 150 milisegundos (Ajusta a tu gusto)
+
+/**
+ * @brief Obtiene el tiempo actual en milisegundos para sincronizar animaciones
+ */
+static inline long long get_time_ms(void)
+{
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000LL) + (tv.tv_usec / 1000));
+}
+
 /**
  * @brief We calculate the distance from point (x0, y0) to point (x1, y1). Pythagorean theorem
  *
@@ -60,13 +78,17 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 	float planeDist = (float)game_wrap->game_view->height;
 	float playerHeight = CUBSIZE / 2.0f;
 
-	int index = 0;
-
 	ra = player_info->ang - (ONE_DEGREE * HALF_FOV);
 	check_angle_bounds(&ra);
 
 	for (r = 0; r < game_wrap->pixels_cols; r++)
 	{
+		// --- Cálculo Mágico ---
+		long long current_time = get_time_ms();
+
+		// Al dividir el tiempo total entre la velocidad, sabemos cuántos fotogramas han pasado desde que se encendió el PC.
+		// Usando el módulo (% total_frames), lo mantenemos dando vueltas (0, 1, 2, 3, 0, 1, 2, 3...)
+		int current_frame = (current_time / anim_speed_ms) % total_frames;
 		// horizontal
 		dof = 0;
 
@@ -223,7 +245,7 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 			int tex_x = (int)tx & (game_wrap->texture->width - 1);
 			int tex_y = (int)ty & (game_wrap->texture->height - 1);
 
-			uint32_t color = get_color_from_texture(game_wrap->t1[index], tex_x, tex_y, 0);
+			uint32_t color = get_color_from_texture(game_wrap->t1[current_frame], tex_x, tex_y, 0);
 
 			for (int i = 0; i < rayGross; i++)
 			{

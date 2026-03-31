@@ -51,7 +51,7 @@ int manage_mlx42_resources(t_game *game_wrap)
 		exit(EXIT_FAILURE);
 	game_wrap->map_view = map_view;
 	printf("MAP_CUBE IS %d AND POS IS %d\n", MAP_CUB_SIZE * game_wrap->map_width, game_view->width - map_view->width);
-	game_wrap->texture = mlx_load_png("./src/nazeemPIX.png");
+	game_wrap->texture = mlx_load_png("./src/bricks_wall_64.png");
 	if (!game_wrap->texture)
 		perror("Fallo imagen");
 	game_wrap->t1[0] = mlx_load_png("./src/LavaF1.png");
