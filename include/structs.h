@@ -41,6 +41,7 @@ typedef struct s_game
 	mlx_image_t *map_view;
 	mlx_image_t *game_view;
 	mlx_texture_t *texture;
+	mlx_texture_t *t1[4];
 	char **map;
 	int map_width;
 	int map_height;

@@ -54,6 +54,18 @@ int manage_mlx42_resources(t_game *game_wrap)
 	game_wrap->texture = mlx_load_png("./src/nazeemPIX.png");
 	if (!game_wrap->texture)
 		perror("Fallo imagen");
+	game_wrap->t1[0] = mlx_load_png("./src/LavaF1.png");
+	if (!game_wrap->t1[0])
+		perror("Fallo imagen");
+	game_wrap->t1[1] = mlx_load_png("./src/LavaF2.png");
+	if (!game_wrap->t1[1])
+		perror("Fallo imagen");
+	game_wrap->t1[2] = mlx_load_png("./src/LavaF3.png");
+	if (!game_wrap->t1[2])
+		perror("Fallo imagen");
+	game_wrap->t1[3] = mlx_load_png("./src/LavaF4.png");
+	if (!game_wrap->t1[3])
+		perror("Fallo imagen");
 	game_wrap->pixels_cols = FOV * RESOLUTION;
 	if ((FOV * RESOLUTION) > game_wrap->map_view->width)
 		game_wrap->pixels_cols = game_wrap->map_view->width;
