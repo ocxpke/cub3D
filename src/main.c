@@ -49,11 +49,9 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
 	game_wrap->map = MAP;
 	game_wrap->map_height = 10;
 	game_wrap->map_width = 16;
-	game_wrap->ceiling = 0x191970FF; // anochecer
-	game_wrap->floor = 0x404040FF;	 // gris castillo
 	player_info->posX = 4.5;
 	player_info->posY = 2.5;
-	player_info->ang = PI_180_DEG;
+	player_info->ang = RAD_180_DEG;
 	player_info->look_ew = 0;
 	player_info->deltaX = cos(player_info->ang) / 8;//Por que 8?
 	player_info->deltaY = sin(player_info->ang) / 8;
@@ -110,9 +108,9 @@ int main(int argc, char **argv)
 
 	set_init_vals(&game_wrap, &player_info);
 	manage_mlx42_resources(&game_wrap);
+
 	// game_wrap.window->delta_time;
 
-	// Wrapper components
 	all.game_wrap = &game_wrap;
 	all.player_info = &player_info;
 

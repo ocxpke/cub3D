@@ -21,10 +21,10 @@
 
 #define BPP sizeof(int32_t)
 #define PI 3.1415926535
-#define PI_90_DEG (PI / 2)
-#define PI_180_DEG PI
-#define PI_270_DEG (3 * PI / 2)
-#define PI_360_DEG (2 * PI)
+#define RAD_90_DEG (PI / 2)
+#define RAD_180_DEG PI
+#define RAD_270_DEG (3 * PI / 2)
+#define RAD_360_DEG (2 * PI)
 #define ONE_DEGREE 0.0174533 // one degree in radians
 #define CUBSIZE 64			 // We can use bit shifting ( << 6 || >> 6 (2⁶ == 64))
 #define BIT_SHIFT ((uint16_t)log2(CUBSIZE))

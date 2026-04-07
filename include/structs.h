@@ -15,17 +15,17 @@ typedef struct s_wall_textures
 	mlx_texture_t *south_tex;
 	mlx_texture_t *east_tex;
 	mlx_texture_t *west_tex;
-	t_texture_type tipo;
+	t_texture_type type;
 	uint32_t color;
 } t_wall_textures;
 
-typedef struct s_ceil_floor_text
+typedef struct s_ceil_floor_tex
 {
 	mlx_texture_t **all_textures;
-	t_texture_type tipo;
+	t_texture_type type;
 	uint32_t color;
-	uint8_t num_text;
-} t_ceil_floor_text;
+	uint8_t num_texs;
+} t_ceil_floor_tex;
 
 typedef struct s_keys
 {
@@ -55,15 +55,13 @@ typedef struct s_game
 	mlx_t *window;
 	mlx_image_t *map_view;
 	mlx_image_t *game_view;
-	t_wall_textures *wall_text;
-	t_ceil_floor_text *floor_tex;
-	t_ceil_floor_text *ceiling_tex;
+	t_wall_textures wall_text;
+	t_ceil_floor_tex floor_tex;
+	t_ceil_floor_tex ceiling_tex;
 	int map_width;
 	int map_height;
 	uint32_t init_width;
 	uint32_t init_height;
-	uint32_t ceiling;
-	uint32_t floor;
 	uint16_t pixels_cols;
 } t_game;
 
@@ -78,14 +76,26 @@ typedef struct s_raycast
 	float player_posX;
 	float player_posY;
 	float minor_distance;
-	float vertical_distance;
-	float horizontal_distance;
-	float arcotangente;
+	float arc_tan;
+	float neg_tan;
 	float ray_x;
 	float ray_y;
+	float ray_angle;
+	float ray_x_offset;
+	float ray_y_offset;
+	float horizontal_dist;
+	float horizontal_x;
+	float horizontal_y;
+	float vertical_dist;
+	float vertical_x;
+	float vertical_y;
+	float texture_x_hp;
 	int ray_number;
 	int distance_of_field;
 	int col_gross;
+	int map_x;
+	int map_y;
+	uint16_t ray_ct;
 } t_raycast;
 
 #endif

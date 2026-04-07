@@ -58,21 +58,21 @@ void player_key_movement(t_game *game_wrap, t_player *player_info)
 
 inline void check_facing_ns(t_player *player_info, float ang)
 {
-	if (ang > PI_180_DEG && ang < PI_360_DEG)
+	if (ang > RAD_180_DEG && ang < RAD_360_DEG)
 		player_info->look_ns = -1;
-	else if (ang < PI_180_DEG || ang > PI_360_DEG)
+	else if (ang < RAD_180_DEG || ang > RAD_360_DEG)
 		player_info->look_ns = 1;
-	else if (ang == PI_180_DEG || ang == PI_360_DEG)
+	else if (ang == RAD_180_DEG || ang == RAD_360_DEG)
 		player_info->look_ns = 0;
 }
 
 inline void check_facing_ew(t_player *player_info, float ang)
 {
-	if (ang > PI_90_DEG && ang < PI_270_DEG)
+	if (ang > RAD_90_DEG && ang < RAD_270_DEG)
 		player_info->look_ew = -1;
-	else if (ang < PI_90_DEG || ang > PI_270_DEG)
+	else if (ang < RAD_90_DEG || ang > RAD_270_DEG)
 		player_info->look_ew = 1;
-	else if (ang == PI_90_DEG || ang == PI_270_DEG)
+	else if (ang == RAD_90_DEG || ang == RAD_270_DEG)
 		player_info->look_ew = 0;
 }
 
