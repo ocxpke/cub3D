@@ -71,33 +71,31 @@ uint32_t get_color_from_texture(mlx_texture_t *texture, uint16_t x, uint16_t y, 
 		intensity = 0;
 	uint32_t base = (x + (y * texture->width)) * 4;
 	uint8_t valR = texture->pixels[base] * intensity;
-	uint8_t valG = texture->pixels[base + 1]* intensity;
+	uint8_t valG = texture->pixels[base + 1] * intensity;
 	uint8_t valB = texture->pixels[base + 2] * intensity;
 	uint32_t finalColor = valR << 24 | valG << 16 | valB << 8 | 0xFF;
 	return (finalColor);
 }
 
-// void draw_player_view_line(t_game *game, t_player *player_info, float x, float y0, float y1, float wallHitPoint, float wallHitPixel, float steps, float dist)
-// {
-// 	uint32_t x_trunc = (uint32_t)x;
-// 	uint32_t y0_trunc = (uint32_t)y0;
-// 	uint32_t y1_trunc = (uint32_t)y1;
-// 	uint16_t wallHitX = (uint16_t)(game->texture->width * wallHitPoint);
-// 	if (player_info->look_ns == -1)
-// 		wallHitX = game->texture->width - 1 - wallHitX;
-// 	for (uint32_t i = 0; i < game->game_view->height; i++)
-// 	{
-// 		if ((i >= y0_trunc) && (i <= y1_trunc))
-// 		{
-// 			uint32_t color_text = get_color_from_texture(game->texture, wallHitX, (uint16_t)wallHitPixel, dist);
-// 			mlx_put_pixel(game->game_view, x_trunc, i, color_text);
-// 			wallHitPixel += steps;
-// 		}
-// 		else if (i < y0_trunc)
-// 			mlx_put_pixel(game->game_view, x_trunc, i, game->ceiling);
-// 		else
-// 		{
-// 			mlx_put_pixel(game->game_view, x_trunc, i, game->floor);
-// 		}
-// 	}
-// }
+void draw_player_view_line(t_game *game, t_player *player_info, t_raycast *rc, uint32_t x_trunc)
+{
+	uint32_t y0_trunc = (uint32_t)rc->wall_start;
+	uint32_t y1_trunc = (uint32_t)rc->wall_start + rc->wall_len;
+	uint16_t wall_hit_x = (uint16_t)(CUBSIZE * rc->texture_x_hp);
+	(void)player_info;
+	if (rc->ns_ew == -1)
+		wall_hit_x = CUBSIZE - 1 - wall_hit_x;
+	for (uint32_t i = 0; i < game->game_view->height; i++)
+	{
+		if ((i >= y0_trunc) && (i <= y1_trunc))
+		{
+			uint32_t color_text = get_color_from_texture(game->wall_text.south_tex, wall_hit_x, rc->texture_y_hp, rc->minor_distance);
+			mlx_put_pixel(game->game_view, x_trunc, i, color_text);
+			rc->texture_y_hp += rc->texture_steps;
+		}
+		else if (i < y0_trunc)
+			mlx_put_pixel(game->game_view, x_trunc, i, 0x4682B4FF);
+		else
+			mlx_put_pixel(game->game_view, x_trunc, i, 0x228B22FF);
+	}
+}

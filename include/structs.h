@@ -1,7 +1,7 @@
 #ifndef STRUCTS_H
-#define STRUCTS_H
+# define STRUCTS_H
 
-#include "cub3d.h"
+# include "cub3d.h"
 
 typedef enum e_texture_type
 {
@@ -90,12 +90,20 @@ typedef struct s_raycast
 	float vertical_x;
 	float vertical_y;
 	float texture_x_hp;
+	float texture_y_hp;
+	float texture_steps;
+	float corrected_angle;
+	float wall_len;
+	float wall_start;
 	int ray_number;
 	int distance_of_field;
 	int col_gross;
 	int map_x;
 	int map_y;
+	int iterGross;
 	uint16_t ray_ct;
+	int8_t hor_ver;
+	int8_t ns_ew;
 } t_raycast;
 
 #endif

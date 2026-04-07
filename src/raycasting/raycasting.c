@@ -22,12 +22,12 @@ static inline float dist(float x0, float y0, float x1, float y1)
  *
  * @return Void
  */
-static inline void check_angle_bounds(t_raycast *raycast)
+static inline void check_angle_bounds(float *angle)
 {
-	if (raycast->ray_angle < 0)
-		raycast->ray_angle += RAD_360_DEG;
-	else if (raycast->ray_angle > RAD_360_DEG)
-		raycast->ray_angle -= RAD_360_DEG;
+	if (*angle < 0)
+		*angle += RAD_360_DEG;
+	else if (*angle > RAD_360_DEG)
+		*angle -= RAD_360_DEG;
 }
 
 static inline void init_raycast_values(t_game *game_wrap, t_player *player_info, t_raycast *raycast)
@@ -132,9 +132,10 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 
 	init_raycast_values(game_wrap, player_info, &raycast);
 	raycast.ray_angle = player_info->ang - (ONE_DEGREE * HALF_FOV);
-	check_angle_bounds(&raycast);
+	check_angle_bounds(&raycast.ray_angle);
 	while (raycast.ray_ct < game_wrap->pixels_cols)
 	{
+		raycast.iterGross = 0;
 		check_horizontal_ray(game_wrap, &raycast);
 		check_vertical_ray(game_wrap, &raycast);
 
@@ -143,6 +144,7 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 			raycast.ray_x = raycast.horizontal_x;
 			raycast.ray_y = raycast.horizontal_y;
 			raycast.minor_distance = raycast.horizontal_dist;
+			raycast.hor_ver = 1;
 			raycast.texture_x_hp = raycast.ray_x / CUBSIZE;
 		}
 		else
@@ -150,40 +152,36 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 			raycast.ray_x = raycast.vertical_x;
 			raycast.ray_y = raycast.vertical_y;
 			raycast.minor_distance = raycast.vertical_dist;
+			raycast.hor_ver = -1;
 			raycast.texture_x_hp = raycast.ray_y / CUBSIZE;
 		}
 		raycast.texture_x_hp -= floor(raycast.texture_x_hp);
 		/**
 		 * @todo VER MEJOR COMO TRATAR EL OJO DE PEZ
 		 */
-		// float ca = player_info->ang - ra;
-		// if (ca < 0)
-		// 	ca += 2 * PI;
-		// if (ca > 2 * PI)
-		// 	ca -= 2 * PI;
-		// distT = distT * cos(ca);
+		raycast.corrected_angle = player_info->ang - raycast.ray_angle;
+		check_angle_bounds(&raycast.corrected_angle);
+		raycast.minor_distance = raycast.minor_distance * cos(raycast.corrected_angle);
 
-		// float lineH = (CUBSIZE * game_wrap->game_view->height) / distT;
+		raycast.wall_len = (CUBSIZE * game_wrap->game_view->height) / raycast.minor_distance;
 
-		// float wallHitPixel = 0;
-		// float steps = (float)game_wrap->texture->height / lineH;
-		// if (lineH > game_wrap->game_view->height)
-		// {
-		// 	wallHitPixel = ((lineH - game_wrap->game_view->height) / 2) * steps;
-		// 	lineH = game_wrap->game_view->height;
-		// }
-		// float lineO = (game_wrap->game_view->height - lineH) / 2;
-		// for (int i = 0; i < rayGross; i++)
-		// {
-		// 	if (distH <= distV)
-		// 		draw_player_view_line(game_wrap, player_info, (rayGross * r) + i, lineO, lineH + lineO, wallHitPoint, wallHitPixel, steps, distH);
-		// 	else
-		// 		draw_player_view_line(game_wrap, player_info, (rayGross * r) + i, lineO, lineH + lineO, wallHitPoint, wallHitPixel, steps, distV);
-		// }
+		raycast.texture_y_hp = 0;
+		raycast.texture_steps = (float)CUBSIZE / raycast.wall_len;
+		if (raycast.wall_len > game_wrap->game_view->height)
+		{
+			raycast.texture_y_hp = ((raycast.wall_len - game_wrap->game_view->height) / 2) * raycast.texture_steps;
+			raycast.wall_len = game_wrap->game_view->height;
+		}
+		raycast.wall_start = (game_wrap->game_view->height - raycast.wall_len) / 2;
+		while (raycast.iterGross < raycast.col_gross)
+		{
+			draw_player_view_line(game_wrap, player_info, &raycast, (uint32_t)(raycast.ray_ct * raycast.col_gross) + raycast.iterGross);
+			raycast.iterGross++;
+		}
 
 		draw_line_simple(game_wrap, player_info->posX * MAP_CUB_SIZE, player_info->posY * MAP_CUB_SIZE, (raycast.ray_x / CUBSIZE) * MAP_CUB_SIZE, (raycast.ray_y / CUBSIZE) * MAP_CUB_SIZE, 0x00FF00FF, 0);
 		raycast.ray_angle += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
-		check_angle_bounds(&raycast);
+		check_angle_bounds(&raycast.ray_angle);
 		raycast.ray_ct++;
 	}
 }
