@@ -6,7 +6,9 @@
 # include <unistd.h>
 # include <math.h>
 # include <stdbool.h>
+# include <stddef.h>
 # include <GLFW/glfw3.h>
+# include <sys/time.h>
 # include "../lib/libft/libft.h"
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include "structs.h"
@@ -15,6 +17,7 @@
 # include "raycasting.h"
 # include "player.h"
 # include "map.h"
+# include "time_mng.h"
 
 #define BPP sizeof(int32_t)
 #define PI 3.1415926535
@@ -32,6 +35,10 @@
 #define MAP_CUB_SIZE 20
 #define PLAYER_PIX_SIZE (MAP_CUB_SIZE / 2)
 #define MAX_PLAYER_VIEW_DIST (FOG * CUBSIZE)
+#define CEILING_TEXTURE "Paco"
+#define CEILING_NUMBER 1
+#define FLOOR_TEXTURE "Paco"
+#define FLOOR_NUMBER 1
 
 void re_draw(t_game *game_wrap, t_player *player_info);
 void exit_mlx42(t_game *game_wrap);

@@ -17,8 +17,10 @@ DRAW_UTILS := src/draw_utils/line_algorithym.c
 
 RAYCASTING := src/raycasting/raycasting.c
 
+TIME_MNG := src/time_mng/get_time.c
+
 SRCS	= $(VIEWS) $(MLX42_MNG) $(DRAW_UTILS) $(RAYCASTING)\
-			$(MAP) $(PLAYER) \
+			$(MAP) $(PLAYER) $(TIME_MNG)\
 			src/main.c
 
 OBJ_DIR	:= build/objs

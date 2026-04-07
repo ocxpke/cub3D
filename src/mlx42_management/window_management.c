@@ -8,7 +8,7 @@
  *
  * @param game_wrap Represents the structure that contains all map content and info needed
  */
-static inline void create_window(t_game *game_wrap)
+static int create_window(t_game *game_wrap)
 {
 	// static inline vs inline static???
 	int width;
@@ -21,7 +21,7 @@ static inline void create_window(t_game *game_wrap)
 	mlx_set_setting(MLX_MAXIMIZED, 1);
 	window = mlx_init(750, 750, "cub3d", true);
 	if (!window)
-		return (perror("Error creating window"));
+		return (perror("Error creating window"), 1);
 	game_wrap->window = window;
 
 	// 3-> Obtenemos el puntero de la ventana de GLFW
@@ -34,40 +34,44 @@ static inline void create_window(t_game *game_wrap)
 
 	ft_printf("Resolución real de trabajo: %u x %u\n",
 			  game_wrap->init_width, game_wrap->init_height);
+	return (0);
+}
+
+static int load_map_textures(t_game *game_wrap)
+{
+	game_wrap->texture = mlx_load_png("./src/imgs/s_south.png");
+	if (!game_wrap->texture)
+		return (perror("Error opening map texture"), 1);
+	game_wrap->t1[0] = mlx_load_png("./src/imgs/LavaF1.png");
+	if (!game_wrap->t1[0])
+		return (perror("Error opening floor texture"), 1);
+	game_wrap->t1[1] = mlx_load_png("./src/imgs/LavaF2.png");
+	if (!game_wrap->t1[1])
+		return (perror("Error opening floor texture"), 1);
+	game_wrap->t1[2] = mlx_load_png("./src/imgs/LavaF3.png");
+	if (!game_wrap->t1[2])
+		return (perror("Error opening floor texture"), 1);
+	game_wrap->t1[3] = mlx_load_png("./src/imgs/LavaF4.png");
+	if (!game_wrap->t1[3])
+		return (perror("Error opening floor texture"), 1);
+	return (0);
 }
 
 int manage_mlx42_resources(t_game *game_wrap)
 {
-	mlx_image_t *game_view;
-	mlx_image_t *map_view;
-
-	create_window(game_wrap);
-	game_view = mlx_new_image(game_wrap->window, game_wrap->init_width, game_wrap->init_height);
-	if (!game_view || (mlx_image_to_window(game_wrap->window, game_view, 0, 0) < 0))
-		exit(EXIT_FAILURE);
-	game_wrap->game_view = game_view;
-	map_view = mlx_new_image(game_wrap->window, MAP_CUB_SIZE * game_wrap->map_width, MAP_CUB_SIZE * game_wrap->map_height);
-	if (!map_view || (mlx_image_to_window(game_wrap->window, map_view, game_view->width - map_view->width, 0) < 0))
-		exit(EXIT_FAILURE);
-	game_wrap->map_view = map_view;
-	printf("MAP_CUBE IS %d AND POS IS %d\n", MAP_CUB_SIZE * game_wrap->map_width, game_view->width - map_view->width);
-	game_wrap->texture = mlx_load_png("./src/bricks_wall_64.png");
-	if (!game_wrap->texture)
-		perror("Fallo imagen");
-	game_wrap->t1[0] = mlx_load_png("./src/LavaF1.png");
-	if (!game_wrap->t1[0])
-		perror("Fallo imagen");
-	game_wrap->t1[1] = mlx_load_png("./src/LavaF2.png");
-	if (!game_wrap->t1[1])
-		perror("Fallo imagen");
-	game_wrap->t1[2] = mlx_load_png("./src/LavaF3.png");
-	if (!game_wrap->t1[2])
-		perror("Fallo imagen");
-	game_wrap->t1[3] = mlx_load_png("./src/LavaF4.png");
-	if (!game_wrap->t1[3])
-		perror("Fallo imagen");
+	if (create_window(game_wrap))
+		return (1);
+	game_wrap->game_view = mlx_new_image(game_wrap->window, game_wrap->init_width, game_wrap->init_height);
+	if (!game_wrap->game_view || (mlx_image_to_window(game_wrap->window, game_wrap->game_view, 0, 0) < 0))
+		return (perror("Error allocating game image"), 1);
+	game_wrap->map_view = mlx_new_image(game_wrap->window, MAP_CUB_SIZE * game_wrap->map_width, MAP_CUB_SIZE * game_wrap->map_height);
+	if (!game_wrap->map_view || (mlx_image_to_window(game_wrap->window, game_wrap->map_view, game_wrap->game_view->width - game_wrap->map_view->width, 0) < 0))
+		return (perror("Error allocating map image"), 1);
+	printf("MAP_CUBE IS %d AND POS IS %d\n", MAP_CUB_SIZE * game_wrap->map_width, game_wrap->game_view->width - game_wrap->map_view->width);
+	if (load_map_textures(game_wrap))
+		return (1);
 	game_wrap->pixels_cols = FOV * RESOLUTION;
 	if ((FOV * RESOLUTION) > game_wrap->map_view->width)
 		game_wrap->pixels_cols = game_wrap->map_view->width;
-	return 0;
+	return (0);
 }

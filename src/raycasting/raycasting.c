@@ -1,22 +1,9 @@
 #include "../../include/cub3d.h"
 
-#include <sys/time.h>
-#include <stddef.h>
-
 // --- Variables de tu Sprite ---
 int total_frames = 4;	 // Si tu carrusel tiene 4 imágenes
 int frame_width = 64;	 // Cada imagen mide 64 píxeles de ancho
 int anim_speed_ms = 150; // Cambiar de imagen cada 150 milisegundos (Ajusta a tu gusto)
-
-/**
- * @brief Obtiene el tiempo actual en milisegundos para sincronizar animaciones
- */
-static inline long long get_time_ms(void)
-{
-	struct timeval tv;
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000LL) + (tv.tv_usec / 1000));
-}
 
 /**
  * @brief We calculate the distance from point (x0, y0) to point (x1, y1). Pythagorean theorem
@@ -48,6 +35,15 @@ static inline void check_angle_bounds(float *angle)
 		*angle -= PI_360_DEG;
 }
 
+static inline void init_raycast_values(t_game *game_wrap, t_player *player_info, t_raycast *raycast)
+{
+	raycast->player_posX = player_info->posX * CUBSIZE;
+	raycast->player_posY = player_info->posY * CUBSIZE;
+	raycast->horizontal_distance = 100000;
+	raycast->vertical_distance = 100000;
+	raycast->col_gross = game_wrap->game_view->width / game_wrap->pixels_cols;
+}
+
 /**
  * @brief The raycaster itself. Here we calculate what player sees, the player view field is
  * 60º, and we create rays on that player view field and calculate where they hit to display a vertical wall.
@@ -63,6 +59,7 @@ static inline void check_angle_bounds(float *angle)
  */
 void draw_rays(t_game *game_wrap, t_player *player_info)
 {
+	t_raycast raycast;
 	int r = 0, mx = 0, my = 0, dof = 0;
 	float rx = 0, ry = 0, ra = 0, xo = 0, yo = 0;
 	float playerX = player_info->posX * CUBSIZE, playerY = player_info->posY * CUBSIZE;
@@ -72,6 +69,7 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 	int rayGross = game_wrap->game_view->width / game_wrap->pixels_cols;
 	float wallHitPoint = 0;
 
+	(void) raycast;//borrar
 	// Esto hay que mirarlo
 	float horizon = game_wrap->game_view->height / 2.0f;
 	// ¡Adiós a la tangente en el suelo! Usamos la misma constante implícita de tus muros.
@@ -84,7 +82,7 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 	for (r = 0; r < game_wrap->pixels_cols; r++)
 	{
 		// --- Cálculo Mágico ---
-		long long current_time = get_time_ms();
+		long long current_time = get_time();
 
 		// Al dividir el tiempo total entre la velocidad, sabemos cuántos fotogramas han pasado desde que se encendió el PC.
 		// Usando el módulo (% total_frames), lo mantenemos dando vueltas (0, 1, 2, 3, 0, 1, 2, 3...)
