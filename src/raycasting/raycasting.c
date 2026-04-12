@@ -113,6 +113,53 @@ static inline void check_vertical_ray(t_game *game_wrap, t_raycast *rc)
 	rc->vertical_y = rc->ray_y;
 }
 
+static inline void check_minor_distance(t_raycast *raycast)
+{
+	if (raycast->horizontal_dist <= raycast->vertical_dist)
+	{
+		raycast->ray_x = raycast->horizontal_x;
+		raycast->ray_y = raycast->horizontal_y;
+		raycast->minor_distance = raycast->horizontal_dist;
+		raycast->hor_ver = 1;
+		raycast->texture_x_hp = raycast->ray_x / CUBSIZE;
+	}
+	else
+	{
+		raycast->ray_x = raycast->vertical_x;
+		raycast->ray_y = raycast->vertical_y;
+		raycast->minor_distance = raycast->vertical_dist;
+		raycast->hor_ver = -1;
+		raycast->texture_x_hp = raycast->ray_y / CUBSIZE;
+	}
+}
+
+static inline void fix_fish_eye(t_player *player_info, t_raycast *raycast)
+{
+	raycast->corrected_angle = player_info->ang - raycast->ray_angle;
+	check_angle_bounds(&raycast->corrected_angle);
+	raycast->minor_distance = raycast->minor_distance * cos(raycast->corrected_angle);
+}
+
+static inline void draw_frame_cols(t_game *game_wrap, t_player *player_info, t_raycast *raycast)
+{
+	raycast->wall_len = (CUBSIZE * game_wrap->game_view->height) / raycast->minor_distance;
+
+	raycast->save_tex_y = 0;
+	raycast->texture_steps = (float)CUBSIZE / raycast->wall_len;
+	if (raycast->wall_len > game_wrap->game_view->height)
+	{
+		raycast->save_tex_y = ((raycast->wall_len - game_wrap->game_view->height) / 2) * raycast->texture_steps;
+		raycast->wall_len = game_wrap->game_view->height;
+	}
+	raycast->wall_start = (game_wrap->game_view->height - raycast->wall_len) / 2;
+	while (raycast->iterGross < raycast->col_gross)
+	{
+		raycast->texture_y_hp = raycast->save_tex_y;
+		draw_player_view_line(game_wrap, player_info, raycast, (uint32_t)(raycast->ray_ct * raycast->col_gross) + raycast->iterGross);
+		raycast->iterGross++;
+	}
+}
+
 /**
  * @brief The raycaster itself. Here we calculate what player sees, the player view field is
  * 60º, and we create rays on that player view field and calculate where they hit to display a vertical wall.
@@ -138,48 +185,11 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 		raycast.iterGross = 0;
 		check_horizontal_ray(game_wrap, &raycast);
 		check_vertical_ray(game_wrap, &raycast);
-
-		if (raycast.horizontal_dist <= raycast.vertical_dist)
-		{
-			raycast.ray_x = raycast.horizontal_x;
-			raycast.ray_y = raycast.horizontal_y;
-			raycast.minor_distance = raycast.horizontal_dist;
-			raycast.hor_ver = 1;
-			raycast.texture_x_hp = raycast.ray_x / CUBSIZE;
-		}
-		else
-		{
-			raycast.ray_x = raycast.vertical_x;
-			raycast.ray_y = raycast.vertical_y;
-			raycast.minor_distance = raycast.vertical_dist;
-			raycast.hor_ver = -1;
-			raycast.texture_x_hp = raycast.ray_y / CUBSIZE;
-		}
+		check_minor_distance(&raycast);
 		raycast.texture_x_hp -= floor(raycast.texture_x_hp);
-		/**
-		 * @todo VER MEJOR COMO TRATAR EL OJO DE PEZ
-		 */
-		raycast.corrected_angle = player_info->ang - raycast.ray_angle;
-		check_angle_bounds(&raycast.corrected_angle);
-		raycast.minor_distance = raycast.minor_distance * cos(raycast.corrected_angle);
-
-		raycast.wall_len = (CUBSIZE * game_wrap->game_view->height) / raycast.minor_distance;
-
-		raycast.texture_y_hp = 0;
-		raycast.texture_steps = (float)CUBSIZE / raycast.wall_len;
-		if (raycast.wall_len > game_wrap->game_view->height)
-		{
-			raycast.texture_y_hp = ((raycast.wall_len - game_wrap->game_view->height) / 2) * raycast.texture_steps;
-			raycast.wall_len = game_wrap->game_view->height;
-		}
-		raycast.wall_start = (game_wrap->game_view->height - raycast.wall_len) / 2;
-		while (raycast.iterGross < raycast.col_gross)
-		{
-			draw_player_view_line(game_wrap, player_info, &raycast, (uint32_t)(raycast.ray_ct * raycast.col_gross) + raycast.iterGross);
-			raycast.iterGross++;
-		}
-
-		draw_line_simple(game_wrap, player_info->posX * MAP_CUB_SIZE, player_info->posY * MAP_CUB_SIZE, (raycast.ray_x / CUBSIZE) * MAP_CUB_SIZE, (raycast.ray_y / CUBSIZE) * MAP_CUB_SIZE, 0x00FF00FF, 0);
+		fix_fish_eye(player_info, &raycast);
+		draw_frame_cols(game_wrap, player_info, &raycast);
+		draw_line_simple(game_wrap, player_info->posX * MAP_CUB_SIZE, player_info->posY * MAP_CUB_SIZE, (raycast.ray_x / CUBSIZE) * MAP_CUB_SIZE, (raycast.ray_y / CUBSIZE) * MAP_CUB_SIZE);
 		raycast.ray_angle += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
 		check_angle_bounds(&raycast.ray_angle);
 		raycast.ray_ct++;

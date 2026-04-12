@@ -49,11 +49,12 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
 	game_wrap->map = MAP;
 	game_wrap->map_height = 10;
 	game_wrap->map_width = 16;
+	game_wrap->line_color = 0xFFFFFFFF;
 	player_info->posX = 4.5;
 	player_info->posY = 2.5;
 	player_info->ang = RAD_180_DEG;
 	player_info->look_ew = 0;
-	player_info->deltaX = cos(player_info->ang) / 8;//Por que 8?
+	player_info->deltaX = cos(player_info->ang) / 8; // Por que 8?
 	player_info->deltaY = sin(player_info->ang) / 8;
 	player_info->key_control.w_key = 0;
 	player_info->key_control.s_key = 0;
@@ -61,6 +62,8 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
 	player_info->key_control.d_key = 0;
 	player_info->key_control.left_arrow = 0;
 	player_info->key_control.right_arrow = 0;
+	player_info->look_ew = 0;
+	player_info->look_ns = 0;
 }
 
 /**
@@ -77,11 +80,11 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
 void re_draw(t_game *game_wrap, t_player *player_info)
 {
 	ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
-	//No need to clean frame we overwrite ft_memset(game_wrap->game_view->pixels, 0, game_wrap->game_view->width * game_wrap->game_view->height * BPP);
+	// No need to clean frame we overwrite ft_memset(game_wrap->game_view->pixels, 0, game_wrap->game_view->width * game_wrap->game_view->height * BPP);
 	draw_map(game_wrap);
 	player_key_rotation(player_info);
 	player_key_movement(game_wrap, player_info);
-	//printf("[%d, %d]\n", player_info->look_ns, player_info->look_ew);
+	// printf("[%d, %d]\n", player_info->look_ns, player_info->look_ew);
 	draw_player(game_wrap, player_info);
 	draw_rays(game_wrap, player_info);
 }
@@ -95,7 +98,7 @@ void exit_mlx42(t_game *game_wrap)
 	 * @note frames need to be cleaned
 	 */
 	mlx_terminate(game_wrap->window);
-	exit (0);
+	exit(0);
 }
 
 int main(int argc, char **argv)

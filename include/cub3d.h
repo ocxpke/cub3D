@@ -31,7 +31,7 @@
 #define FOG 10
 #define FOV 60 // @note check for 360º as light source
 #define HALF_FOV (FOV / 2)
-#define RESOLUTION 16 // We need to test previous to image RESOLUTION * FOV less than PIXELS WIDTH
+#define PIX_COL 16
 #define MAP_CUB_SIZE 20
 #define PLAYER_PIX_SIZE (MAP_CUB_SIZE / 2)
 #define MAX_PLAYER_VIEW_DIST (FOG * CUBSIZE)

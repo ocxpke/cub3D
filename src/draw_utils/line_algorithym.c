@@ -4,7 +4,7 @@
  * @note No la documento por q esto va a cambiar
  */
 // arreglar esta mierda
-void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1, uint32_t color, int mode)
+void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1)
 {
 	float dx = x1 - x0;
 	float dy = y1 - y0;
@@ -21,24 +21,6 @@ void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1, uint
 	float current_x = x0;
 	float current_y = y0;
 
-	// 2. OPTIMIZACIÓN: Elegimos el "view" destino una sola vez fuera del bucle
-	// Asumo que map_view y game_view son de tipo mlx_image_t* (MLX42) o similar
-	void *target_view; // Cambia 'void *' por 'mlx_image_t *' o tu struct de imagen
-	int max_width, max_height;
-
-	if (!mode)
-	{
-		target_view = game->map_view;
-		max_width = game->map_view->width;
-		max_height = game->map_view->height;
-	}
-	else
-	{
-		target_view = game->game_view;
-		max_width = game->game_view->width;
-		max_height = game->game_view->height;
-	}
-
 	// Bucle para pintar
 	for (int i = 0; i <= steps; i++)
 	{
@@ -47,10 +29,10 @@ void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1, uint
 		int pixel_y = (int)roundf(current_y);
 
 		// Comprobación de límites (una sola vez)
-		if (pixel_x >= 0 && pixel_x < max_width &&
-			pixel_y >= 0 && pixel_y < max_height)
+		if (pixel_x >= 0 && (uint32_t)pixel_x < game->map_view->width &&
+			pixel_y >= 0 && (uint32_t)pixel_y < game->map_view->height)
 		{
-			mlx_put_pixel(target_view, pixel_x, pixel_y, color);
+			mlx_put_pixel(game->map_view, pixel_x, pixel_y, game->line_color);
 		}
 
 		current_x += x_inc;
@@ -69,6 +51,8 @@ uint32_t get_color_from_texture(mlx_texture_t *texture, uint16_t x, uint16_t y, 
 	float intensity = 0.9f - (dist_ratio * 0.8f);
 	if (dist >= MAX_PLAYER_VIEW_DIST)
 		intensity = 0;
+	if (x > texture->width || y > texture->height)
+		return (0);
 	uint32_t base = (x + (y * texture->width)) * 4;
 	uint8_t valR = texture->pixels[base] * intensity;
 	uint8_t valG = texture->pixels[base + 1] * intensity;
@@ -89,7 +73,8 @@ void draw_player_view_line(t_game *game, t_player *player_info, t_raycast *rc, u
 	{
 		if ((i >= y0_trunc) && (i <= y1_trunc))
 		{
-			uint32_t color_text = get_color_from_texture(game->wall_text.south_tex, wall_hit_x, rc->texture_y_hp, rc->minor_distance);
+			uint32_t color_text = get_color_from_texture(game->wall_text.south_tex,
+														 wall_hit_x, (uint16_t)rc->texture_y_hp, rc->minor_distance);
 			mlx_put_pixel(game->game_view, x_trunc, i, color_text);
 			rc->texture_y_hp += rc->texture_steps;
 		}
