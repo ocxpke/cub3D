@@ -61,25 +61,43 @@ uint32_t get_color_from_texture(mlx_texture_t *texture, uint16_t x, uint16_t y, 
 	return (finalColor);
 }
 
-void draw_player_view_line(t_game *game, t_raycast *rc, uint32_t x_trunc)
+static inline mlx_texture_t *get_texture(t_game *game, t_raycast *rc)
+{
+	if (rc->hor_ver == 1)
+	{
+		if (rc->ray_angle > RAD_180_DEG && rc->ray_angle < RAD_360_DEG)
+			return (game->wall_text.south_tex);
+		else
+			return (game->wall_text.north_tex);
+	}
+	else
+	{
+		if (rc->ray_angle > RAD_90_DEG && rc->ray_angle < RAD_270_DEG)
+			return (game->wall_text.east_tex);
+		else
+			return (game->wall_text.west_tex);
+	}
+}
+
+void draw_player_view_line(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc)
 {
 	uint32_t y0_trunc = (uint32_t)rc->wall_start;
 	uint32_t y1_trunc = (uint32_t)rc->wall_start + rc->wall_len;
 	uint16_t wall_hit_x = (uint16_t)(CUBSIZE * rc->texture_x_hp);
 	if (rc->ns_ew == -1)
 		wall_hit_x = CUBSIZE - 1 - wall_hit_x;
-	for (uint32_t i = 0; i < game->game_view->height; i++)
+	for (uint32_t i = 0; i < game_wrap->game_view->height; i++)
 	{
 		if ((i >= y0_trunc) && (i <= y1_trunc))
 		{
-			uint32_t color_text = get_color_from_texture(game->wall_text.south_tex,
+			uint32_t color_text = get_color_from_texture(get_texture(game_wrap, rc),
 														 wall_hit_x, (uint16_t)rc->texture_y_hp, rc->minor_distance);
-			mlx_put_pixel(game->game_view, x_trunc, i, color_text);
+			mlx_put_pixel(game_wrap->game_view, x_trunc, i, color_text);
 			rc->texture_y_hp += rc->texture_steps;
 		}
 		else if (i < y0_trunc)
-			mlx_put_pixel(game->game_view, x_trunc, i, 0x4682B4FF);
+			mlx_put_pixel(game_wrap->game_view, x_trunc, i, 0x4682B4FF);
 		else
-			mlx_put_pixel(game->game_view, x_trunc, i, 0x228B22FF);
+			mlx_put_pixel(game_wrap->game_view, x_trunc, i, 0x228B22FF);
 	}
 }

@@ -52,8 +52,8 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
 	game_wrap->line_color = 0xFFFFFFFF;
 	player_info->posX = 4.5;
 	player_info->posY = 2.5;
-	player_info->ang = RAD_180_DEG;
-	player_info->look_ew = 0;
+	// La logica norte/sur no esta invertida es una falsa sensacion
+	player_info->ang = RAD_360_DEG;
 	player_info->deltaX = cos(player_info->ang) / 8; // Por que 8?
 	player_info->deltaY = sin(player_info->ang) / 8;
 	player_info->key_control.w_key = 0;
@@ -62,8 +62,6 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
 	player_info->key_control.d_key = 0;
 	player_info->key_control.left_arrow = 0;
 	player_info->key_control.right_arrow = 0;
-	player_info->look_ew = 0;
-	player_info->look_ns = 0;
 }
 
 /**

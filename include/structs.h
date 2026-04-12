@@ -44,8 +44,6 @@ typedef struct s_player
 	float deltaX;
 	float deltaY;
 	float ang;
-	int8_t look_ns;
-	int8_t look_ew;
 	t_keys key_control;
 } t_player;
 

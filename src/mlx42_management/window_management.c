@@ -49,8 +49,17 @@ static int create_window(t_game *game_wrap)
 static int load_map_textures(t_wall_textures *wall_tex /*, t_ceil_floor_tex *ceiling_tex, t_ceil_floor_tex *floor_tex*/)
 {
 	wall_tex->type = IMAGE_TEXTURE;
-	wall_tex->south_tex = mlx_load_png("./src/imgs/nazeemPIX.png");
+	wall_tex->north_tex = mlx_load_png("./src/imgs/nazeemPIX.png");
+	if (!wall_tex->north_tex)
+		return (perror("Error opening north map texture"), 1);
+	wall_tex->south_tex = mlx_load_png("./src/imgs/raccoonPIX.png");
 	if (!wall_tex->south_tex)
+		return (perror("Error opening south map texture"), 1);
+	wall_tex->east_tex = mlx_load_png("./src/imgs/c_south.png");
+	if (!wall_tex->east_tex)
+		return (perror("Error opening map texture"), 1);
+	wall_tex->west_tex = mlx_load_png("./src/imgs/s_south.png");
+	if (!wall_tex->west_tex)
 		return (perror("Error opening map texture"), 1);
 	return (0);
 }
