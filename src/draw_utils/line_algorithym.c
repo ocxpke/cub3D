@@ -4,10 +4,10 @@
  * @note No la documento por q esto va a cambiar
  */
 // arreglar esta mierda
-void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1)
+void draw_line_simple(t_game *game, float p0[2], float p1[2], uint32_t color)
 {
-	float dx = x1 - x0;
-	float dy = y1 - y0;
+	float dx = p1[0] - p0[0];//x1 - x0;
+	float dy = p1[1] - p0[1];
 
 	float steps = fabs(dx) > fabs(dy) ? fabs(dx) : fabs(dy);
 
@@ -18,8 +18,8 @@ void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1)
 	float x_inc = dx / steps;
 	float y_inc = dy / steps;
 
-	float current_x = x0;
-	float current_y = y0;
+	float current_x = p0[0];
+	float current_y = p0[1];
 
 	// Bucle para pintar
 	for (int i = 0; i <= steps; i++)
@@ -32,7 +32,7 @@ void draw_line_simple(t_game *game, float x0, float y0, float x1, float y1)
 		if (pixel_x >= 0 && (uint32_t)pixel_x < game->map_view->width &&
 			pixel_y >= 0 && (uint32_t)pixel_y < game->map_view->height)
 		{
-			mlx_put_pixel(game->map_view, pixel_x, pixel_y, game->line_color);
+			mlx_put_pixel(game->map_view, pixel_x, pixel_y, color);
 		}
 
 		current_x += x_inc;
@@ -61,7 +61,7 @@ uint32_t get_color_from_texture(mlx_texture_t *texture, uint16_t x, uint16_t y, 
 	return (finalColor);
 }
 
-static inline mlx_texture_t *get_texture(t_game *game, t_raycast *rc)
+static inline mlx_texture_t *get_wall_texture(t_game *game, t_raycast *rc)
 {
 	if (rc->hor_ver == 1)
 	{
@@ -90,7 +90,7 @@ void draw_player_view_line(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc)
 	{
 		if ((i >= y0_trunc) && (i <= y1_trunc))
 		{
-			uint32_t color_text = get_color_from_texture(get_texture(game_wrap, rc),
+			uint32_t color_text = get_color_from_texture(get_wall_texture(game_wrap, rc),
 														 wall_hit_x, (uint16_t)rc->texture_y_hp, rc->minor_distance);
 			mlx_put_pixel(game_wrap->game_view, x_trunc, i, color_text);
 			rc->texture_y_hp += rc->texture_steps;

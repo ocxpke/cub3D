@@ -19,6 +19,10 @@
 # include "map.h"
 # include "time_mng.h"
 
+/**
+ * @note ADD MACRO CHECKER
+ */
+
 #define BPP sizeof(int32_t)
 #define PI 3.1415926535
 #define RAD_90_DEG (PI / 2)
@@ -41,6 +45,7 @@
 #define FLOOR_NUMBER 1
 #define FPS 60
 #define SENSIBILITY 0.75
+#define PLAYER_SPEED 0.2
 
 void re_draw(t_game *game_wrap, t_player *player_info);
 void exit_mlx42(t_game *game_wrap);

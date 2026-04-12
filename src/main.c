@@ -53,9 +53,9 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
 	player_info->posX = 4.5;
 	player_info->posY = 2.5;
 	// La logica norte/sur no esta invertida es una falsa sensacion
-	player_info->ang = RAD_360_DEG;
-	player_info->deltaX = cos(player_info->ang) / 8; // Por que 8?
-	player_info->deltaY = sin(player_info->ang) / 8;
+	player_info->ang = RAD_90_DEG;
+	player_info->deltaX = cos(player_info->ang) * PLAYER_SPEED;
+	player_info->deltaY = sin(player_info->ang) * PLAYER_SPEED;
 	player_info->key_control.w_key = 0;
 	player_info->key_control.s_key = 0;
 	player_info->key_control.a_key = 0;

@@ -189,7 +189,8 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 		raycast.texture_x_hp -= floor(raycast.texture_x_hp);
 		fix_fish_eye(player_info, &raycast);
 		draw_frame_cols(game_wrap, &raycast);
-		draw_line_simple(game_wrap, player_info->posX * MAP_CUB_SIZE, player_info->posY * MAP_CUB_SIZE, (raycast.ray_x / CUBSIZE) * MAP_CUB_SIZE, (raycast.ray_y / CUBSIZE) * MAP_CUB_SIZE);
+		draw_line_simple(game_wrap, (float[]){player_info->posX * MAP_CUB_SIZE, player_info->posY * MAP_CUB_SIZE},
+						 (float[]){(raycast.ray_x / CUBSIZE) * MAP_CUB_SIZE, (raycast.ray_y / CUBSIZE) * MAP_CUB_SIZE}, 0x00FF00FF);
 		raycast.ray_angle += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
 		check_angle_bounds(&raycast.ray_angle);
 		raycast.ray_ct++;

@@ -27,11 +27,11 @@ void draw_map(t_game *game_wrap)
 							mlx_put_pixel(game_wrap->map_view, startX + q, startY + z, 0x0000FFFF);
 					}
 				}
-				draw_line_simple(game_wrap, startX, 0, startX, game_wrap->map_view->height);
-				draw_line_simple(game_wrap, 0, startY, game_wrap->map_view->width, startY);
+				draw_line_simple(game_wrap, (float[]){startX, 0}, (float[]){startX, game_wrap->map_view->height}, 0xFF0000FF);
+				draw_line_simple(game_wrap, (float[]){0, startY}, (float[]){game_wrap->map_view->width, startY}, 0xFF0000FF);
 			}
 		}
 	}
-	draw_line_simple(game_wrap, game_wrap->map_view->width, 0, game_wrap->map_view->width, game_wrap->map_view->height);
-	draw_line_simple(game_wrap, 0, game_wrap->map_view->height, game_wrap->map_view->width, game_wrap->map_view->height);
+	draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width, 0}, (float[]){game_wrap->map_view->width, game_wrap->map_view->height}, 0xFF0000FF);
+	draw_line_simple(game_wrap, (float[]){0, game_wrap->map_view->height}, (float[]){game_wrap->map_view->width, game_wrap->map_view->height}, 0xFF0000FF);
 }
