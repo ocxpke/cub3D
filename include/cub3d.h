@@ -40,7 +40,7 @@
 #define FLOOR_TEXTURE "Paco"
 #define FLOOR_NUMBER 1
 #define FPS 60
-#define SENSIBILITY 0.5
+#define SENSIBILITY 0.75
 
 void re_draw(t_game *game_wrap, t_player *player_info);
 void exit_mlx42(t_game *game_wrap);

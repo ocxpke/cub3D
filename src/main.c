@@ -115,9 +115,7 @@ int main(int argc, char **argv)
 	all.game_wrap = &game_wrap;
 	all.player_info = &player_info;
 
-	printf ("HOLA\n");
 	re_draw(&game_wrap, &player_info);
-	printf ("HOLA BB\n");
 	mlx_resize_hook(game_wrap.window, resize_hook, &all);
 	mlx_loop_hook(game_wrap.window, key_hook, &all);
 	mlx_loop(game_wrap.window);
