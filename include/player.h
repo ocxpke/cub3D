@@ -5,5 +5,5 @@
 
 void draw_player(t_game *game_wrap, t_player *player_info);
 void player_key_movement(t_game *game_wrap, t_player *player_info);
-void player_key_rotation(t_player *player_info);
+void player_key_rotation(t_game *game_wrap, t_player *player_info);
 #endif

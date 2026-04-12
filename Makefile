@@ -8,7 +8,8 @@ LIBS	:= $(LIBFT)/libft.a $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 MAP	:= src/map/map_view.c
 
 PLAYER := src/player/player_view.c \
-			src/player/player_movement.c
+			src/player/player_movement.c\
+			src/player/player_rotation.c
 
 MLX42_MNG := src/mlx42_management/hooks.c \
 				src/mlx42_management/window_management.c

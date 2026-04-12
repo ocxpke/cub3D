@@ -80,11 +80,9 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
 void re_draw(t_game *game_wrap, t_player *player_info)
 {
 	ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
-	// No need to clean frame we overwrite ft_memset(game_wrap->game_view->pixels, 0, game_wrap->game_view->width * game_wrap->game_view->height * BPP);
 	draw_map(game_wrap);
-	player_key_rotation(player_info);
+	player_key_rotation(game_wrap, player_info);
 	player_key_movement(game_wrap, player_info);
-	// printf("[%d, %d]\n", player_info->look_ns, player_info->look_ew);
 	draw_player(game_wrap, player_info);
 	draw_rays(game_wrap, player_info);
 }
@@ -117,7 +115,9 @@ int main(int argc, char **argv)
 	all.game_wrap = &game_wrap;
 	all.player_info = &player_info;
 
+	printf ("HOLA\n");
 	re_draw(&game_wrap, &player_info);
+	printf ("HOLA BB\n");
 	mlx_resize_hook(game_wrap.window, resize_hook, &all);
 	mlx_loop_hook(game_wrap.window, key_hook, &all);
 	mlx_loop(game_wrap.window);

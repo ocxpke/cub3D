@@ -35,8 +35,10 @@ void key_hook(void *param)
 	player_keyboard->left_arrow = mlx_is_key_down(all_info->game_wrap->window, MLX_KEY_LEFT);
 	player_keyboard->right_arrow = mlx_is_key_down(all_info->game_wrap->window, MLX_KEY_RIGHT);
 
+	printf ("HOLA CC\n");
 	if (mlx_is_key_down(all_info->game_wrap->window, MLX_KEY_ESCAPE))
 		return exit_mlx42(all_info->game_wrap);
 
 	re_draw(all_info->game_wrap, all_info->player_info);
+	printf ("HOLA DD\n");
 }

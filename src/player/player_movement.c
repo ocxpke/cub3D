@@ -23,83 +23,38 @@ static inline void player_movement(t_game *game_wrap, t_player *player_info, flo
 		player_info->posY += moveInY;
 }
 
-static inline void move_forward(t_game *game_wrap, t_player *player_info)
-{
-	player_movement(game_wrap, player_info, player_info->deltaX, player_info->deltaY);
-}
-
-static inline void move_backwards(t_game *game_wrap, t_player *player_info)
-{
-	player_movement(game_wrap, player_info, -1 * player_info->deltaX, -1 * player_info->deltaY);
-}
-
-static inline void move_to_left(t_game *game_wrap, t_player *player_info)
-{
-	player_movement(game_wrap, player_info, player_info->deltaY, -1 * player_info->deltaX);
-}
-static inline void move_to_right(t_game *game_wrap, t_player *player_info)
-{
-	player_movement(game_wrap, player_info, -1 * player_info->deltaY, player_info->deltaX);
-}
-
 void player_key_movement(t_game *game_wrap, t_player *player_info)
 {
-	t_keys player_keyboard = player_info->key_control;
+	float delta_time = game_wrap->window->delta_time * FPS * SENSIBILITY;
+	float len;
+	float moveInX = 0;
+	float moveInY = 0;
 
-	if (player_keyboard.w_key)
-		move_forward(game_wrap, player_info);
-	if (player_keyboard.s_key)
-		move_backwards(game_wrap, player_info);
-	if (player_keyboard.a_key)
-		move_to_left(game_wrap, player_info);
-	if (player_keyboard.d_key)
-		move_to_right(game_wrap, player_info);
-}
-
-inline void check_facing_ns(t_player *player_info, float ang)
-{
-	if (ang > RAD_180_DEG && ang < RAD_360_DEG)
-		player_info->look_ns = -1;
-	else if (ang < RAD_180_DEG || ang > RAD_360_DEG)
-		player_info->look_ns = 1;
-	else if (ang == RAD_180_DEG || ang == RAD_360_DEG)
-		player_info->look_ns = 0;
-}
-
-inline void check_facing_ew(t_player *player_info, float ang)
-{
-	if (ang > RAD_90_DEG && ang < RAD_270_DEG)
-		player_info->look_ew = -1;
-	else if (ang < RAD_90_DEG || ang > RAD_270_DEG)
-		player_info->look_ew = 1;
-	else if (ang == RAD_90_DEG || ang == RAD_270_DEG)
-		player_info->look_ew = 0;
-}
-
-void player_key_rotation(t_player *player_info)
-{
-	t_keys player_keyboard = player_info->key_control;
-	if (player_keyboard.left_arrow)
+	if (player_info->key_control.w_key)
 	{
-		player_info->ang -= 0.1;
-		if (player_info->ang < 0)
-			player_info->ang += (2 * PI);
-		player_info->deltaX = cos(player_info->ang) / 8;
-		player_info->deltaY = sin(player_info->ang) / 8;
-
-		check_facing_ns(player_info, player_info->ang);
-		check_facing_ew(player_info, player_info->ang);
+		moveInX += player_info->deltaX * delta_time;
+		moveInY += player_info->deltaY * delta_time;
 	}
-
-	if (player_keyboard.right_arrow)
+	if (player_info->key_control.s_key)
 	{
-		player_info->ang += 0.1;
-		if (player_info->ang > (2 * PI))
-			player_info->ang -= (2 * PI);
-		player_info->deltaX = cos(player_info->ang) / 8;
-		player_info->deltaY = sin(player_info->ang) / 8;
-
-		check_facing_ns(player_info, player_info->ang);
-		check_facing_ew(player_info, player_info->ang);
+		moveInX += -1 * player_info->deltaX * delta_time;
+		moveInY += -1 * player_info->deltaY * delta_time;
 	}
+	if (player_info->key_control.a_key)
+	{
+		moveInX += player_info->deltaY * delta_time;
+		moveInY += -1 * player_info->deltaX * delta_time;
+	}
+	if (player_info->key_control.d_key)
+	{
+		moveInX += -1 * player_info->deltaY * delta_time;
+		moveInY += player_info->deltaX * delta_time;
+	}
+	len = sqrt((moveInX * moveInX) + (moveInY * moveInY));
+	if ((len > (delta_time * player_info->deltaX)) || (len > player_info->deltaY * delta_time))
+	{
+		moveInX = (moveInX / len) * delta_time;
+		moveInY = (moveInY / len) * delta_time;
+	}
+	player_movement(game_wrap, player_info, moveInX, moveInY);
 }

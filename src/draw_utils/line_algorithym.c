@@ -51,7 +51,7 @@ uint32_t get_color_from_texture(mlx_texture_t *texture, uint16_t x, uint16_t y, 
 	float intensity = 0.9f - (dist_ratio * 0.8f);
 	if (dist >= MAX_PLAYER_VIEW_DIST)
 		intensity = 0;
-	if (x > texture->width || y > texture->height)
+	if (x >= texture->width || y >= texture->height)
 		return (0);
 	uint32_t base = (x + (y * texture->width)) * 4;
 	uint8_t valR = texture->pixels[base] * intensity;
@@ -61,12 +61,11 @@ uint32_t get_color_from_texture(mlx_texture_t *texture, uint16_t x, uint16_t y, 
 	return (finalColor);
 }
 
-void draw_player_view_line(t_game *game, t_player *player_info, t_raycast *rc, uint32_t x_trunc)
+void draw_player_view_line(t_game *game, t_raycast *rc, uint32_t x_trunc)
 {
 	uint32_t y0_trunc = (uint32_t)rc->wall_start;
 	uint32_t y1_trunc = (uint32_t)rc->wall_start + rc->wall_len;
 	uint16_t wall_hit_x = (uint16_t)(CUBSIZE * rc->texture_x_hp);
-	(void)player_info;
 	if (rc->ns_ew == -1)
 		wall_hit_x = CUBSIZE - 1 - wall_hit_x;
 	for (uint32_t i = 0; i < game->game_view->height; i++)
