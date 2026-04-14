@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
-int	valid_map_content(t_data *game)
+int	valid_map_content(t_dpar *game)
 {
 	if (!valid_content(game))
 		return (0);
@@ -23,7 +23,7 @@ int	valid_map_content(t_data *game)
 	}
 }
 
-int	valid_map_structure(t_data *game)
+int	valid_map_structure(t_dpar *game)
 {
 	if (!valid_structure(game))
 		return (0);

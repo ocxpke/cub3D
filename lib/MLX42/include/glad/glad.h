@@ -7,7 +7,7 @@
     APIs: gl=4.6
     Profile: compatibility
     Extensions:
-        
+
     Loader: True
     Local files: False
     Omit khrplatform: False
@@ -589,7 +589,7 @@ typedef void (APIENTRY *GLVULKANPROCNV)(void);
 #define GL_RGBA16 0x805B
 #define GL_CLIENT_PIXEL_STORE_BIT 0x00000001
 #define GL_CLIENT_VERTEX_ARRAY_BIT 0x00000002
-#define GL_CLIENT_ALL_ATTRIB_BITS 0xFFFFFFFF
+#define GL_CLIENt_all_structs_ATTRIB_BITS 0xFFFFFFFF
 #define GL_VERTEX_ARRAY_POINTER 0x808E
 #define GL_NORMAL_ARRAY_POINTER 0x808F
 #define GL_COLOR_ARRAY_POINTER 0x8090

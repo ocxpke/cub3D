@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
-void	print_mapfile_map_info( t_data *game)
+void	print_mapfile_map_info( t_dpar *game)
 {
 	if (!game->map_s)
 		return ;
@@ -31,7 +31,7 @@ void	print_mapfile_map_info( t_data *game)
 	printf(MAG"---------------------------------------------------\n");
 }
 
-void	print_mapfile_map( t_data *g)
+void	print_mapfile_map( t_dpar *g)
 {
 	int	i;
 	int	j;
@@ -60,7 +60,7 @@ void	print_mapfile_map( t_data *g)
 	}
 }
 
-void	print_mapfile_colors( t_data *game)
+void	print_mapfile_colors( t_dpar *game)
 {
 	if (!game->map_s)
 		return ;
@@ -80,7 +80,7 @@ void	print_mapfile_colors( t_data *game)
 	printf(MAG"---------------------------------------------------\n");
 }
 
-void	print_mapfile_tex( t_data *game)
+void	print_mapfile_tex( t_dpar *game)
 {
 	if (!game->map_s)
 		return ;
@@ -106,7 +106,7 @@ void	print_mapfile_tex( t_data *game)
 	printf(MAG"---------------------------------------------------\n");
 }
 
-void	print_mapfile_content( t_data *game)
+void	print_mapfile_content( t_dpar *game)
 {
 	int	i;
 

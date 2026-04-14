@@ -20,8 +20,33 @@ RAYCASTING := src/raycasting/raycasting.c
 
 TIME_MNG := src/time_mng/get_time.c
 
+PARSEO := src/parsing/parsing.c \
+				src/parsing/file_validation_utils.c \
+				src/parsing/split_file.c \
+				src/parsing/print_mapfile.c \
+				src/parsing/struct_init.c \
+				src/parsing/file_checklist.c \
+				src/parsing/map_placement.c \
+				src/parsing/elements_placement.c \
+				src/parsing/get_and_validate_elements.c \
+				src/parsing/get_tex_and_f_c.c \
+				src/parsing/find_map.c \
+				src/parsing/valid_textures.c \
+				src/parsing/valid_f_c.c \
+				src/parsing/get_color_val.c \
+				src/parsing/check_rgb.c \
+				src/parsing/valid_map.c \
+				src/parsing/valid_content.c \
+				src/parsing/valid_structure.c \
+				src/parsing/check_inner_chars.c \
+				src/parsing/free_all.c \
+				src/parsing/open_and_check_textures.c \
+				src/parsing/get_map_info.c \
+				src/parsing/map_info_utils.c \
+				src/parsing/check_for_anything_else.c
+
 SRCS	= $(VIEWS) $(MLX42_MNG) $(DRAW_UTILS) $(RAYCASTING)\
-			$(MAP) $(PLAYER) $(TIME_MNG)\
+			$(MAP) $(PLAYER) $(TIME_MNG) $(PARSEO)\
 			src/main.c
 
 OBJ_DIR	:= build/objs
@@ -57,7 +82,7 @@ fclean: clean
 re: clean all
 
 run: all
-	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3d
+	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3d ./src/placeholder_textures/valid_simple_map_cat_textures.cub
 
 valgrind_run: all
 	valgrind -s ./cub3d

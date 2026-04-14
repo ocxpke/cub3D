@@ -17,6 +17,10 @@ static inline void player_movement(t_game *game_wrap, t_player *player_info, flo
 		marginY = 0;
 	int nextX = (int)(player_info->posX + move_in_x + marginX);
 	int nextY = (int)(player_info->posY + move_in_y + marginY);
+	printf("[%d, %d] -- [%d, %d]\n", (int)player_info->posY, nextX, nextY, (int)player_info->posX);
+	/**
+	 * @note estandarizar que es X, y que es Y
+	 */
 	if (game_wrap->map[(int)player_info->posY][nextX] == '0')
 		player_info->posX += move_in_x;
 	if (game_wrap->map[nextY][(int)player_info->posX] == '0')

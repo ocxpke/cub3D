@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
-void	parsing_part_1(int ac, char **av, t_data *game)
+void	parsing_part_1(int ac, char **av, t_dpar *game)
 {
 	if (ac != 2 || !check_arg(av[1]))
 	{
@@ -41,7 +41,7 @@ void	parsing_part_1(int ac, char **av, t_data *game)
 	}
 }
 
-void	parsing_part_2(t_data *game)
+void	parsing_part_2(t_dpar *game)
 {
 	if (!file_checklist(game))
 	{
@@ -65,10 +65,10 @@ void	parsing_part_2(t_data *game)
 		exit(0);
 	}
 	printf(B_G"YAY!"GRN" Elements retrieved successfully!!!\n"RES);
-	elements_placement(game);
+	//elements_placement(game);
 }
 
-void	parsing_part_3(t_data *game)
+void	parsing_part_3(t_dpar *game)
 {
 	if (!validate_and_clean_elements(game))
 	{
@@ -91,7 +91,7 @@ void	parsing_part_3(t_data *game)
 	}
 }
 
-int	parsing(int ac, char **av, t_data *game)
+int	parsing(int ac, char **av, t_dpar *game)
 {
 	parsing_part_1(ac, av, game);
 	struct_init(game);
@@ -100,8 +100,6 @@ int	parsing(int ac, char **av, t_data *game)
 	open_and_check_textures(game);
 	get_map_info(game);
 	print_mapfile(game);
-	free_map(game);
-	free_up_to_cheklist(game);
 	printf(H_Y"\n__________________DONE_PARSING!___________________\n\n"RES);
 	return (0);
 }

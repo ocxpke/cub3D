@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
 int	get_num_val(char *line)
 {
@@ -47,7 +47,7 @@ int	get_num_len(char *line)
 	return (i);
 }
 
-void	get_color_val_fl(t_data *game, char *line)
+void	get_color_val_fl(t_dpar *game, char *line)
 {
 	int	coma;
 	int	i;
@@ -72,7 +72,7 @@ void	get_color_val_fl(t_data *game, char *line)
 	return ;
 }
 
-void	get_color_val_cl(t_data *game, char *line)
+void	get_color_val_cl(t_dpar *game, char *line)
 {
 	int	coma;
 	int	i;

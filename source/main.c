@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av)
 {
-	t_data	game;
+	t_dpar	game;
 
 	if (!parsing(ac, av, &game))
 		return (0);

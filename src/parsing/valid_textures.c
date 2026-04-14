@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
 int	valid_tex_chars(char *s)
 {
@@ -32,7 +32,7 @@ int	valid_tex_chars(char *s)
 	return (1);
 }
 
-void	find_tex_path(t_data *game, char *line)
+void	find_tex_path(t_dpar *game, char *line)
 {
 	if (line[0] == 'N' && line[1] == 'O' && line[2] == ' ')
 		game->map_s->tex_col_s->no_tex_path
@@ -48,7 +48,7 @@ void	find_tex_path(t_data *game, char *line)
 			= ft_strdup(&game->map_s->tex_col_s->ea_tex[3]);
 }
 
-int	check_textures(t_data *game)
+int	check_textures(t_dpar *game)
 {
 	if (check_path_ext(game->map_s->tex_col_s->no_tex)
 		&& valid_tex_chars(game->map_s->tex_col_s->no_tex))
@@ -73,7 +73,7 @@ int	check_textures(t_data *game)
 	return (1);
 }
 
-int	valid_textures(t_data *game)
+int	valid_textures(t_dpar *game)
 {
 	int	valid;
 

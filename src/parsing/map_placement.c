@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
 int	valid_element_chars(char *str)
 {
@@ -93,7 +93,7 @@ int	first_map_line(char **line)
 	return (map_line);
 }
 
-int	map_placement(t_data *game)
+int	map_placement(t_dpar *game)
 {
 	int	map_line;
 	int	not_map_line;

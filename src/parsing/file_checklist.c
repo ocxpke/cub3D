@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
-void	count_elements(t_data *game)
+void	count_elements(t_dpar *game)
 {
 	if ((game->checklist_s->no_tex == 1) && (game->checklist_s->so_tex == 1)
 		&& (game->checklist_s->we_tex == 1) && (game->checklist_s->ea_tex == 1)
@@ -23,7 +23,7 @@ void	count_elements(t_data *game)
 	return ;
 }
 
-void	check_element(t_data *game, char *line)
+void	check_element(t_dpar *game, char *line)
 {
 	if (line[0] == 'N' && line[1] == 'O' && line[2] == ' ')
 		game->checklist_s->no_tex += 1;
@@ -64,7 +64,7 @@ int	check_element_name(char *s)
 		return (1);
 }
 
-int	file_checklist(t_data *game)
+int	file_checklist(t_dpar *game)
 {
 	int	j;
 

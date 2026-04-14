@@ -46,25 +46,25 @@ static int create_window(t_game *game_wrap)
 // 		return (perror("Error opening floor texture"), 1);
 // }
 
-static int load_map_textures(t_wall_textures *wall_tex /*, t_ceil_floor_tex *ceiling_tex, t_ceil_floor_tex *floor_tex*/)
+static int load_map_textures(t_wall_textures *wall_tex, t_dpar *game_d)
 {
 	wall_tex->type = IMAGE_TEXTURE;
-	wall_tex->north_tex = mlx_load_png("./src/imgs/c_north.png");
+	wall_tex->north_tex = mlx_load_png(game_d->map_s->tex_col_s->no_tex_path);
 	if (!wall_tex->north_tex)
 		return (perror("Error opening north map texture"), 1);
-	wall_tex->south_tex = mlx_load_png("./src/imgs/c_south.png");
+	wall_tex->south_tex = mlx_load_png(game_d->map_s->tex_col_s->so_tex_path);
 	if (!wall_tex->south_tex)
 		return (perror("Error opening south map texture"), 1);
-	wall_tex->east_tex = mlx_load_png("./src/imgs/c_east.png");
+	wall_tex->east_tex = mlx_load_png(game_d->map_s->tex_col_s->ea_tex_path);
 	if (!wall_tex->east_tex)
 		return (perror("Error opening map texture"), 1);
-	wall_tex->west_tex = mlx_load_png("./src/imgs/c_west.png");
+	wall_tex->west_tex = mlx_load_png(game_d->map_s->tex_col_s->we_tex_path);
 	if (!wall_tex->west_tex)
 		return (perror("Error opening map texture"), 1);
 	return (0);
 }
 
-int manage_mlx42_resources(t_game *game_wrap)
+int manage_mlx42_resources(t_game *game_wrap, t_dpar *game_d)
 {
 	if (create_window(game_wrap))
 		return (1);
@@ -75,7 +75,7 @@ int manage_mlx42_resources(t_game *game_wrap)
 	if (!game_wrap->map_view || (mlx_image_to_window(game_wrap->window, game_wrap->map_view, game_wrap->game_view->width - game_wrap->map_view->width, 0) < 0))
 		return (perror("Error allocating map image"), 1);
 	printf("MAP_CUBE IS %d AND POS IS %d\n", MAP_CUB_SIZE * game_wrap->map_width, game_wrap->game_view->width - game_wrap->map_view->width);
-	if (load_map_textures(&game_wrap->wall_text))
+	if (load_map_textures(&game_wrap->wall_text, game_d))
 		return (1);
 	game_wrap->col_gross = game_wrap->game_view->width / (FOV * PIX_COL);
 	if (game_wrap->col_gross < 1)

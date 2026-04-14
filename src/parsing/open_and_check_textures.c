@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
-int	open_a_tex(t_data *game, int step)
+int	open_a_tex(t_dpar *game, int step)
 {
 	int	fd;
 
@@ -28,7 +28,7 @@ int	open_a_tex(t_data *game, int step)
 	return (fd);
 }
 
-int	validate_tex_paths(t_data *game)
+int	validate_tex_paths(t_dpar *game)
 {
 	int	step;
 	int	fd;
@@ -51,7 +51,7 @@ int	validate_tex_paths(t_data *game)
 	return (0);
 }
 
-void	open_and_check_textures(t_data *game)
+void	open_and_check_textures(t_dpar *game)
 {
 	if (!validate_tex_paths(game))
 	{

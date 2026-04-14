@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
 void	get_a_tex(char *str, t_tex_col *tex_col_s)
 {
@@ -26,7 +26,7 @@ void	get_a_tex(char *str, t_tex_col *tex_col_s)
 		return ;
 }
 
-int	get_textures(t_data *game, t_tex_col *tex_col_s)
+int	get_textures(t_dpar *game, t_tex_col *tex_col_s)
 {
 	int	i;
 	int	flags;
@@ -61,7 +61,7 @@ void	get_a_col(char *str, t_tex_col *tex_col_s)
 		return ;
 }
 
-int	get_f_c(t_data *game, t_tex_col *tex_col_s)
+int	get_f_c(t_dpar *game, t_tex_col *tex_col_s)
 {
 	int	i;
 	int	flags;

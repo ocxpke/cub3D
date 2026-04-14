@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
 int	is_inside(int inside)
 {
@@ -56,7 +56,7 @@ int	is_enclosed(char **map)
 	return (is_inside(inside));
 }
 
-int	valid_structure(t_data *game)
+int	valid_structure(t_dpar *game)
 {
 	if (!game->map_s->map)
 		return (0);

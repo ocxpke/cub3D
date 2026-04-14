@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
-void	get_map_info(t_data *game)
+void	get_map_info(t_dpar *game)
 {
 	game->map_s->rows = get_rows(game->map_s->map);
 	game->map_s->cols = get_cols(game->map_s->map);
@@ -21,7 +21,7 @@ void	get_map_info(t_data *game)
 	game->map_s->pstart_y = get_player_pos_col(game->map_s->map);
 }
 
-void	print_mapfile( t_data *game)
+void	print_mapfile( t_dpar *game)
 {
 	int	i;
 
