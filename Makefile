@@ -1,103 +1,65 @@
-# color bolds         #
-B_BLACK = \033[1;30m
-B_RED = \033[1;31m
-B_GREEN = \033[1;32m
-B_YELLOW = \033[1;33m
-B_BLUE = \033[1;34m
-B_MAGENTA = \033[1;35m
-B_CYAN = \033[1;36m
-B_WHITE = \033[1;37m
+NAME	:= cub3d
+CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
+LIBMLX	:= ./lib/MLX42
+LIBFT	:= ./lib/libft
 
-BOLD_BLACK   := $(shell tput bold; tput setaf 0)
-BOLD_RED     := $(shell tput bold; tput setaf 1)
-BOLD_GREEN   := $(shell tput bold; tput setaf 2)
-BOLD_YELLOW  := $(shell tput bold; tput setaf 3)
-BOLD_BLUE    := $(shell tput bold; tput setaf 4)
-BOLD_MAGENTA := $(shell tput bold; tput setaf 5)
-BOLD_CYAN    := $(shell tput bold; tput setaf 6)
-BOLD_WHITE   := $(shell tput bold; tput setaf 7)
-RESET        := $(shell tput sgr0)
+LIBS	:= $(LIBFT)/libft.a $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
-LIBFT_PATH	= ./Libft
-LIBFT		= $(LIBFT_PATH)/libft.a
+MAP	:= src/map/map_view.c
 
-#MINILIBX_PATH	= ./minilibx-linux
-MINILIBX	= $(MINILIBX_PATH)/libmlx_Linux.a
+PLAYER := src/player/player_view.c \
+			src/player/player_movement.c\
+			src/player/player_rotation.c
 
-SOURCES_FILES	= main.c \
-				./parsing/parsing.c \
-				./parsing/file_validation_utils.c \
-				./parsing/split_file.c \
-				./parsing/print_mapfile.c \
-				./parsing/struct_init.c \
-				./parsing/file_checklist.c \
-				./parsing/map_placement.c \
-				./parsing/elements_placement.c \
-				./parsing/get_and_validate_elements.c \
-				./parsing/get_tex_and_f_c.c \
-				./parsing/find_map.c \
-				./parsing/valid_textures.c \
-				./parsing/valid_f_c.c \
-				./parsing/get_color_val.c \
-				./parsing/check_rgb.c \
-				./parsing/valid_map.c \
-				./parsing/valid_content.c \
-				./parsing/valid_structure.c \
-				./parsing/check_inner_chars.c \
-				./parsing/free_all.c \
-				./parsing/open_and_check_textures.c \
-				./parsing/get_map_info.c \
-				./parsing/map_info_utils.c \
-				./parsing/check_for_anything_else.c
+MLX42_MNG := src/mlx42_management/hooks.c \
+				src/mlx42_management/window_management.c
 
-SOURCES_DIR	= ./source
-INCLUDE		= cub3d.h
+DRAW_UTILS := src/draw_utils/line_algorithym.c
 
-SOURCES		= $(addprefix $(SOURCES_DIR)/, $(SOURCES_FILES))
-OBJECTS		= $(SOURCES:$(SOURCES_DIR)/%.c=$(SOURCES_DIR)/%.o)
+RAYCASTING := src/raycasting/raycasting.c
 
-NAME		= cub3d
+TIME_MNG := src/time_mng/get_time.c
 
-CC		= cc
-RM		= rm -f
+SRCS	= $(VIEWS) $(MLX42_MNG) $(DRAW_UTILS) $(RAYCASTING)\
+			$(MAP) $(PLAYER) $(TIME_MNG)\
+			src/main.c
 
-CFLAGS		=  -g -Wall -Wextra -Werror -I$(SOURCES_DIR)
-MLXFLAGS	= -L. -lXext -L. -lX11 -lm
+OBJ_DIR	:= build/objs
 
-all: $(NAME)
+OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
-$(NAME): $(LIBFT) $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) -o $(NAME)
-	@echo "${BOLD_CYAN}Done!${RESET}"
-	@echo "${BOLD_GREEN}$(NAME) has been compiled successfully!${RESET}"
+all: libft libmlx $(NAME)
 
-#$(NAME): $(LIBFT) $(MINILIBX) $(OBJECTS)
-#	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) $(MINILIBX) $(MLXFLAGS) -o $(NAME)
-#	@echo '$(NAME) compiled successfully!'
+libmlx:
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
-$(LIBFT):
-	$(MAKE) -C $(LIBFT_PATH)
+libft:
+	make -C $(LIBFT)
 
-#$(MINILIBX):
-#	$(MAKE) -C $(MINILIBX_PATH)
+$(OBJS) : $(OBJ_DIR)/%.o : %.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@printf "\033[34mCompiling: \033[0m$<\n"
 
-
-$(SOURCES_DIR)/%.o: $(SOURCES_DIR)/%.c $(INCLUDE)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(OBJS)
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(OBJS) $(LIBS) -o $(NAME)
 
 clean:
-	$(MAKE) -C $(LIBFT_PATH) clean
-#	$(MAKE) -C $(MINILIBX_PATH) clean
-	$(RM) $(OBJECTS)
-	@echo "$(OBJECTS) deleted!${RESET}"
-	@echo "${BOLD_RED}$(NAME) deleted!${RESET}"
-	@echo "${BOLD_CYAN}Done!${RESET}"
+	make clean -C $(LIBFT)
+	@rm -rf $(OBJS)
+	@rm -rf $(LIBMLX)/build
 
 fclean: clean
-	$(MAKE) -C $(LIBFT_PATH) fclean
-	$(RM) $(NAME)
-	@echo "${BOLD_CYAN}Done!${RESET}"
+	make fclean -C $(LIBFT)
+	@rm -rf $(NAME)
 
-re: fclean all
+re: clean all
 
-.PHONY: all clean fclean re
+run: all
+	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3d
+
+valgrind_run: all
+	valgrind -s ./cub3d
+
+.PHONY: all clean fclean re libmlx run valgrind_run
