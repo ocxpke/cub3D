@@ -10,13 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef PARSEO_H
+# define PARSEO_H
 
-# include "../Libft/libft.h"
-# include <stdlib.h>
-# include <stdio.h>
-# include <fcntl.h>
+# include "cub3d.h"
 
 //text colors for visabilily
 //no color
@@ -62,7 +59,7 @@
 # define BHCYN "\e[1;96m"
 # define BHWHT "\e[1;97m"
 
-//High intensty background 
+//High intensty background
 # define BLKHB "\e[0;100m"
 # define REDHB "\e[0;101m"
 # define GRNHB "\e[0;102m"
@@ -72,97 +69,40 @@
 # define CYNHB "\e[0;106m"
 # define WHTHB "\e[0;107m"
 
-typedef struct s_color
-{
-	int		red;
-	int		green;
-	int		blue;
-}		t_color;
-
-typedef struct s_checklist
-{
-	int		no_tex;
-	int		so_tex;
-	int		we_tex;
-	int		ea_tex;
-	int		fl_col;
-	int		cl_col;
-	int		ok;
-}		t_checklist;
-
-typedef struct s_tex_col
-{
-	char	*no_tex;
-	char	*no_tex_path;
-	char	*so_tex;
-	char	*so_tex_path;
-	char	*we_tex;
-	char	*we_tex_path;
-	char	*ea_tex;
-	char	*ea_tex_path;
-	char	*fl_col;
-	t_color	*fl_col_val;
-	char	*cl_col;
-	t_color	*cl_col_val;
-}		t_tex_col;
-
-typedef struct s_map
-{
-	char		**map;
-	int			rows;
-	int			cols;
-	int			pstart_x;
-	int			pstart_y;
-	char		pstart_orientation;
-	t_tex_col	*tex_col_s;
-}		t_map;
-
-typedef struct s_data
-{
-//  void		*mlx_ptr;
-//	void		*win_ptr;
-	t_map		*map_s;
-//	t_player	*player_s;
-	t_checklist	*checklist_s;
-	//t_ray		*ray_s;
-	int			fd;
-	char		**file_cont;
-}		t_data;
-
 //parsing
-int		parsing(int ac, char **av, t_data *game);
+int		parsing(int ac, char **av, t_dpar *game);
 int		check_arg(char	*str);
 char	**get_file(char *av);
 char	**split_file(char *s, char c);
-int		check_empty_file(t_data *game);
-int		check_for_anything_else(t_data *game);
-void	struct_init(t_data *path);
-int		file_checklist(t_data *game);
-int		get_elements(t_data *game);
-int		map_placement(t_data *game);
-void	elements_placement(t_data *game);
+int		check_empty_file(t_dpar *game);
+int		check_for_anything_else(t_dpar *game);
+void	struct_init(t_dpar *path);
+int		file_checklist(t_dpar *game);
+int		get_elements(t_dpar *game);
+int		map_placement(t_dpar *game);
+void	elements_placement(t_dpar *game);
 int		map_char(char c);
-int		validate_and_clean_elements(t_data *game);
-int		get_textures(t_data *game, t_tex_col *tex_col_s);
-int		get_f_c(t_data *game, t_tex_col *tex_col_s);
-int		find_map(t_data *g);
+int		validate_and_clean_elements(t_dpar *game);
+int		get_textures(t_dpar *game, t_tex_col *tex_col_s);
+int		get_f_c(t_dpar *game, t_tex_col *tex_col_s);
+int		find_map(t_dpar *g);
 int		get_map_h(char **map);
 int		check_path_ext(char *line);
-int		valid_textures(t_data *game);
-int		check_textures(t_data *game);
-int		valid_f_c(t_data *game);
-void	get_color_val_fl(t_data *game, char *line);
-void	get_color_val_cl(t_data *game, char *line);
-int		check_rgb(t_data	*game);
-int		valid_map(t_data *game);
-int		valid_map_content(t_data *game);
-int		valid_content(t_data *game);
-int		valid_map_structure(t_data *game);
-int		valid_structure(t_data *game);
+int		valid_textures(t_dpar *game);
+int		check_textures(t_dpar *game);
+int		valid_f_c(t_dpar *game);
+void	get_color_val_fl(t_dpar *game, char *line);
+void	get_color_val_cl(t_dpar *game, char *line);
+int		check_rgb(t_dpar	*game);
+int		valid_map(t_dpar *game);
+int		valid_map_content(t_dpar *game);
+int		valid_content(t_dpar *game);
+int		valid_map_structure(t_dpar *game);
+int		valid_structure(t_dpar *game);
 int		val_inside_c(char c);
-int		check_inner_chars(t_data *game);
-void	open_and_check_textures(t_data *game);
-void	get_map_info(t_data *game);
+int		check_inner_chars(t_dpar *game);
+void	open_and_check_textures(t_dpar *game);
+void	get_map_info(t_dpar *game);
 int		get_player_pos_col(char **map);
 int		get_player_pos_row(char **map);
 char	get_orientation(char **map);
@@ -170,19 +110,19 @@ int		get_cols(char **map);
 int		get_rows(char **map);
 
 //free
-void	free_all(t_data *path);
-void	free_map(t_data *path);
-void	free_file_cont(t_data *path);
-void	free_up_to_cheklist(t_data *path);
-void	free_tex_col_val(t_data *path);
-void	free_tex_col_paths(t_data *path);
+void	free_all(t_dpar *path);
+void	free_map(t_dpar *path);
+void	free_file_cont(t_dpar *path);
+void	free_up_to_cheklist(t_dpar *path);
+void	free_tex_col_val(t_dpar *path);
+void	free_tex_col_paths(t_dpar *path);
 
 //map visualizer
-void	print_mapfile( t_data *game);
-void	print_mapfile_content( t_data *game);
-void	print_mapfile_tex( t_data *game);
-void	print_mapfile_colors( t_data *game);
-void	print_mapfile_map( t_data *g);
-void	print_mapfile_map_info( t_data *game);
+void	print_mapfile( t_dpar *game);
+void	print_mapfile_content( t_dpar *game);
+void	print_mapfile_tex( t_dpar *game);
+void	print_mapfile_colors( t_dpar *game);
+void	print_mapfile_map( t_dpar *g);
+void	print_mapfile_map_info( t_dpar *game);
 
 #endif

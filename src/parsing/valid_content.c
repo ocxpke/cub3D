@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
 int	valid_map_chars(char **map)
 {
@@ -104,7 +104,7 @@ int	no_empty_lines(char **map)
 	return (1);
 }
 
-int	valid_content(t_data *game)
+int	valid_content(t_dpar *game)
 {
 	if (!game->map_s->map)
 		return (0);

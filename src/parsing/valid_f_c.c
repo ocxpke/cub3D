@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
 int	count_values(char *line)
 {
@@ -57,11 +57,9 @@ int	count_comas(char *line)
 
 int	valid_color(char *line)
 {
-	int	comas;
 	int	i;
 	int	val_len;
 
-	comas = 0;
 	i = 2;
 	val_len = 0;
 	if (!line)
@@ -83,7 +81,7 @@ int	valid_color(char *line)
 	return (1);
 }
 
-int	valid_f_c(t_data *game)
+int	valid_f_c(t_dpar *game)
 {
 	int	valid;
 

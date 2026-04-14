@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
 int	valid_rgb(int num)
 {
@@ -20,7 +20,7 @@ int	valid_rgb(int num)
 		return (0);
 }
 
-int	check_rgb(t_data *game)
+int	check_rgb(t_dpar *game)
 {
 	int	valid;
 

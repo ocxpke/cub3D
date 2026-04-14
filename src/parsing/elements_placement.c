@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
 int	element_order_number(char *str)
 {
@@ -45,10 +45,8 @@ int	element_chars(char *str)
 int	element_line_order(char **line, int j)
 {
 	int	i;
-	int	el_order;
 
 	i = 0;
-	el_order = 0;
 	if (!line)
 		return (0);
 	while (line[j])
@@ -65,7 +63,7 @@ int	element_line_order(char **line, int j)
 	return (0);
 }
 
-int	check_elements_placement(t_data *game)
+int	check_elements_placement(t_dpar *game)
 {
 	int	prev_el_order;
 	int	next_el_order;
@@ -93,7 +91,7 @@ int	check_elements_placement(t_data *game)
 	return (1);
 }
 
-void	elements_placement(t_data *game)
+void	elements_placement(t_dpar *game)
 {
 	if (!check_elements_placement(game))
 	{

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
 int	check_exposed_corner(char **map, int j, int i)
 {
@@ -62,7 +62,7 @@ int	check_exposed_char(char **map, int j, int i)
 	return (1);
 }
 
-int	check_inner_chars(t_data *game)
+int	check_inner_chars(t_dpar *game)
 {
 	int	j;
 	int	i;

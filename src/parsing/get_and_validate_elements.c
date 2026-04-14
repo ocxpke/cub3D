@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
-int	get_elements(t_data *game)
+int	get_elements(t_dpar *game)
 {
 	if (!get_textures(game, game->map_s->tex_col_s))
 	{
@@ -32,7 +32,7 @@ int	get_elements(t_data *game)
 	return (1);
 }
 
-int	validate_and_clean_elements(t_data *game)
+int	validate_and_clean_elements(t_dpar *game)
 {
 	if (!valid_textures(game))
 	{

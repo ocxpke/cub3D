@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
-void	free_file_cont(t_data *path)
+void	free_file_cont(t_dpar *path)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ void	free_file_cont(t_data *path)
 	}
 }
 
-void	free_tex_col_val(t_data *path)
+void	free_tex_col_val(t_dpar *path)
 {
 	if (path->map_s->tex_col_s->fl_col_val)
 		free(path->map_s->tex_col_s->fl_col_val);
@@ -36,7 +36,7 @@ void	free_tex_col_val(t_data *path)
 		free(path->map_s->tex_col_s->cl_col_val);
 }
 
-void	free_tex_col_paths(t_data *path)
+void	free_tex_col_paths(t_dpar *path)
 {
 	if (path->map_s->tex_col_s->no_tex)
 		free(path->map_s->tex_col_s->no_tex);
@@ -60,7 +60,7 @@ void	free_tex_col_paths(t_data *path)
 		free(path->map_s->tex_col_s->cl_col);
 }
 
-void	free_up_to_cheklist(t_data *path)
+void	free_up_to_cheklist(t_dpar *path)
 {
 	free_file_cont(path);
 	if (path->checklist_s)
@@ -75,7 +75,7 @@ void	free_up_to_cheklist(t_data *path)
 		free(path->map_s);
 }
 
-void	free_map(t_data *path)
+void	free_map(t_dpar *path)
 {
 	int	i;
 

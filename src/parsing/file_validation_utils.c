@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
 int	check_path_ext2(char *line)
 {
@@ -104,7 +104,7 @@ char	**get_file(char *av)
 	return (map);
 }
 
-int	check_empty_file(t_data *game)
+int	check_empty_file(t_dpar *game)
 {
 	int	i;
 

@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 ///break this stuff down
 
-void	checklist_init(t_data *path)
+void	checklist_init(t_dpar *path)
 {
 	path->checklist_s = malloc(sizeof(t_checklist) * 1);
 	if (!(path->checklist_s))
@@ -27,7 +27,7 @@ void	checklist_init(t_data *path)
 	path->checklist_s->ok = 0;
 }
 
-void	tex_col_val_init(t_data *path)
+void	tex_col_val_init(t_dpar *path)
 {
 	path->map_s->tex_col_s->fl_col_val = malloc(sizeof(t_color) * 1);
 	if (!(path->map_s->tex_col_s->fl_col_val))
@@ -43,7 +43,7 @@ void	tex_col_val_init(t_data *path)
 	path->map_s->tex_col_s->cl_col_val->blue = 0;
 }
 
-void	tex_col_init(t_data *path)
+void	tex_col_init(t_dpar *path)
 {
 	path->map_s->tex_col_s = malloc(sizeof(t_tex_col) * 1);
 	if (!(path->map_s->tex_col_s))
@@ -60,7 +60,7 @@ void	tex_col_init(t_data *path)
 	path->map_s->tex_col_s->cl_col = 0;
 }
 
-void	struct_init(t_data *path)
+void	struct_init(t_dpar *path)
 {
 	path->map_s = malloc(sizeof(t_map) * 1);
 	if (!(path->map_s))

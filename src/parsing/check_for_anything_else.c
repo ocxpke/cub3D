@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
 int	map_chars_2(char c)
 {
@@ -31,7 +31,7 @@ int	element_chars_2(char *str)
 	return (0);
 }
 
-int	check_for_anything_else(t_data *game)
+int	check_for_anything_else(t_dpar *game)
 {
 	int	j;
 

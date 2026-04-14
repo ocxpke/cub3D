@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../include/cub3d.h"
 
 int	get_maplen(char **map)
 {
@@ -49,7 +49,7 @@ int	map_char(char c)
 	return (0);
 }
 
-int	find_map(t_data *g)
+int	find_map(t_dpar *g)
 {
 	int	i;
 	int	j;

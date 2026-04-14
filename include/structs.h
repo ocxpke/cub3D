@@ -3,6 +3,59 @@
 
 # include "cub3d.h"
 
+typedef struct s_color
+{
+	int		red;
+	int		green;
+	int		blue;
+}		t_color;
+
+typedef struct s_checklist
+{
+	int		no_tex;
+	int		so_tex;
+	int		we_tex;
+	int		ea_tex;
+	int		fl_col;
+	int		cl_col;
+	int		ok;
+}		t_checklist;
+
+typedef struct s_tex_col
+{
+	char	*no_tex;
+	char	*no_tex_path;
+	char	*so_tex;
+	char	*so_tex_path;
+	char	*we_tex;
+	char	*we_tex_path;
+	char	*ea_tex;
+	char	*ea_tex_path;
+	char	*fl_col;
+	t_color	*fl_col_val;
+	char	*cl_col;
+	t_color	*cl_col_val;
+}		t_tex_col;
+
+typedef struct s_map
+{
+	char		**map;
+	int			rows;
+	int			cols;
+	int			pstart_x;
+	int			pstart_y;
+	char		pstart_orientation;
+	t_tex_col	*tex_col_s;
+}		t_map;
+
+typedef struct s_dpar
+{
+	t_map		*map_s;
+	t_checklist	*checklist_s;
+	int			fd;
+	char		**file_cont;
+}		t_dpar;
+
 typedef enum e_texture_type
 {
 	COLOR_TEXTURE,
@@ -65,11 +118,12 @@ typedef struct s_game
 	uint16_t col_gross;
 } t_game;
 
-typedef struct s_all
+typedef struct s_all_struct
 {
+	t_dpar *parser_data;
 	t_game *game_wrap;
 	t_player *player_info;
-} t_all;
+} t_all_structs;
 
 typedef struct s_raycast
 {

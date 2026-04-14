@@ -44,14 +44,14 @@ char *MAP_LONG[] = {
  * @param player_info Represents the strcuture that contains all player info needed
  * @return Void
  */
-static void set_init_vals(t_game *game_wrap, t_player *player_info)
+static void set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game_d)
 {
-	game_wrap->map = MAP;
-	game_wrap->map_height = 10;
-	game_wrap->map_width = 16;
+	game_wrap->map = game_d->map_s->map;
+	game_wrap->map_height = game_d->map_s->rows;
+	game_wrap->map_width = game_d->map_s->cols;
 	game_wrap->line_color = 0xFFFFFFFF;
-	player_info->posX = 4.5;
-	player_info->posY = 2.5;
+	player_info->posX = game_d->map_s->pstart_x + 0.5;
+	player_info->posY = game_d->map_s->pstart_y + 0.5;
 	// La logica norte/sur no esta invertida es una falsa sensacion
 	player_info->ang = RAD_90_DEG;
 	player_info->deltaX = cos(player_info->ang) * PLAYER_SPEED;
@@ -77,11 +77,11 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info)
  */
 void re_draw(t_game *game_wrap, t_player *player_info)
 {
-	ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
-	draw_map(game_wrap);
+	//ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
+	//draw_map(game_wrap);
 	player_key_rotation(game_wrap, player_info);
 	player_key_movement(game_wrap, player_info);
-	draw_player(game_wrap, player_info);
+	//draw_player(game_wrap, player_info);
 	draw_rays(game_wrap, player_info);
 }
 
@@ -99,19 +99,20 @@ void exit_mlx42(t_game *game_wrap)
 
 int main(int argc, char **argv)
 {
+	t_dpar game_d;
 	t_game game_wrap;
 	t_player player_info;
-	t_all all;
-	(void)argc;
-	(void)argv;
+	t_all_structs all;
 
-	set_init_vals(&game_wrap, &player_info);
-	manage_mlx42_resources(&game_wrap);
+	if (!parsing(argc, argv, &game_d))
+		printf("A\n");
 
-	// game_wrap.window->delta_time;
+	set_init_vals(&game_wrap, &player_info, &game_d);
+	manage_mlx42_resources(&game_wrap, &game_d);
 
 	all.game_wrap = &game_wrap;
 	all.player_info = &player_info;
+	all.parser_data = &game_d;
 
 	re_draw(&game_wrap, &player_info);
 	mlx_resize_hook(game_wrap.window, resize_hook, &all);
@@ -119,6 +120,8 @@ int main(int argc, char **argv)
 	mlx_loop(game_wrap.window);
 
 	exit_mlx42(&game_wrap);
+	free_map(&game_d);
+	free_up_to_cheklist(&game_d);
 
 	return (EXIT_SUCCESS);
 }
