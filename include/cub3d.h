@@ -35,14 +35,14 @@
 #define FOG 10
 #define FOV 60 // @note check for 360º as light source
 #define HALF_FOV (FOV / 2)
-#define PIX_COL 16
+#define PIX_COL 40
 #define MAP_CUB_SIZE 20
 #define PLAYER_PIX_SIZE (MAP_CUB_SIZE / 2)
 #define MAX_PLAYER_VIEW_DIST (FOG * CUBSIZE)
 #define CEILING_TEXTURE "Paco"
 #define CEILING_NUMBER 1
-#define FLOOR_TEXTURE "Paco"
-#define FLOOR_NUMBER 1
+#define FLOOR_TEXTURE "LavaF"
+#define FLOOR_NUMBER 4
 #define FPS 60
 #define SENSIBILITY 0.75
 #define PLAYER_SPEED 0.2

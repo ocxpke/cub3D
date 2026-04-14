@@ -62,6 +62,7 @@ typedef struct s_game
 	uint32_t init_height;
 	uint32_t line_color;
 	uint16_t pixels_cols;
+	uint16_t col_gross;
 } t_game;
 
 typedef struct s_all
@@ -97,7 +98,6 @@ typedef struct s_raycast
 	float wall_start;
 	int ray_number;
 	int distance_of_field;
-	int col_gross;
 	int map_x;
 	int map_y;
 	int iterGross;

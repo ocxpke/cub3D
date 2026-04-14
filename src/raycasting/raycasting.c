@@ -30,13 +30,12 @@ static inline void check_angle_bounds(float *angle)
 		*angle -= RAD_360_DEG;
 }
 
-static inline void init_raycast_values(t_game *game_wrap, t_player *player_info, t_raycast *raycast)
+static inline void init_raycast_values(t_player *player_info, t_raycast *raycast)
 {
 	raycast->player_posX = player_info->posX * CUBSIZE;
 	raycast->player_posY = player_info->posY * CUBSIZE;
 	raycast->horizontal_dist = 100000;
 	raycast->vertical_dist = 100000;
-	raycast->col_gross = game_wrap->game_view->width / game_wrap->pixels_cols;
 	raycast->ray_ct = 0;
 	raycast->ray_x = 0;
 	raycast->ray_y = 0;
@@ -152,10 +151,11 @@ static inline void draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
 		raycast->wall_len = game_wrap->game_view->height;
 	}
 	raycast->wall_start = (game_wrap->game_view->height - raycast->wall_len) / 2;
-	while (raycast->iterGross < raycast->col_gross)
+	raycast->iterGross = 0;
+	while (raycast->iterGross < game_wrap->col_gross)
 	{
 		raycast->texture_y_hp = raycast->save_tex_y;
-		draw_player_view_line(game_wrap, raycast, (uint32_t)(raycast->ray_ct * raycast->col_gross) + raycast->iterGross);
+		draw_player_view_line(game_wrap, raycast, (uint32_t)(raycast->ray_ct * game_wrap->col_gross) + raycast->iterGross);
 		raycast->iterGross++;
 	}
 }
@@ -177,12 +177,11 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 {
 	t_raycast raycast;
 
-	init_raycast_values(game_wrap, player_info, &raycast);
+	init_raycast_values(player_info, &raycast);
 	raycast.ray_angle = player_info->ang - (ONE_DEGREE * HALF_FOV);
 	check_angle_bounds(&raycast.ray_angle);
 	while (raycast.ray_ct < game_wrap->pixels_cols)
 	{
-		raycast.iterGross = 0;
 		check_horizontal_ray(game_wrap, &raycast);
 		check_vertical_ray(game_wrap, &raycast);
 		check_minor_distance(&raycast);
