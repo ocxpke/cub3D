@@ -1,41 +1,19 @@
 #include "../include/cub3d.h"
 
-char *MAP[] = {
-	"1111111111111111",
-	"1000001000000011",
-	"1000000100000001",
-	"1000000000000011",
-	"1000000100100001",
-	"1000000000010001",
-	"1000000100001001",
-	"1000000000000001",
-	"1000000100000001",
-	"1111111111111111",
-	NULL};
-
-char *MAP_WOLF[] = {
-	"1111111111111111",
-	"1000010000100001",
-	"1010010100101001",
-	"1011000100001001",
-	"1000011111011001",
-	"1110110001010011",
-	"1000000000000001",
-	"1001100001100001",
-	"1010111100010011",
-	"1111111111111111",
-	NULL};
-
-char *MAP_LONG[] = {
-	"111111111111111111111111",
-	"100000000000000000000001",
-	"101111011110111101111001",
-	"100001010000100001001001",
-	"100001010110101101001001",
-	"101111010010100001111001",
-	"100000000000000000000001",
-	"111111111111111111111111",
-	NULL};
+static void set_orientation(t_player *player_info, t_map *map_info)
+{
+	// La logica norte/sur no esta invertida es una falsa sensacion
+	if (map_info->pstart_orientation == 'N')
+		player_info->ang = RAD_90_DEG;
+	else if (map_info->pstart_orientation == 'S')
+		player_info->ang = RAD_270_DEG;
+	else if (map_info->pstart_orientation == 'E')
+		player_info->ang = RAD_180_DEG;
+	else if (map_info->pstart_orientation == 'W')
+		player_info->ang = RAD_360_DEG;
+	else
+		write(STDERR_FILENO, "Error at set_orientation", 24);
+}
 
 /**
  * @brief Initialise every parameter needed
@@ -52,8 +30,7 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game
 	game_wrap->line_color = 0xFFFFFFFF;
 	player_info->posX = game_d->map_s->pstart_x + 0.5;
 	player_info->posY = game_d->map_s->pstart_y + 0.5;
-	// La logica norte/sur no esta invertida es una falsa sensacion
-	player_info->ang = RAD_90_DEG;
+	set_orientation(player_info, game_d->map_s);
 	player_info->deltaX = cos(player_info->ang) * PLAYER_SPEED;
 	player_info->deltaY = sin(player_info->ang) * PLAYER_SPEED;
 	player_info->key_control.w_key = 0;
@@ -77,11 +54,11 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game
  */
 void re_draw(t_game *game_wrap, t_player *player_info)
 {
-	//ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
-	//draw_map(game_wrap);
+	// ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
+	// draw_map(game_wrap);
 	player_key_rotation(game_wrap, player_info);
 	player_key_movement(game_wrap, player_info);
-	//draw_player(game_wrap, player_info);
+	// draw_player(game_wrap, player_info);
 	draw_rays(game_wrap, player_info);
 }
 
@@ -105,7 +82,7 @@ int main(int argc, char **argv)
 	t_all_structs all;
 
 	if (!parsing(argc, argv, &game_d))
-		printf("A\n");
+		printf("Aqui hay algo raro\n");//return (perror("Something went wrong at parsing"), EXIT_FAILURE);
 
 	set_init_vals(&game_wrap, &player_info, &game_d);
 	manage_mlx42_resources(&game_wrap, &game_d);
