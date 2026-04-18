@@ -17,17 +17,13 @@ static inline void player_movement(t_game *game_wrap, t_player *player_info, flo
 		marginY = 0;
 	int nextX = (int)(player_info->posX + move_in_x + marginX);
 	int nextY = (int)(player_info->posY + move_in_y + marginY);
-	printf("[%d, %d] -- [%d, %d]\n", (int)player_info->posY, nextX, nextY, (int)player_info->posX);
-	/**
-	 * @note estandarizar que es X, y que es Y
-	 */
-	if (game_wrap->map[(int)player_info->posY][nextX] == '0')
+	if (game_wrap->map[(int)player_info->posY][nextX] != '1')
 		player_info->posX += move_in_x;
-	if (game_wrap->map[nextY][(int)player_info->posX] == '0')
+	if (game_wrap->map[nextY][(int)player_info->posX] != '1')
 		player_info->posY += move_in_y;
 }
 
-static inline void calculate_palyer_speed(t_player *player_info, float *move_in_x, float *move_in_y, float delta_time)
+static inline void calculate_player_speed(t_player *player_info, float *move_in_x, float *move_in_y, float delta_time)
 {
 	if (player_info->key_control.w_key)
 	{
@@ -69,7 +65,7 @@ void player_key_movement(t_game *game_wrap, t_player *player_info)
 	float delta_time = game_wrap->window->delta_time * FPS * SENSIBILITY;
 	float move_in_x = 0;
 	float move_in_y = 0;
-	calculate_palyer_speed(player_info, &move_in_x, &move_in_y, delta_time);
+	calculate_player_speed(player_info, &move_in_x, &move_in_y, delta_time);
 	normalize_speed(player_info, &move_in_x, &move_in_y, delta_time);
 	player_movement(game_wrap, player_info, move_in_x, move_in_y);
 }

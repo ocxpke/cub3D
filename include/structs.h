@@ -1,60 +1,60 @@
 #ifndef STRUCTS_H
-# define STRUCTS_H
+#define STRUCTS_H
 
 # include "cub3d.h"
 
 typedef struct s_color
 {
-	int		red;
-	int		green;
-	int		blue;
-}		t_color;
+	int red;
+	int green;
+	int blue;
+} t_color;
 
 typedef struct s_checklist
 {
-	int		no_tex;
-	int		so_tex;
-	int		we_tex;
-	int		ea_tex;
-	int		fl_col;
-	int		cl_col;
-	int		ok;
-}		t_checklist;
+	int no_tex;
+	int so_tex;
+	int we_tex;
+	int ea_tex;
+	int fl_col;
+	int cl_col;
+	int ok;
+} t_checklist;
 
 typedef struct s_tex_col
 {
-	char	*no_tex;
-	char	*no_tex_path;
-	char	*so_tex;
-	char	*so_tex_path;
-	char	*we_tex;
-	char	*we_tex_path;
-	char	*ea_tex;
-	char	*ea_tex_path;
-	char	*fl_col;
-	t_color	*fl_col_val;
-	char	*cl_col;
-	t_color	*cl_col_val;
-}		t_tex_col;
+	char *no_tex;
+	char *no_tex_path;
+	char *so_tex;
+	char *so_tex_path;
+	char *we_tex;
+	char *we_tex_path;
+	char *ea_tex;
+	char *ea_tex_path;
+	char *fl_col;
+	t_color *fl_col_val;
+	char *cl_col;
+	t_color *cl_col_val;
+} t_tex_col;
 
 typedef struct s_map
 {
-	char		**map;
-	int			rows;
-	int			cols;
-	int			pstart_x;
-	int			pstart_y;
-	char		pstart_orientation;
-	t_tex_col	*tex_col_s;
-}		t_map;
+	t_tex_col *tex_col_s;
+	char **map;
+	int rows;
+	int cols;
+	int pstart_x;
+	int pstart_y;
+	char pstart_orientation;
+} t_map;
 
 typedef struct s_dpar
 {
-	t_map		*map_s;
-	t_checklist	*checklist_s;
-	int			fd;
-	char		**file_cont;
-}		t_dpar;
+	t_map *map_s;
+	t_checklist *checklist_s;
+	char **file_cont;
+	int fd;
+} t_dpar;
 
 typedef enum e_texture_type
 {
@@ -113,7 +113,6 @@ typedef struct s_game
 	int map_height;
 	uint32_t init_width;
 	uint32_t init_height;
-	uint32_t line_color;
 	uint16_t pixels_cols;
 	uint16_t col_gross;
 } t_game;
@@ -127,6 +126,7 @@ typedef struct s_all_struct
 
 typedef struct s_raycast
 {
+	float player_angle;
 	float player_posX;
 	float player_posY;
 	float minor_distance;
@@ -150,6 +150,15 @@ typedef struct s_raycast
 	float corrected_angle;
 	float wall_len;
 	float wall_start;
+	/**
+	 * @note ver mejo
+	 */
+	float floor_dy;
+	float floor_ray_angle_to_rad;
+	float floor_ray_angle_fix;
+	float floor_tex_x;
+	float floor_tex_y;
+	float floor_ang;
 	int ray_number;
 	int distance_of_field;
 	int map_x;

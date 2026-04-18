@@ -81,6 +81,7 @@ static inline mlx_texture_t *get_wall_texture(t_game *game, t_raycast *rc)
 
 void draw_player_view_line(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc)
 {
+	uint32_t color_text;
 	uint32_t y0_trunc = (uint32_t)rc->wall_start;
 	uint32_t y1_trunc = (uint32_t)rc->wall_start + rc->wall_len;
 	uint16_t wall_hit_x = (uint16_t)(CUBSIZE * rc->texture_x_hp);
@@ -90,14 +91,26 @@ void draw_player_view_line(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc)
 	{
 		if ((i >= y0_trunc) && (i <= y1_trunc))
 		{
-			uint32_t color_text = get_color_from_texture(get_wall_texture(game_wrap, rc),
+			color_text = get_color_from_texture(get_wall_texture(game_wrap, rc),
 														 wall_hit_x, (uint16_t)rc->texture_y_hp, rc->minor_distance);
 			mlx_put_pixel(game_wrap->game_view, x_trunc, i, color_text);
 			rc->texture_y_hp += rc->texture_steps;
 		}
 		else if (i < y0_trunc)
-			mlx_put_pixel(game_wrap->game_view, x_trunc, i, 0x4682B4FF);
+			mlx_put_pixel(game_wrap->game_view, x_trunc, i, game_wrap->ceiling_tex.color);
 		else
-			mlx_put_pixel(game_wrap->game_view, x_trunc, i, 0x228B22FF);
+		{
+			//mlx_put_pixel(game_wrap->game_view, x_trunc, i, game_wrap->floor_tex.color);
+			rc->floor_ang = rc->player_angle - rc->ray_angle;
+			rc->floor_dy = i - (game_wrap->game_view->height / 2);
+			rc->floor_ray_angle_to_rad = rc->ray_angle*ONE_DEGREE;
+			check_angle_bounds(&(rc->floor_ang));
+			rc->floor_ray_angle_fix = rc->floor_ang * ONE_DEGREE;
+			rc->floor_tex_x = rc->player_posX/2 + cos(rc->floor_ray_angle_to_rad) * 158 * CUBSIZE /rc->floor_dy/rc->floor_ray_angle_fix;
+			rc->floor_tex_y = rc->player_posY/2 - sin(rc->floor_ray_angle_to_rad) * 158 * CUBSIZE /rc->floor_dy/rc->floor_ray_angle_fix;
+			color_text = get_color_from_texture(get_wall_texture(game_wrap, rc),
+														 (uint16_t)rc->floor_tex_x, (uint16_t)rc->floor_tex_y, 0);
+			mlx_put_pixel(game_wrap->game_view, x_trunc, i, color_text);
+		}
 	}
 }

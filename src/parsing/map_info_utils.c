@@ -17,8 +17,11 @@ void	get_map_info(t_dpar *game)
 	game->map_s->rows = get_rows(game->map_s->map);
 	game->map_s->cols = get_cols(game->map_s->map);
 	game->map_s->pstart_orientation = get_orientation(game->map_s->map);
-	game->map_s->pstart_x = get_player_pos_row(game->map_s->map);
-	game->map_s->pstart_y = get_player_pos_col(game->map_s->map);
+	/**
+	 * @note Avisar que he cambiado esto
+	 */
+	game->map_s->pstart_x = get_player_pos_col(game->map_s->map);
+	game->map_s->pstart_y = get_player_pos_row(game->map_s->map);
 }
 
 void	print_mapfile( t_dpar *game)

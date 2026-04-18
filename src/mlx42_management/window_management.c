@@ -64,6 +64,28 @@ static int load_map_textures(t_wall_textures *wall_tex, t_dpar *game_d)
 	return (0);
 }
 
+// static void check_ceiling_texture(t_ceil_floor_tex *ceil_floor_tex, int mode)
+// {
+// 	char *color_prefix;
+// 	if (ceil_floor_tex->color == COLOR_SWAP)
+// 		return;
+// 	if (mode)
+// 		color_prefix = ft_calloc(1, ft_strlen(FLOOR_TEXTURE) + 1 + 1);
+// 	else
+// 		color_prefix = ft_calloc(1, ft_strlen(CEILING_TEXTURE) + 1 + 1);
+// 	//seguir
+// }
+
+static void set_ceil_floor_texture(t_game *game_wrap, t_tex_col *colors_info)
+{
+	game_wrap->ceiling_tex.type = COLOR_TEXTURE;
+	game_wrap->ceiling_tex.color = get_color_from_struct(colors_info->cl_col_val, 0xFF);
+	//check_ceiling_texture(&(game_wrap->ceiling_tex), 0);
+	game_wrap->floor_tex.type = COLOR_TEXTURE;
+	game_wrap->floor_tex.color = get_color_from_struct(colors_info->fl_col_val, 0xFF);
+	//check_ceiling_texture(&(game_wrap->floor_tex), 1);
+}
+
 int manage_mlx42_resources(t_game *game_wrap, t_dpar *game_d)
 {
 	if (create_window(game_wrap))
@@ -81,5 +103,6 @@ int manage_mlx42_resources(t_game *game_wrap, t_dpar *game_d)
 	if (game_wrap->col_gross < 1)
 		game_wrap->col_gross = 1;
 	game_wrap->pixels_cols = game_wrap->game_view->width / game_wrap->col_gross;
+	set_ceil_floor_texture(game_wrap, game_d->map_s->tex_col_s);
 	return (0);
 }

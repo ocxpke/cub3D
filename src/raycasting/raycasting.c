@@ -22,7 +22,7 @@ static inline float dist(float x0, float y0, float x1, float y1)
  *
  * @return Void
  */
-static inline void check_angle_bounds(float *angle)
+inline void check_angle_bounds(float *angle)
 {
 	if (*angle < 0)
 		*angle += RAD_360_DEG;
@@ -32,6 +32,7 @@ static inline void check_angle_bounds(float *angle)
 
 static inline void init_raycast_values(t_player *player_info, t_raycast *raycast)
 {
+	raycast->player_angle = player_info->ang;
 	raycast->player_posX = player_info->posX * CUBSIZE;
 	raycast->player_posY = player_info->posY * CUBSIZE;
 	raycast->horizontal_dist = 100000;

@@ -1,5 +1,45 @@
 #include "../include/cub3d.h"
 
+/**
+ * @brief We take the color values from
+ *
+ * @param color Struct cotaining the Red, Green, and Blue values
+ * @param alpha The corresponding alpha value, for opacity
+ *
+ * @return The color in the corresponding uint32_t
+ */
+inline void set_color_from_var(t_color *color, uint32_t color_setted)
+{
+	color->red = (color_setted >> 24) & 0xFF;
+	color->green = (color_setted >> 16) & 0xFF;
+	color->blue = (color_setted >> 8) & 0xFF;
+	//color->alpha = color_setted & 0xFF;
+}
+
+/**
+ * @brief We take the color from the struct and set an uint32_t value that we can use later
+ *
+ * @param color Struct cotaining the Red, Green, and Blue values
+ * @param alpha The corresponding alpha value, for opacity
+ *
+ * @return The color in the corresponding uint32_t
+ */
+inline uint32_t get_color_from_struct(t_color *color, uint8_t alpha)
+{
+	uint32_t ret_color;
+
+	ret_color = (((uint32_t)color->red << 24) | ((uint32_t)color->green << 16) | ((uint32_t)color->blue << 8) | ((uint32_t)alpha));
+	return (ret_color);
+}
+
+/**
+ * @brief We set player orientation into the corresponding radians
+ *
+ * @param player_info Struct containing all player info needed
+ * @param map_info Struct containing all map info needed
+ *
+ * @return Void
+ */
 static void set_orientation(t_player *player_info, t_map *map_info)
 {
 	// La logica norte/sur no esta invertida es una falsa sensacion
@@ -27,9 +67,8 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game
 	game_wrap->map = game_d->map_s->map;
 	game_wrap->map_height = game_d->map_s->rows;
 	game_wrap->map_width = game_d->map_s->cols;
-	game_wrap->line_color = 0xFFFFFFFF;
-	player_info->posX = game_d->map_s->pstart_x + 0.5;
-	player_info->posY = game_d->map_s->pstart_y + 0.5;
+	player_info->posX = game_d->map_s->pstart_x + HALF_POS;
+	player_info->posY = game_d->map_s->pstart_y + HALF_POS;
 	set_orientation(player_info, game_d->map_s);
 	player_info->deltaX = cos(player_info->ang) * PLAYER_SPEED;
 	player_info->deltaY = sin(player_info->ang) * PLAYER_SPEED;
@@ -54,11 +93,11 @@ static void set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game
  */
 void re_draw(t_game *game_wrap, t_player *player_info)
 {
-	// ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
-	// draw_map(game_wrap);
+	ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
+	draw_map(game_wrap);
 	player_key_rotation(game_wrap, player_info);
 	player_key_movement(game_wrap, player_info);
-	// draw_player(game_wrap, player_info);
+	draw_player(game_wrap, player_info);
 	draw_rays(game_wrap, player_info);
 }
 
@@ -71,7 +110,7 @@ void exit_mlx42(t_game *game_wrap)
 	 * @note frames need to be cleaned
 	 */
 	mlx_terminate(game_wrap->window);
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 int main(int argc, char **argv)
@@ -82,7 +121,7 @@ int main(int argc, char **argv)
 	t_all_structs all;
 
 	if (!parsing(argc, argv, &game_d))
-		printf("Aqui hay algo raro\n");//return (perror("Something went wrong at parsing"), EXIT_FAILURE);
+		printf("Aqui hay algo raro\n"); // return (perror("Something went wrong at parsing"), EXIT_FAILURE);
 
 	set_init_vals(&game_wrap, &player_info, &game_d);
 	manage_mlx42_resources(&game_wrap, &game_d);
