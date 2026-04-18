@@ -13,12 +13,12 @@ void draw_player(t_game *game_wrap, t_player *player_info)
 	int x = player_info->posX * MAP_CUB_SIZE;
 	int y = player_info->posY * MAP_CUB_SIZE;
 
-	for (int i = 0; i < PLAYER_PIX_SIZE; i++)
+	for (int i = 0; i < PLAYER_MAP_SIZE; i++)
 	{
-		for (int j = 0; j < PLAYER_PIX_SIZE; j++)
+		for (int j = 0; j < PLAYER_MAP_SIZE; j++)
 		{
-			int draw_x = x - (PLAYER_PIX_SIZE / 2) + j;
-			int draw_y = y - (PLAYER_PIX_SIZE / 2) + i;
+			int draw_x = x - (PLAYER_MAP_SIZE / 2) + j;
+			int draw_y = y - (PLAYER_MAP_SIZE / 2) + i;
 			if (draw_x >= 0 && draw_x < (int)game_wrap->map_view->width &&
 				draw_y >= 0 && draw_y < (int)game_wrap->map_view->height)
 				mlx_put_pixel(game_wrap->map_view, draw_x, draw_y, 0xFF0000FF);

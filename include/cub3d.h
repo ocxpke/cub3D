@@ -39,8 +39,9 @@
 #define HALF_FOV (FOV / 2)
 #define PIX_COL 40
 #define MAP_CUB_SIZE 20
-#define PLAYER_PIX_SIZE (MAP_CUB_SIZE / 2)
+#define PLAYER_MAP_SIZE (MAP_CUB_SIZE / 2)
 #define MAX_PLAYER_VIEW_DIST (FOG * CUBSIZE)
+#define COLOR_SWAP 0xFFFFFFFF
 #define CEILING_TEXTURE "Paco"
 #define CEILING_NUMBER 1
 #define FLOOR_TEXTURE "LavaF"
@@ -48,8 +49,11 @@
 #define FPS 60
 #define SENSIBILITY 0.75
 #define PLAYER_SPEED 0.2
+#define HALF_POS 0.5
 
 void re_draw(t_game *game_wrap, t_player *player_info);
+void set_color_from_var(t_color *color, uint32_t color_setted);
 void exit_mlx42(t_game *game_wrap);
+uint32_t get_color_from_struct(t_color *color, uint8_t alpha);
 
 #endif
