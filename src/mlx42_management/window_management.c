@@ -49,7 +49,7 @@ static int create_window(t_game *game_wrap)
 static int load_map_textures(t_wall_textures *wall_tex, t_dpar *game_d)
 {
 	wall_tex->type = IMAGE_TEXTURE;
-	wall_tex->north_tex = mlx_load_png(game_d->map_s->tex_col_s->no_tex_path);
+	wall_tex->north_tex = mlx_load_png("./src/imgs/raccoonPIX.png");
 	if (!wall_tex->north_tex)
 		return (perror("Error opening north map texture"), 1);
 	wall_tex->south_tex = mlx_load_png(game_d->map_s->tex_col_s->so_tex_path);
