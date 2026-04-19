@@ -1,7 +1,7 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
-# include "cub3d.h"
+#include "cub3d.h"
 
 typedef struct s_color
 {
@@ -124,11 +124,26 @@ typedef struct s_all_struct
 	t_player *player_info;
 } t_all_structs;
 
+typedef struct s_raycast_ceil_fl
+{
+	float ceil_fl_dy;
+	float ceil_fl_ang;
+	float ceil_fl_straight_dist;
+	float ceil_fl_true_dist;
+	float ceil_fl_world_x;
+	float ceil_fl_world_y;
+	uint16_t ceil_fl_tex_x;
+	uint16_t ceil_fl_tex_y;
+} t_raycast_ceil_fl;
+
 typedef struct s_raycast
 {
+	t_raycast_ceil_fl ceil_fl_vars;
 	float player_angle;
-	float player_posX;
-	float player_posY;
+	float player_posX_cube;
+	float player_posY_cube;
+	float player_posX_map;
+	float player_posY_map;
 	float minor_distance;
 	float arc_tan;
 	float neg_tan;
@@ -150,15 +165,6 @@ typedef struct s_raycast
 	float corrected_angle;
 	float wall_len;
 	float wall_start;
-	/**
-	 * @note ver mejo
-	 */
-	float floor_dy;
-	float floor_ray_angle_to_rad;
-	float floor_ray_angle_fix;
-	float floor_tex_x;
-	float floor_tex_y;
-	float floor_ang;
 	int ray_number;
 	int distance_of_field;
 	int map_x;

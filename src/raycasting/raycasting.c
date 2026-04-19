@@ -33,8 +33,10 @@ inline void check_angle_bounds(float *angle)
 static inline void init_raycast_values(t_player *player_info, t_raycast *raycast)
 {
 	raycast->player_angle = player_info->ang;
-	raycast->player_posX = player_info->posX * CUBSIZE;
-	raycast->player_posY = player_info->posY * CUBSIZE;
+	raycast->player_posX_cube = player_info->posX * CUBSIZE;
+	raycast->player_posY_cube = player_info->posY * CUBSIZE;
+	raycast->player_posX_map = player_info->posX;
+	raycast->player_posY_map = player_info->posY;
 	raycast->horizontal_dist = 100000;
 	raycast->vertical_dist = 100000;
 	raycast->ray_ct = 0;
@@ -69,20 +71,20 @@ static inline void check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 	rc->arc_tan = -1 / tan(rc->ray_angle);
 	if (rc->ray_angle > PI)
 	{
-		rc->ray_y = (((int)rc->player_posY >> BIT_SHIFT) << BIT_SHIFT) - 0.0001;
-		rc->ray_x = (rc->player_posY - rc->ray_y) * rc->arc_tan + rc->player_posX;
+		rc->ray_y = (((int)rc->player_posY_cube >> BIT_SHIFT) << BIT_SHIFT) - 0.0001;
+		rc->ray_x = (rc->player_posY_cube - rc->ray_y) * rc->arc_tan + rc->player_posX_cube;
 		rc->ray_y_offset = -CUBSIZE;
 		rc->ray_x_offset = -rc->ray_y_offset * rc->arc_tan;
 	}
 	if (rc->ray_angle < PI)
 	{
-		rc->ray_y = (((int)rc->player_posY >> BIT_SHIFT) << BIT_SHIFT) + CUBSIZE;
-		rc->ray_x = (rc->player_posY - rc->ray_y) * rc->arc_tan + rc->player_posX;
+		rc->ray_y = (((int)rc->player_posY_cube >> BIT_SHIFT) << BIT_SHIFT) + CUBSIZE;
+		rc->ray_x = (rc->player_posY_cube - rc->ray_y) * rc->arc_tan + rc->player_posX_cube;
 		rc->ray_y_offset = CUBSIZE;
 		rc->ray_x_offset = -rc->ray_y_offset * rc->arc_tan;
 	}
 	check_distance_of_field(game_wrap, rc);
-	rc->horizontal_dist = dist(rc->player_posX, rc->player_posY, rc->ray_x, rc->ray_y);
+	rc->horizontal_dist = dist(rc->player_posX_cube, rc->player_posY_cube, rc->ray_x, rc->ray_y);
 	rc->horizontal_x = rc->ray_x;
 	rc->horizontal_y = rc->ray_y;
 }
@@ -95,20 +97,20 @@ static inline void check_vertical_ray(t_game *game_wrap, t_raycast *rc)
 	rc->neg_tan = -1 * tan(rc->ray_angle);
 	if (rc->ray_angle > RAD_90_DEG && rc->ray_angle < RAD_270_DEG)
 	{
-		rc->ray_x = (((int)rc->player_posX >> BIT_SHIFT) << BIT_SHIFT) - 0.0001;
-		rc->ray_y = (rc->player_posX - rc->ray_x) * rc->neg_tan + rc->player_posY;
+		rc->ray_x = (((int)rc->player_posX_cube >> BIT_SHIFT) << BIT_SHIFT) - 0.0001;
+		rc->ray_y = (rc->player_posX_cube - rc->ray_x) * rc->neg_tan + rc->player_posY_cube;
 		rc->ray_x_offset = -CUBSIZE;
 		rc->ray_y_offset = -rc->ray_x_offset * rc->neg_tan;
 	}
 	if (rc->ray_angle < RAD_90_DEG || rc->ray_angle > RAD_270_DEG)
 	{
-		rc->ray_x = (((int)rc->player_posX >> BIT_SHIFT) << BIT_SHIFT) + CUBSIZE;
-		rc->ray_y = (rc->player_posX - rc->ray_x) * rc->neg_tan + rc->player_posY;
+		rc->ray_x = (((int)rc->player_posX_cube >> BIT_SHIFT) << BIT_SHIFT) + CUBSIZE;
+		rc->ray_y = (rc->player_posX_cube - rc->ray_x) * rc->neg_tan + rc->player_posY_cube;
 		rc->ray_x_offset = CUBSIZE;
 		rc->ray_y_offset = -rc->ray_x_offset * rc->neg_tan;
 	}
 	check_distance_of_field(game_wrap, rc);
-	rc->vertical_dist = dist(rc->player_posX, rc->player_posY, rc->ray_x, rc->ray_y);
+	rc->vertical_dist = dist(rc->player_posX_cube, rc->player_posY_cube, rc->ray_x, rc->ray_y);
 	rc->vertical_x = rc->ray_x;
 	rc->vertical_y = rc->ray_y;
 }

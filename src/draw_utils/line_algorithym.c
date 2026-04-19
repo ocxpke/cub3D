@@ -6,7 +6,7 @@
 // arreglar esta mierda
 void draw_line_simple(t_game *game, float p0[2], float p1[2], uint32_t color)
 {
-	float dx = p1[0] - p0[0];//x1 - x0;
+	float dx = p1[0] - p0[0]; // x1 - x0;
 	float dy = p1[1] - p0[1];
 
 	float steps = fabs(dx) > fabs(dy) ? fabs(dx) : fabs(dy);
@@ -79,6 +79,42 @@ static inline mlx_texture_t *get_wall_texture(t_game *game, t_raycast *rc)
 	}
 }
 
+void draw_ceil_floor(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc, int pixel, int mode)
+{
+	t_raycast_ceil_fl *rc_fl_cl;
+	uint32_t color_text;
+
+	rc_fl_cl = &(rc->ceil_fl_vars);
+	if (mode)
+		rc_fl_cl->ceil_fl_dy = (game_wrap->game_view->height / 2.0f) - pixel;
+	else
+		rc_fl_cl->ceil_fl_dy = pixel - (game_wrap->game_view->height / 2.0f);
+	if (rc_fl_cl->ceil_fl_dy <= 0.0f)
+		rc_fl_cl->ceil_fl_dy = 1.0f;
+
+	// Arreglamos el fisheye obteniendo el angulo a dibujar del suelo
+	rc_fl_cl->ceil_fl_ang = rc->player_angle - rc->ray_angle;
+	check_angle_bounds(&(rc_fl_cl->ceil_fl_ang));
+
+	// Obtenemos la distancia total del jugador al pixel a representar y arreglamos de esa distacia el ojo de pez
+	rc_fl_cl->ceil_fl_straight_dist = (game_wrap->game_view->height / 2.0f) / rc_fl_cl->ceil_fl_dy;
+	rc_fl_cl->ceil_fl_true_dist = rc_fl_cl->ceil_fl_straight_dist / cos(rc_fl_cl->ceil_fl_ang);
+
+	// Obtenemos la posicion del pixel del suelo a dibujar en el mapa (el suelo hace de mapa en si mismo)
+	rc_fl_cl->ceil_fl_world_x = rc->player_posX_map + (cos(rc->ray_angle) * rc_fl_cl->ceil_fl_true_dist);
+	// Se pone un mas por que el eje Y avanza hacia abajo
+	rc_fl_cl->ceil_fl_world_y = rc->player_posY_map + (sin(rc->ray_angle) * rc_fl_cl->ceil_fl_true_dist);
+
+	// Transoformamos los valores del mapa de suelo a valores para poder obtener los x, y de las texturas
+	rc_fl_cl->ceil_fl_tex_x = (uint16_t)(rc_fl_cl->ceil_fl_world_x * CUBSIZE) % CUBSIZE;
+	rc_fl_cl->ceil_fl_tex_y = (uint16_t)(rc_fl_cl->ceil_fl_world_y * CUBSIZE) % CUBSIZE;
+
+	// Dibujamos la textura
+	color_text = get_color_from_texture(game_wrap->wall_text.north_tex,
+										rc_fl_cl->ceil_fl_tex_x, rc_fl_cl->ceil_fl_tex_y, 0);
+	mlx_put_pixel(game_wrap->game_view, x_trunc, pixel, color_text);
+}
+
 void draw_player_view_line(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc)
 {
 	uint32_t color_text;
@@ -92,25 +128,13 @@ void draw_player_view_line(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc)
 		if ((i >= y0_trunc) && (i <= y1_trunc))
 		{
 			color_text = get_color_from_texture(get_wall_texture(game_wrap, rc),
-														 wall_hit_x, (uint16_t)rc->texture_y_hp, rc->minor_distance);
+												wall_hit_x, (uint16_t)rc->texture_y_hp, rc->minor_distance);
 			mlx_put_pixel(game_wrap->game_view, x_trunc, i, color_text);
 			rc->texture_y_hp += rc->texture_steps;
 		}
 		else if (i < y0_trunc)
-			mlx_put_pixel(game_wrap->game_view, x_trunc, i, game_wrap->ceiling_tex.color);
+			draw_ceil_floor(game_wrap, rc, x_trunc, i, 1);
 		else
-		{
-			//mlx_put_pixel(game_wrap->game_view, x_trunc, i, game_wrap->floor_tex.color);
-			rc->floor_ang = rc->player_angle - rc->ray_angle;
-			rc->floor_dy = i - (game_wrap->game_view->height / 2);
-			rc->floor_ray_angle_to_rad = rc->ray_angle*ONE_DEGREE;
-			check_angle_bounds(&(rc->floor_ang));
-			rc->floor_ray_angle_fix = rc->floor_ang * ONE_DEGREE;
-			rc->floor_tex_x = rc->player_posX/2 + cos(rc->floor_ray_angle_to_rad) * 158 * CUBSIZE /rc->floor_dy/rc->floor_ray_angle_fix;
-			rc->floor_tex_y = rc->player_posY/2 - sin(rc->floor_ray_angle_to_rad) * 158 * CUBSIZE /rc->floor_dy/rc->floor_ray_angle_fix;
-			color_text = get_color_from_texture(get_wall_texture(game_wrap, rc),
-														 (uint16_t)rc->floor_tex_x, (uint16_t)rc->floor_tex_y, 0);
-			mlx_put_pixel(game_wrap->game_view, x_trunc, i, color_text);
-		}
+			draw_ceil_floor(game_wrap, rc, x_trunc, i, 0);
 	}
 }
