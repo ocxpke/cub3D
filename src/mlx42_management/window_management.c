@@ -49,7 +49,7 @@ static int create_window(t_game *game_wrap)
 static int load_map_textures(t_wall_textures *wall_tex, t_dpar *game_d)
 {
 	wall_tex->type = IMAGE_TEXTURE;
-	wall_tex->north_tex = mlx_load_png("./src/imgs/raccoonPIX.png");
+	wall_tex->north_tex = mlx_load_png(game_d->map_s->tex_col_s->no_tex_path);
 	if (!wall_tex->north_tex)
 		return (perror("Error opening north map texture"), 1);
 	wall_tex->south_tex = mlx_load_png(game_d->map_s->tex_col_s->so_tex_path);
@@ -104,5 +104,7 @@ int manage_mlx42_resources(t_game *game_wrap, t_dpar *game_d)
 		game_wrap->col_gross = 1;
 	game_wrap->pixels_cols = game_wrap->game_view->width / game_wrap->col_gross;
 	set_ceil_floor_texture(game_wrap, game_d->map_s->tex_col_s);
+	//ASI OCULTAMOS EL RATON
+	mlx_set_cursor_mode(game_wrap->window, MLX_MOUSE_HIDDEN);
 	return (0);
 }

@@ -13,7 +13,7 @@ inline void set_color_from_var(t_color *color, uint32_t color_setted)
 	color->red = (color_setted >> 24) & 0xFF;
 	color->green = (color_setted >> 16) & 0xFF;
 	color->blue = (color_setted >> 8) & 0xFF;
-	//color->alpha = color_setted & 0xFF;
+	// color->alpha = color_setted & 0xFF;
 }
 
 /**
@@ -113,6 +113,25 @@ void exit_mlx42(t_game *game_wrap)
 	exit(EXIT_SUCCESS);
 }
 
+void mouse_movement_hook(double xpos, double ypos, void *param)
+{
+	t_all_structs *all_st;
+
+	all_st = (t_all_structs *)param;
+	(void)ypos;
+	float centerx = all_st->game_wrap->game_view->width / 2;
+	float centery = all_st->game_wrap->game_view->height / 2;
+	float deltax = xpos - centerx;
+	// int32_t deltay = ypos - centery;
+	float delta_time = all_st->game_wrap->window->delta_time * FPS * MOUSE_SENSIBILITY;
+	if (deltax > 0)
+		rotate_player_right(all_st->player_info, delta_time * deltax);
+	else if (deltax < 0)
+		rotate_player_left(all_st->player_info, delta_time * (deltax * -1));
+
+	mlx_set_mouse_pos(all_st->game_wrap->window, (int32_t)centerx, (int32_t)centery);
+}
+
 int main(int argc, char **argv)
 {
 	t_dpar game_d;
@@ -132,6 +151,7 @@ int main(int argc, char **argv)
 
 	re_draw(&game_wrap, &player_info);
 	mlx_resize_hook(game_wrap.window, resize_hook, &all);
+	mlx_cursor_hook(game_wrap.window, mouse_movement_hook, &all);
 	mlx_loop_hook(game_wrap.window, key_hook, &all);
 	mlx_loop(game_wrap.window);
 
