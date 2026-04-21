@@ -92,18 +92,14 @@ void draw_ceil_floor(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc, int pix
 	if (rc_fl_cl->ceil_fl_dy <= 0.0f)
 		rc_fl_cl->ceil_fl_dy = 1.0f;
 
-	// Arreglamos el fisheye obteniendo el angulo a dibujar del suelo
-	rc_fl_cl->ceil_fl_ang = rc->player_angle - rc->ray_angle;
-	check_angle_bounds(&(rc_fl_cl->ceil_fl_ang));
-
 	// Obtenemos la distancia total del jugador al pixel a representar y arreglamos de esa distacia el ojo de pez
 	rc_fl_cl->ceil_fl_straight_dist = (game_wrap->game_view->height / 2.0f) / rc_fl_cl->ceil_fl_dy;
-	rc_fl_cl->ceil_fl_true_dist = rc_fl_cl->ceil_fl_straight_dist / cos(rc_fl_cl->ceil_fl_ang);
+	rc_fl_cl->ceil_fl_true_dist = rc_fl_cl->ceil_fl_straight_dist / rc_fl_cl->cos_corrected;
 
 	// Obtenemos la posicion del pixel del suelo a dibujar en el mapa (el suelo hace de mapa en si mismo)
-	rc_fl_cl->ceil_fl_world_x = rc->player_posX_map + (cos(rc->ray_angle) * rc_fl_cl->ceil_fl_true_dist);
+	rc_fl_cl->ceil_fl_world_x = rc->player_posX_map + (rc_fl_cl->cos_ray * rc_fl_cl->ceil_fl_true_dist);
 	// Se pone un mas por que el eje Y avanza hacia abajo
-	rc_fl_cl->ceil_fl_world_y = rc->player_posY_map + (sin(rc->ray_angle) * rc_fl_cl->ceil_fl_true_dist);
+	rc_fl_cl->ceil_fl_world_y = rc->player_posY_map + (rc_fl_cl->sin_ray * rc_fl_cl->ceil_fl_true_dist);
 
 	// Transoformamos los valores del mapa de suelo a valores para poder obtener los x, y de las texturas
 	rc_fl_cl->ceil_fl_tex_x = (uint16_t)(rc_fl_cl->ceil_fl_world_x * CUBSIZE) % CUBSIZE;
@@ -123,6 +119,14 @@ void draw_player_view_line(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc)
 	uint16_t wall_hit_x = (uint16_t)(CUBSIZE * rc->texture_x_hp);
 	if (rc->ns_ew == -1)
 		wall_hit_x = CUBSIZE - 1 - wall_hit_x;
+	// incializamos valores del dibujado suelo/techo
+	// Arreglamos el fisheye obteniendo el angulo a dibujar del suelo
+	rc->ceil_fl_vars.ceil_fl_ang = rc->player_angle - rc->ray_angle;
+	check_angle_bounds(&(rc->ceil_fl_vars.ceil_fl_ang));
+	rc->ceil_fl_vars.cos_corrected = cos(rc->ceil_fl_vars.ceil_fl_ang);
+	rc->ceil_fl_vars.cos_ray = cos(rc->ray_angle);
+	rc->ceil_fl_vars.sin_ray = sin(rc->ray_angle);
+	///
 	for (uint32_t i = 0; i < game_wrap->game_view->height; i++)
 	{
 		if ((i >= y0_trunc) && (i <= y1_trunc))

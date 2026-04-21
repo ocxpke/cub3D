@@ -47,9 +47,10 @@
 #define FLOOR_TEXTURE "LavaF"
 #define FLOOR_NUMBER 4
 #define FPS 60
-#define SENSIBILITY 0.75
+#define SENSIBILITY 0.5
 #define PLAYER_SPEED 0.2
 #define HALF_POS 0.5
+#define MOUSE_SENSIBILITY 0.01
 
 void re_draw(t_game *game_wrap, t_player *player_info);
 void set_color_from_var(t_color *color, uint32_t color_setted);

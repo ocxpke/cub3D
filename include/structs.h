@@ -126,6 +126,9 @@ typedef struct s_all_struct
 
 typedef struct s_raycast_ceil_fl
 {
+	float cos_corrected;
+	float cos_ray;
+	float sin_ray;
 	float ceil_fl_dy;
 	float ceil_fl_ang;
 	float ceil_fl_straight_dist;
