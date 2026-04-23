@@ -6,7 +6,7 @@
 /*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:23:12 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/14 16:49:05 by romorale         ###   ########.fr       */
+/*   Updated: 2026/04/21 20:38:29 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,35 +29,31 @@ void	print_mapfile_map_info( t_dpar *game)
 	printf(H_B"Player orientation: \t\t");
 	printf(MAG"["H_C"%c"MAG"]\n", game->map_s->pstart_orientation);
 	printf(MAG"---------------------------------------------------\n");
+	printf(H_B"Key count(K): \t\t\t");
+	printf(MAG"["H_C"%d"MAG"]\n", game->map_s->key_count);
+	printf(MAG"---------------------------------------------------\n");
+	printf(H_B"Door count(P): \t\t\t");
+	printf(MAG"["H_C"%d"MAG"]\n", game->map_s->door_count);
+	printf(MAG"---------------------------------------------------\n");
 }
 
-void	print_mapfile_map( t_dpar *g)
+void	print_mapfile_map2(char c)
 {
-	int	i;
-	int	j;
-
-	i = -1;
-	j = -1;
-	while (g->map_s->map[++j])
-	{
-		i = -1;
-		printf(H_B"Row   "MAG"["H_B"%d"MAG"]\t[", j);
-		while (g->map_s->map[j][++i])
-		{
-			if (g->map_s->map[j][i] == '1')
-				printf(BHCYN"%c"RES, g->map_s->map[j][i]);
-			else if (g->map_s->map[j][i] == '0')
-				printf(BLU"%c"RES, g->map_s->map[j][i]);
-			else if (g->map_s->map[j][i] == 'N' || g->map_s->map[j][i] == 'S'
-				|| g->map_s->map[j][i] == 'W' || g->map_s->map[j][i] == 'E')
-				printf(BHYEL"%c"RES, g->map_s->map[j][i]);
-			else if (g->map_s->map[j][i] == ' ')
-				printf(MAG"_"RES);
-			else
-				printf(H_C"%c"RES, g->map_s->map[j][i]);
-		}
-		printf(MAG"]\n");
-	}
+	if (c == '1')
+		printf(BHCYN"%c"RES, c);
+	else if (c == '0')
+		printf(BLU"%c"RES, c);
+	else if (c == 'N' || c == 'S'
+		|| c == 'W' || c == 'E')
+		printf(BHGRN"%c"RES, c);
+	else if (c == 'K')
+		printf(H_Y"%c"RES, c);
+	else if (c == 'P')
+		printf(BHBLU"%c"RES, c);
+	else if (c == ' ')
+		printf(MAG"_"RES);
+	else
+		printf(H_C"%c"RES, c);
 }
 
 void	print_mapfile_colors( t_dpar *game)

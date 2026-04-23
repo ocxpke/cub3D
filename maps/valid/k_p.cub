@@ -1,0 +1,15 @@
+NO ./src/imgs/s_north.png
+SO ./src/imgs/s_south.png
+WE ./src/imgs/s_west.png
+EA ./src/imgs/s_east.png
+
+F 3,40,160
+C 255,30,2
+
+1111111111111
+1000K010000K1
+11P111111P111
+1K0000N0000K1
+1111P11111P11
+10K00010K0001
+1111111111111

@@ -6,7 +6,7 @@
 /*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 19:34:25 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/06 16:03:59 by romorale         ###   ########.fr       */
+/*   Updated: 2026/04/21 20:32:36 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ char	**get_the_map(char **found_map, int start)
 int	map_char(char c)
 {
 	if (c == '1' || c == '0' || c == 'N' || c == 'S'
-		|| c == 'E' || c == 'W' || (c == 32 || (c >= 9 && c <= 13)))
+		|| c == 'E' || c == 'W' || c == 'P' || c == 'K'
+		|| (c == 32 || (c >= 9 && c <= 13)))
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 16:02:02 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/06 17:06:09 by romorale         ###   ########.fr       */
+/*   Updated: 2026/04/21 20:00:58 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_inside(int inside)
 int	val_inside_c(char c)
 {
 	if (c != '0' && c != 'N'
-		&& c != 'S' && c != 'E' && c != 'W')
+		&& c != 'S' && c != 'E' && c != 'W' && c != 'P' && c != 'K')
 		return (0);
 	return (1);
 }

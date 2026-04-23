@@ -6,7 +6,7 @@
 /*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 18:47:05 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/06 17:32:29 by romorale         ###   ########.fr       */
+/*   Updated: 2026/04/21 19:45:30 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	map_chars(char *str)
 	{
 		if (str[i] != '1' && str[i] != '0' && str[i] != 'N'
 			&& str[i] != 'S' && str[i] != 'E' && str[i] != 'W'
-			&& str[i] != 32)
+			&& str[i] != 'P' && str[i] != 'K' && str[i] != 32)
 			return (0);
 		i++;
 	}

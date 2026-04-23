@@ -6,7 +6,7 @@
 /*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 19:34:16 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/06 16:38:43 by romorale         ###   ########.fr       */
+/*   Updated: 2026/04/21 20:03:04 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	struct_init(t_dpar *path)
 	path->map_s = malloc(sizeof(t_map) * 1);
 	if (!(path->map_s))
 		free(path->map_s);
+	path->map_s->key_count = 0;
+	path->map_s->door_count = 0;
 	tex_col_init(path);
 	tex_col_val_init(path);
 	checklist_init(path);

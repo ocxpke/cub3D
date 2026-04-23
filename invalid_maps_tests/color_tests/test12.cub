@@ -1,7 +1,7 @@
-NO assets/bluestone.xpm
-SO assets/eagle.xpm
-WE assets/greystone.xpm
-EA assets/redbrick.xpm
+NO ./src/imgs/c_north.png
+SO ./src/imgs/c_south.png
+WE ./src/imgs/c_west.png
+EA ./src/imgs/c_east.png
 F
 C 225,30,0
 
