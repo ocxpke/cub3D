@@ -108,6 +108,7 @@ int		get_player_pos_row(char **map);
 char	get_orientation(char **map);
 int		get_cols(char **map);
 int		get_rows(char **map);
+void	square_map(t_dpar *g);
 
 //free
 void	free_all(t_dpar *path);
