@@ -64,26 +64,16 @@ static int load_map_textures(t_wall_textures *wall_tex, t_dpar *game_d)
 	return (0);
 }
 
-// static void check_ceiling_texture(t_ceil_floor_tex *ceil_floor_tex, int mode)
-// {
-// 	char *color_prefix;
-// 	if (ceil_floor_tex->color == COLOR_SWAP)
-// 		return;
-// 	if (mode)
-// 		color_prefix = ft_calloc(1, ft_strlen(FLOOR_TEXTURE) + 1 + 1);
-// 	else
-// 		color_prefix = ft_calloc(1, ft_strlen(CEILING_TEXTURE) + 1 + 1);
-// 	//seguir
-// }
-
 static void set_ceil_floor_texture(t_game *game_wrap, t_tex_col *colors_info)
 {
 	game_wrap->ceiling_tex.type = COLOR_TEXTURE;
 	game_wrap->ceiling_tex.color = get_color_from_struct(colors_info->cl_col_val, 0xFF);
-	//check_ceiling_texture(&(game_wrap->ceiling_tex), 0);
+	printf("Aaaaaaaaaaa\n");
+	check_ceiling_texture(&(game_wrap->ceiling_tex));
 	game_wrap->floor_tex.type = COLOR_TEXTURE;
 	game_wrap->floor_tex.color = get_color_from_struct(colors_info->fl_col_val, 0xFF);
-	//check_ceiling_texture(&(game_wrap->floor_tex), 1);
+	printf("bbbbbbbbbbbbbb\n");
+	check_floor_texture(&(game_wrap->floor_tex));
 }
 
 int manage_mlx42_resources(t_game *game_wrap, t_dpar *game_d)
@@ -104,7 +94,7 @@ int manage_mlx42_resources(t_game *game_wrap, t_dpar *game_d)
 		game_wrap->col_gross = 1;
 	game_wrap->pixels_cols = game_wrap->game_view->width / game_wrap->col_gross;
 	set_ceil_floor_texture(game_wrap, game_d->map_s->tex_col_s);
-	//ASI OCULTAMOS EL RATON
+	// ASI OCULTAMOS EL RATON
 	mlx_set_cursor_mode(game_wrap->window, MLX_MOUSE_HIDDEN);
 	return (0);
 }

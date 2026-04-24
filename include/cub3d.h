@@ -41,11 +41,13 @@
 #define MAP_CUB_SIZE 20
 #define PLAYER_MAP_SIZE (MAP_CUB_SIZE / 2)
 #define MAX_PLAYER_VIEW_DIST (FOG * CUBSIZE)
-#define COLOR_SWAP 0xFFFFFFFF
-#define CEILING_TEXTURE "Paco"
-#define CEILING_NUMBER 1
-#define FLOOR_TEXTURE "LavaF"
-#define FLOOR_NUMBER 4
+#define COLOR_SWAP 0xF5F5F5FF
+#define CEILING_PATH "./src/imgs/lava_64/"
+#define CEILING_TEXTURE "LavaF"
+#define CEILING_NUMBER 4
+#define FLOOR_PATH "./src/imgs/water_64/"
+#define FLOOR_TEXTURE "w_"
+#define FLOOR_NUMBER 8
 #define FPS 60
 #define SENSIBILITY 0.5
 #define PLAYER_SPEED 0.2

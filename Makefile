@@ -12,7 +12,8 @@ PLAYER := src/player/player_view.c \
 			src/player/player_rotation.c
 
 MLX42_MNG := src/mlx42_management/hooks.c \
-				src/mlx42_management/window_management.c
+				src/mlx42_management/window_management.c \
+				src/mlx42_management/load_frames.c
 
 DRAW_UTILS := src/draw_utils/line_algorithym.c
 

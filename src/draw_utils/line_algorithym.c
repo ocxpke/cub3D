@@ -106,8 +106,12 @@ void draw_ceil_floor(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc, int pix
 	rc_fl_cl->ceil_fl_tex_y = (uint16_t)(rc_fl_cl->ceil_fl_world_y * CUBSIZE) % CUBSIZE;
 
 	// Dibujamos la textura
-	color_text = get_color_from_texture(game_wrap->wall_text.north_tex,
-										rc_fl_cl->ceil_fl_tex_x, rc_fl_cl->ceil_fl_tex_y, 0);
+	if (mode)
+		color_text = get_color_from_texture(game_wrap->floor_tex.all_textures[rc->floor_frame],
+											rc_fl_cl->ceil_fl_tex_x, rc_fl_cl->ceil_fl_tex_y, 0);
+	else
+		color_text = get_color_from_texture(game_wrap->ceiling_tex.all_textures[rc->ceil_frame],
+											rc_fl_cl->ceil_fl_tex_x, rc_fl_cl->ceil_fl_tex_y, 0);
 	mlx_put_pixel(game_wrap->game_view, x_trunc, pixel, color_text);
 }
 
@@ -126,7 +130,6 @@ void draw_player_view_line(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc)
 	rc->ceil_fl_vars.cos_corrected = cos(rc->ceil_fl_vars.ceil_fl_ang);
 	rc->ceil_fl_vars.cos_ray = cos(rc->ray_angle);
 	rc->ceil_fl_vars.sin_ray = sin(rc->ray_angle);
-	///
 	for (uint32_t i = 0; i < game_wrap->game_view->height; i++)
 	{
 		if ((i >= y0_trunc) && (i <= y1_trunc))

@@ -44,6 +44,8 @@ static inline void init_raycast_values(t_player *player_info, t_raycast *raycast
 	raycast->ray_y = 0;
 	raycast->ray_x_offset = 0;
 	raycast->ray_y_offset = 0;
+	raycast->ceil_frame = (get_time() / 150) % CEILING_NUMBER;
+	raycast->floor_frame = (get_time() / 150) % FLOOR_NUMBER;
 }
 
 static inline void check_distance_of_field(t_game *game_wrap, t_raycast *rc)

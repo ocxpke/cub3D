@@ -176,6 +176,8 @@ typedef struct s_raycast
 	uint16_t ray_ct;
 	int8_t hor_ver;
 	int8_t ns_ew;
+	uint8_t	ceil_frame;
+	uint8_t	floor_frame;
 } t_raycast;
 
 #endif
