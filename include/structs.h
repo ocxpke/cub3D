@@ -48,7 +48,6 @@ typedef struct s_map
 	char pstart_orientation;
 	int key_count;
 	int door_count;
-	t_tex_col *tex_col_s;
 } t_map;
 
 typedef struct s_dpar
