@@ -44,7 +44,8 @@ PARSEO := src/parsing/parsing.c \
 				src/parsing/open_and_check_textures.c \
 				src/parsing/get_map_info.c \
 				src/parsing/map_info_utils.c \
-				src/parsing/check_for_anything_else.c
+				src/parsing/check_for_anything_else.c\
+				src/parsing/square_map.c
 
 SRCS	= $(VIEWS) $(MLX42_MNG) $(DRAW_UTILS) $(RAYCASTING)\
 			$(MAP) $(PLAYER) $(TIME_MNG) $(PARSEO)\

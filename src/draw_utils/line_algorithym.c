@@ -94,6 +94,8 @@ void draw_ceil_floor(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc, int pix
 
 	// Obtenemos la distancia total del jugador al pixel a representar y arreglamos de esa distacia el ojo de pez
 	rc_fl_cl->ceil_fl_straight_dist = (game_wrap->game_view->height / 2.0f) / rc_fl_cl->ceil_fl_dy;
+	if (rc_fl_cl->cos_corrected < 0.0001f)
+		rc_fl_cl->cos_corrected = 0.0001f;
 	rc_fl_cl->ceil_fl_true_dist = rc_fl_cl->ceil_fl_straight_dist / rc_fl_cl->cos_corrected;
 
 	// Obtenemos la posicion del pixel del suelo a dibujar en el mapa (el suelo hace de mapa en si mismo)
@@ -102,15 +104,24 @@ void draw_ceil_floor(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc, int pix
 	rc_fl_cl->ceil_fl_world_y = rc->player_posY_map + (rc_fl_cl->sin_ray * rc_fl_cl->ceil_fl_true_dist);
 
 	// Transoformamos los valores del mapa de suelo a valores para poder obtener los x, y de las texturas
-	rc_fl_cl->ceil_fl_tex_x = (uint16_t)(rc_fl_cl->ceil_fl_world_x * CUBSIZE) % CUBSIZE;
-	rc_fl_cl->ceil_fl_tex_y = (uint16_t)(rc_fl_cl->ceil_fl_world_y * CUBSIZE) % CUBSIZE;
+	// rc_fl_cl->ceil_fl_tex_x = (uint16_t)(rc_fl_cl->ceil_fl_world_x * CUBSIZE) % CUBSIZE;
+	// rc_fl_cl->ceil_fl_tex_y = (uint16_t)(rc_fl_cl->ceil_fl_world_y * CUBSIZE) % CUBSIZE;
+
+	float wx = fmodf(rc_fl_cl->ceil_fl_world_x, 1.0f);
+	if (wx < 0)
+		wx += 1.0f;
+	float wy = fmodf(rc_fl_cl->ceil_fl_world_y, 1.0f);
+	if (wy < 0)
+		wy += 1.0f;
+	rc_fl_cl->ceil_fl_tex_x = (uint16_t)(wx * CUBSIZE) % CUBSIZE;
+	rc_fl_cl->ceil_fl_tex_y = (uint16_t)(wy * CUBSIZE) % CUBSIZE;
 
 	// Dibujamos la textura
 	if (mode)
-		color_text = get_color_from_texture(game_wrap->floor_tex.all_textures[rc->floor_frame],
+		color_text = get_color_from_texture(game_wrap->ceiling_tex.all_textures[rc->ceil_frame],
 											rc_fl_cl->ceil_fl_tex_x, rc_fl_cl->ceil_fl_tex_y, 0);
 	else
-		color_text = get_color_from_texture(game_wrap->ceiling_tex.all_textures[rc->ceil_frame],
+		color_text = get_color_from_texture(game_wrap->floor_tex.all_textures[rc->floor_frame],
 											rc_fl_cl->ceil_fl_tex_x, rc_fl_cl->ceil_fl_tex_y, 0);
 	mlx_put_pixel(game_wrap->game_view, x_trunc, pixel, color_text);
 }
@@ -140,7 +151,7 @@ void draw_player_view_line(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc)
 			rc->texture_y_hp += rc->texture_steps;
 		}
 		else if (i < y0_trunc)
-			draw_ceil_floor(game_wrap, rc, x_trunc, i, 1);
+			mlx_put_pixel(game_wrap->game_view, x_trunc, i, game_wrap->ceiling_tex.color); // draw_ceil_floor(game_wrap, rc, x_trunc, i, 1);
 		else
 			draw_ceil_floor(game_wrap, rc, x_trunc, i, 0);
 	}

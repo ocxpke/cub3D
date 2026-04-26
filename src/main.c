@@ -140,7 +140,7 @@ int main(int argc, char **argv)
 	t_all_structs all;
 
 	if (!parsing(argc, argv, &game_d))
-		printf("Aqui hay algo raro\n"); // return (perror("Something went wrong at parsing"), EXIT_FAILURE);
+		return (perror("Something went wrong at parsing"), EXIT_FAILURE);
 
 	set_init_vals(&game_wrap, &player_info, &game_d);
 	manage_mlx42_resources(&game_wrap, &game_d);
@@ -148,6 +148,15 @@ int main(int argc, char **argv)
 	all.game_wrap = &game_wrap;
 	all.player_info = &player_info;
 	all.parser_data = &game_d;
+
+	for (int i = 0; game_d.map_s->map[i]; i++)
+	{
+		for (int j = 0; game_d.map_s->map[i][j]; j++)
+		{
+			printf("%c ", game_d.map_s->map[i][j]);
+		}
+		printf("\n");
+	}
 
 	re_draw(&game_wrap, &player_info);
 	mlx_resize_hook(game_wrap.window, resize_hook, &all);

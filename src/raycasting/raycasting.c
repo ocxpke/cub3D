@@ -54,8 +54,13 @@ static inline void check_distance_of_field(t_game *game_wrap, t_raycast *rc)
 	{
 		rc->map_x = (int)(rc->ray_x) >> BIT_SHIFT;
 		rc->map_y = (int)(rc->ray_y) >> BIT_SHIFT;
+
+		//if ((rc->map_x >= 0 && rc->map_x < game_wrap->map_width) && (rc->map_y >= 0 && rc->map_y < game_wrap->map_height))
+			//printf("Cube pos [%d, %d] is %d\n", rc->map_x, rc->map_y, game_wrap->map[rc->map_y][rc->map_x]);
 		if ((rc->map_x >= 0 && rc->map_x < game_wrap->map_width) && (rc->map_y >= 0 && rc->map_y < game_wrap->map_height) && (game_wrap->map[rc->map_y][rc->map_x] == '1'))
+		{
 			rc->distance_of_field = FOG;
+		}
 		else
 		{
 			rc->ray_x += rc->ray_x_offset;
@@ -68,22 +73,28 @@ static inline void check_distance_of_field(t_game *game_wrap, t_raycast *rc)
 static inline void check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 {
 	rc->distance_of_field = 0;
-	if (rc->ray_angle == 0)
-		rc->ray_angle += 0.00001;
+	if (tan(rc->ray_angle) == 0)
+		rc->ray_angle += 0.0001;
 	rc->arc_tan = -1 / tan(rc->ray_angle);
 	if (rc->ray_angle > PI)
 	{
 		rc->ray_y = (((int)rc->player_posY_cube >> BIT_SHIFT) << BIT_SHIFT) - 0.0001;
 		rc->ray_x = (rc->player_posY_cube - rc->ray_y) * rc->arc_tan + rc->player_posX_cube;
-		rc->ray_y_offset = -CUBSIZE;
-		rc->ray_x_offset = -rc->ray_y_offset * rc->arc_tan;
+		rc->ray_y_offset = -1 * CUBSIZE;
+		rc->ray_x_offset = -1 * rc->ray_y_offset * rc->arc_tan;
 	}
 	if (rc->ray_angle < PI)
 	{
 		rc->ray_y = (((int)rc->player_posY_cube >> BIT_SHIFT) << BIT_SHIFT) + CUBSIZE;
 		rc->ray_x = (rc->player_posY_cube - rc->ray_y) * rc->arc_tan + rc->player_posX_cube;
 		rc->ray_y_offset = CUBSIZE;
-		rc->ray_x_offset = -rc->ray_y_offset * rc->arc_tan;
+		rc->ray_x_offset = -1 * rc->ray_y_offset * rc->arc_tan;
+	}
+	if (rc->ray_angle == 0 || rc->ray_angle == PI)
+	{
+		rc->ray_x = rc->player_posX_cube;
+		rc->ray_y = rc->player_posY_cube;
+		rc->distance_of_field = FOG;
 	}
 	check_distance_of_field(game_wrap, rc);
 	rc->horizontal_dist = dist(rc->player_posX_cube, rc->player_posY_cube, rc->ray_x, rc->ray_y);
@@ -94,7 +105,7 @@ static inline void check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 static inline void check_vertical_ray(t_game *game_wrap, t_raycast *rc)
 {
 	rc->distance_of_field = 0;
-	if (rc->ray_angle == 0)
+	if (tan(rc->ray_angle) == 0)
 		rc->ray_angle += 0.00001;
 	rc->neg_tan = -1 * tan(rc->ray_angle);
 	if (rc->ray_angle > RAD_90_DEG && rc->ray_angle < RAD_270_DEG)
@@ -110,6 +121,12 @@ static inline void check_vertical_ray(t_game *game_wrap, t_raycast *rc)
 		rc->ray_y = (rc->player_posX_cube - rc->ray_x) * rc->neg_tan + rc->player_posY_cube;
 		rc->ray_x_offset = CUBSIZE;
 		rc->ray_y_offset = -rc->ray_x_offset * rc->neg_tan;
+	}
+	if (rc->ray_angle == 0 || rc->ray_angle == PI)
+	{
+		rc->ray_x = rc->player_posX_cube;
+		rc->ray_y = rc->player_posY_cube;
+		rc->distance_of_field = FOG;
 	}
 	check_distance_of_field(game_wrap, rc);
 	rc->vertical_dist = dist(rc->player_posX_cube, rc->player_posY_cube, rc->ray_x, rc->ray_y);
@@ -187,6 +204,7 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 	check_angle_bounds(&raycast.ray_angle);
 	while (raycast.ray_ct < game_wrap->pixels_cols)
 	{
+		//printf("A\n");
 		check_horizontal_ray(game_wrap, &raycast);
 		check_vertical_ray(game_wrap, &raycast);
 		check_minor_distance(&raycast);

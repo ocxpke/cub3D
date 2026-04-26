@@ -68,11 +68,9 @@ static void set_ceil_floor_texture(t_game *game_wrap, t_tex_col *colors_info)
 {
 	game_wrap->ceiling_tex.type = COLOR_TEXTURE;
 	game_wrap->ceiling_tex.color = get_color_from_struct(colors_info->cl_col_val, 0xFF);
-	printf("Aaaaaaaaaaa\n");
 	check_ceiling_texture(&(game_wrap->ceiling_tex));
 	game_wrap->floor_tex.type = COLOR_TEXTURE;
 	game_wrap->floor_tex.color = get_color_from_struct(colors_info->fl_col_val, 0xFF);
-	printf("bbbbbbbbbbbbbb\n");
 	check_floor_texture(&(game_wrap->floor_tex));
 }
 
