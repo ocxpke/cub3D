@@ -149,15 +149,6 @@ int main(int argc, char **argv)
 	all.player_info = &player_info;
 	all.parser_data = &game_d;
 
-	for (int i = 0; game_d.map_s->map[i]; i++)
-	{
-		for (int j = 0; game_d.map_s->map[i][j]; j++)
-		{
-			printf("%c ", game_d.map_s->map[i][j]);
-		}
-		printf("\n");
-	}
-
 	re_draw(&game_wrap, &player_info);
 	mlx_resize_hook(game_wrap.window, resize_hook, &all);
 	mlx_cursor_hook(game_wrap.window, mouse_movement_hook, &all);

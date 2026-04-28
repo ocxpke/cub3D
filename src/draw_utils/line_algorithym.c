@@ -45,6 +45,8 @@ uint32_t get_color_from_texture(mlx_texture_t *texture, uint16_t x, uint16_t y, 
 	/**
 	 * @note ver mejor lo de la intensidad
 	 */
+	if (!texture)
+		return (0);
 	float dist_ratio = dist / MAX_PLAYER_VIEW_DIST;
 	if (dist_ratio > 1.0f)
 		dist_ratio = 1.0f;
@@ -54,10 +56,12 @@ uint32_t get_color_from_texture(mlx_texture_t *texture, uint16_t x, uint16_t y, 
 	if (x >= texture->width || y >= texture->height)
 		return (0);
 	uint32_t base = (x + (y * texture->width)) * 4;
+	//printf("A\n");
 	uint8_t valR = texture->pixels[base] * intensity;
 	uint8_t valG = texture->pixels[base + 1] * intensity;
 	uint8_t valB = texture->pixels[base + 2] * intensity;
-	uint32_t finalColor = valR << 24 | valG << 16 | valB << 8 | 0xFF;
+	//printf("B\n");
+	uint32_t finalColor = ((uint32_t)valR << 24) | ((uint32_t)valG << 16) | ((uint32_t)valB << 8) | 0xFF;
 	return (finalColor);
 }
 
@@ -116,7 +120,8 @@ void draw_ceil_floor(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc, int pix
 	rc_fl_cl->ceil_fl_tex_x = (uint16_t)(wx * CUBSIZE) % CUBSIZE;
 	rc_fl_cl->ceil_fl_tex_y = (uint16_t)(wy * CUBSIZE) % CUBSIZE;
 
-	// Dibujamos la textura
+	// printf("HOLA %d, %p\n", rc->floor_frame, game_wrap->floor_tex.all_textures[rc->floor_frame]);
+	//  Dibujamos la textura
 	if (mode)
 		color_text = get_color_from_texture(game_wrap->ceiling_tex.all_textures[rc->ceil_frame],
 											rc_fl_cl->ceil_fl_tex_x, rc_fl_cl->ceil_fl_tex_y, 0);
@@ -151,7 +156,7 @@ void draw_player_view_line(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc)
 			rc->texture_y_hp += rc->texture_steps;
 		}
 		else if (i < y0_trunc)
-			mlx_put_pixel(game_wrap->game_view, x_trunc, i, game_wrap->ceiling_tex.color); // draw_ceil_floor(game_wrap, rc, x_trunc, i, 1);
+			draw_ceil_floor(game_wrap, rc, x_trunc, i, 1);
 		else
 			draw_ceil_floor(game_wrap, rc, x_trunc, i, 0);
 	}

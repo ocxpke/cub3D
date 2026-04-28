@@ -1,5 +1,5 @@
 NAME	:= cub3d
-CFLAGS	:= -g -Wextra -Wall -Werror -Wunreachable-code -Ofast
+CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
 LIBMLX	:= ./lib/MLX42
 LIBFT	:= ./lib/libft
 
