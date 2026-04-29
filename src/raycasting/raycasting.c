@@ -89,6 +89,8 @@ static inline void check_distance_of_field(t_game *game_wrap, t_raycast *rc)
  * taking the ray angle value, to check where the ray is going, calculating the offset,
  * and then calling the check distance of field func.
  *
+ * @note APRECIATE HOW FLOAT WORKS --> -0.01f (ALWAYS 7 DIGITS)
+ *
  * @param game_wrap Struct containing all game info
  * @param rc Struct were we will safe our computed values
  *
@@ -102,7 +104,7 @@ static inline void check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 	rc->arc_tan = -1 / tan(rc->ray_angle);
 	if (rc->ray_angle > PI)
 	{
-		rc->ray_y = (((int)rc->player_posY_cube >> BIT_SHIFT) << BIT_SHIFT) - 0.0001;
+		rc->ray_y = (((int)rc->player_posY_cube >> BIT_SHIFT) << BIT_SHIFT) - 0.01f;
 		rc->ray_x = (rc->player_posY_cube - rc->ray_y) * rc->arc_tan + rc->player_posX_cube;
 		rc->ray_y_offset = -1 * CUBSIZE;
 		rc->ray_x_offset = -1 * rc->ray_y_offset * rc->arc_tan;
@@ -131,6 +133,8 @@ static inline void check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
  * taking the ray angle value, to check where the ray is going, calculating the offset,
  * and then calling the check distance of field func.
  *
+ * @note APRECIATE HOW FLOAT WORKS --> -0.01f (ALWAYS 7 DIGITS)
+ *
  * @param game_wrap Struct containing all game info
  * @param rc Struct were we will safe our computed values
  *
@@ -144,7 +148,7 @@ static inline void check_vertical_ray(t_game *game_wrap, t_raycast *rc)
 	rc->neg_tan = -1 * tan(rc->ray_angle);
 	if (rc->ray_angle > RAD_90_DEG && rc->ray_angle < RAD_270_DEG)
 	{
-		rc->ray_x = (((int)rc->player_posX_cube >> BIT_SHIFT) << BIT_SHIFT) - 0.0001;
+		rc->ray_x = (((int)rc->player_posX_cube >> BIT_SHIFT) << BIT_SHIFT) - 0.01f;
 		rc->ray_y = (rc->player_posX_cube - rc->ray_x) * rc->neg_tan + rc->player_posY_cube;
 		rc->ray_x_offset = -CUBSIZE;
 		rc->ray_y_offset = -rc->ray_x_offset * rc->neg_tan;
