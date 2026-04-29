@@ -37,11 +37,11 @@
 #define FOG 10
 #define FOV 60 // @note check for 360º as light source
 #define HALF_FOV (FOV / 2)
-#define PIX_COL 16
+#define PIX_COL 2
 #define MAP_CUB_SIZE 20
 #define PLAYER_MAP_SIZE (MAP_CUB_SIZE / 2)
 #define MAX_PLAYER_VIEW_DIST (FOG * CUBSIZE)
-#define COLOR_SWAP 0xF5F5F5FF
+#define COLOR_SWAP 0xF5F5F5FF // == 245, 245, 245, 255
 #define CEILING_PATH "./src/imgs/lava_64/"
 #define CEILING_TEXTURE "LavaF"
 #define CEILING_NUMBER 4

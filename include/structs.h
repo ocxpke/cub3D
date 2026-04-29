@@ -5,9 +5,10 @@
 
 typedef struct s_color
 {
-	int red;
-	int green;
-	int blue;
+	uint8_t red;
+	uint8_t green;
+	uint8_t blue;
+	uint8_t alpha;
 } t_color;
 
 typedef struct s_checklist

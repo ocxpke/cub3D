@@ -32,9 +32,7 @@ static void load_all_frame_textures(t_ceil_floor_tex *ceil_floor_tex, char *imag
 	{
 		num_ext = num_and_extension(i);
 		ft_strlcat(image_path, num_ext, ft_strlen(image_path) + ft_strlen(num_ext) + 1);
-		// printf("%s\n", image_path);
 		ceil_floor_tex->all_textures[i - 1] = mlx_load_png(image_path);
-		printf("%d --> %p\n", i - 1, ceil_floor_tex->all_textures[i - 1]);
 		if (!ceil_floor_tex->all_textures[i - 1])
 			return (perror("fail on image"), exit(EXIT_FAILURE));
 		ft_memset(&image_path[ft_strlen(image_path) - ft_strlen(num_ext)], 0, ft_strlen(num_ext) - 1);
@@ -43,12 +41,12 @@ static void load_all_frame_textures(t_ceil_floor_tex *ceil_floor_tex, char *imag
 	}
 }
 
-void check_ceiling_texture(t_ceil_floor_tex *ceil_floor_tex)
+void check_ceiling_texture(t_ceil_floor_tex *ceil_tex)
 {
 	char *image_path;
 	char *num_text;
 
-	if (ceil_floor_tex->color == COLOR_SWAP)
+	if (ceil_tex->color != COLOR_SWAP)
 		return;
 	num_text = ft_itoa(CEILING_NUMBER);
 	if (!num_text)
@@ -59,23 +57,20 @@ void check_ceiling_texture(t_ceil_floor_tex *ceil_floor_tex)
 	free(num_text);
 	ft_strlcat(image_path, CEILING_PATH, ft_strlen(image_path) + ft_strlen(CEILING_PATH) + 1);
 	ft_strlcat(image_path, CEILING_TEXTURE, ft_strlen(image_path) + ft_strlen(CEILING_TEXTURE) + 1);
-	ceil_floor_tex->all_textures = ft_calloc(CEILING_NUMBER, sizeof(mlx_texture_t *));
-	if (!ceil_floor_tex->all_textures)
+	ceil_tex->all_textures = ft_calloc(CEILING_NUMBER, sizeof(mlx_texture_t *));
+	if (!ceil_tex->all_textures)
 		exit(EXIT_FAILURE);
-	load_all_frame_textures(ceil_floor_tex, image_path, CEILING_NUMBER);
-	/**
-	 * Vaya bug de mierda como uso el puntero de num_text pero este no se pasa por referencia se
-	 * liberaba 2 veces la misma posicion de memoria.
-	 */
+	load_all_frame_textures(ceil_tex, image_path, CEILING_NUMBER);
 	free(image_path);
+	ceil_tex->type = IMAGE_TEXTURE;
 }
 
-void check_floor_texture(t_ceil_floor_tex *ceil_floor_tex)
+void check_floor_texture(t_ceil_floor_tex *floor_tex)
 {
 	char *image_path;
 	char *num_text;
 
-	if (ceil_floor_tex->color == COLOR_SWAP)
+	if (floor_tex->color != COLOR_SWAP)
 		return;
 	num_text = ft_itoa(FLOOR_NUMBER);
 	if (!num_text)
@@ -86,9 +81,10 @@ void check_floor_texture(t_ceil_floor_tex *ceil_floor_tex)
 	free(num_text);
 	ft_strlcat(image_path, FLOOR_PATH, ft_strlen(image_path) + ft_strlen(FLOOR_PATH) + 1);
 	ft_strlcat(image_path, FLOOR_TEXTURE, ft_strlen(image_path) + ft_strlen(FLOOR_TEXTURE) + 1);
-	ceil_floor_tex->all_textures = ft_calloc(FLOOR_NUMBER, sizeof(mlx_texture_t *));
-	if (!ceil_floor_tex->all_textures)
+	floor_tex->all_textures = ft_calloc(FLOOR_NUMBER, sizeof(mlx_texture_t *));
+	if (!floor_tex->all_textures)
 		exit(EXIT_FAILURE);
-	load_all_frame_textures(ceil_floor_tex, image_path, FLOOR_NUMBER);
+	load_all_frame_textures(floor_tex, image_path, FLOOR_NUMBER);
 	free(image_path);
+	floor_tex->type = IMAGE_TEXTURE;
 }

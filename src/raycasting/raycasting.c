@@ -30,6 +30,14 @@ inline void check_angle_bounds(float *angle)
 		*angle -= RAD_360_DEG;
 }
 
+/**
+ * @brief Just a function to initialize values for the raycast struct
+ *
+ * @param player_info Struct that has all player usefull information
+ * @param raycast All variables that we need to initialize are here
+ *
+ * @return Void
+ */
 static inline void init_raycast_values(t_player *player_info, t_raycast *raycast)
 {
 	raycast->player_angle = player_info->ang;
@@ -48,15 +56,21 @@ static inline void init_raycast_values(t_player *player_info, t_raycast *raycast
 	raycast->floor_frame = (get_time() / 150) % FLOOR_NUMBER;
 }
 
+/**
+ * @brief This fucntion help us identifying the collision against a wall,
+ * 	consists of trying to check if we got out of map or if we colide against a wall.
+ *
+ * @param game_wrap Struct containing all game info
+ * @param rc Struct containing all raycaster previously calculated values
+ *
+ * @return Void
+ */
 static inline void check_distance_of_field(t_game *game_wrap, t_raycast *rc)
 {
 	while (rc->distance_of_field < FOG)
 	{
 		rc->map_x = (int)(rc->ray_x) >> BIT_SHIFT;
 		rc->map_y = (int)(rc->ray_y) >> BIT_SHIFT;
-
-		//if ((rc->map_x >= 0 && rc->map_x < game_wrap->map_width) && (rc->map_y >= 0 && rc->map_y < game_wrap->map_height))
-			//printf("Cube pos [%d, %d] is %d\n", rc->map_x, rc->map_y, game_wrap->map[rc->map_y][rc->map_x]);
 		if ((rc->map_x >= 0 && rc->map_x < game_wrap->map_width) && (rc->map_y >= 0 && rc->map_y < game_wrap->map_height) && (game_wrap->map[rc->map_y][rc->map_x] == '1'))
 		{
 			rc->distance_of_field = FOG;
@@ -70,6 +84,16 @@ static inline void check_distance_of_field(t_game *game_wrap, t_raycast *rc)
 	}
 }
 
+/**
+ * @brief Here we check the length of the horizontal rays, we calculate it
+ * taking the ray angle value, to check where the ray is going, calculating the offset,
+ * and then calling the check distance of field func.
+ *
+ * @param game_wrap Struct containing all game info
+ * @param rc Struct were we will safe our computed values
+ *
+ * @return Void
+ */
 static inline void check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 {
 	rc->distance_of_field = 0;
@@ -102,6 +126,16 @@ static inline void check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 	rc->horizontal_y = rc->ray_y;
 }
 
+/**
+ * @brief Here we check the length of the vertical rays, we calculate it
+ * taking the ray angle value, to check where the ray is going, calculating the offset,
+ * and then calling the check distance of field func.
+ *
+ * @param game_wrap Struct containing all game info
+ * @param rc Struct were we will safe our computed values
+ *
+ * @return Void
+ */
 static inline void check_vertical_ray(t_game *game_wrap, t_raycast *rc)
 {
 	rc->distance_of_field = 0;
@@ -134,6 +168,14 @@ static inline void check_vertical_ray(t_game *game_wrap, t_raycast *rc)
 	rc->vertical_y = rc->ray_y;
 }
 
+/**
+ * @brief Having horizontal and vertical ray lengths computed we check which
+ * one is the minor one, which will be the one to be drawed.
+ *
+ * @param raycast Struct containing all raycaster previously calculated values
+ *
+ * @return Void
+ */
 static inline void check_minor_distance(t_raycast *raycast)
 {
 	if (raycast->horizontal_dist <= raycast->vertical_dist)
@@ -154,6 +196,15 @@ static inline void check_minor_distance(t_raycast *raycast)
 	}
 }
 
+/**
+ * @brief Here we will fix the fish eye efect cause by the con/sin function,
+ * and by their sinusoidal behavior.
+ *
+ * @param player_info Struct containing all player usefull informaion
+ * @param raycast Struct containing all raycaster previously calculated values
+ *
+ * @return Void
+ */
 static inline void fix_fish_eye(t_player *player_info, t_raycast *raycast)
 {
 	raycast->corrected_angle = player_info->ang - raycast->ray_angle;
@@ -161,10 +212,20 @@ static inline void fix_fish_eye(t_player *player_info, t_raycast *raycast)
 	raycast->minor_distance = raycast->minor_distance * cos(raycast->corrected_angle);
 }
 
+/**
+ * @brief Where all the graphic magic takes place here we will calculate ray col gross and
+ * draw a pixel col of each colum color per gross.
+ *
+ * @param game_wrap Struct containing game most important information
+ * @param raycast Struct containing all raycaster previously calculated values
+ *
+ * @return Void
+ */
 static inline void draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
 {
+	printf("posX: %f, mapX: %f, posY: %f, mapY: %f, %lld\n",
+		 raycast->player_posX_cube, raycast->player_posX_map, raycast->player_posY_cube, raycast->player_posY_map, get_time());
 	raycast->wall_len = (CUBSIZE * game_wrap->game_view->height) / raycast->minor_distance;
-
 	raycast->save_tex_y = 0;
 	raycast->texture_steps = (float)CUBSIZE / raycast->wall_len;
 	if (raycast->wall_len > game_wrap->game_view->height)
@@ -204,7 +265,6 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 	check_angle_bounds(&raycast.ray_angle);
 	while (raycast.ray_ct < game_wrap->pixels_cols)
 	{
-		//printf("A\n");
 		check_horizontal_ray(game_wrap, &raycast);
 		check_vertical_ray(game_wrap, &raycast);
 		check_minor_distance(&raycast);

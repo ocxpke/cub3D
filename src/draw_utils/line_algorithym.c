@@ -56,11 +56,9 @@ uint32_t get_color_from_texture(mlx_texture_t *texture, uint16_t x, uint16_t y, 
 	if (x >= texture->width || y >= texture->height)
 		return (0);
 	uint32_t base = (x + (y * texture->width)) * 4;
-	//printf("A\n");
 	uint8_t valR = texture->pixels[base] * intensity;
 	uint8_t valG = texture->pixels[base + 1] * intensity;
 	uint8_t valB = texture->pixels[base + 2] * intensity;
-	//printf("B\n");
 	uint32_t finalColor = ((uint32_t)valR << 24) | ((uint32_t)valG << 16) | ((uint32_t)valB << 8) | 0xFF;
 	return (finalColor);
 }
@@ -83,10 +81,30 @@ static inline mlx_texture_t *get_wall_texture(t_game *game, t_raycast *rc)
 	}
 }
 
+uint32_t color_of_ceil_floor(t_game *game_wrap, t_raycast *rc, t_raycast_ceil_fl *rc_fl_cl, int mode)
+{
+	//printf("%d-%d\n", game_wrap->ceiling_tex.type, game_wrap->floor_tex.type);
+	if (mode)
+	{
+		if (game_wrap->ceiling_tex.type == IMAGE_TEXTURE)
+			return get_color_from_texture(game_wrap->ceiling_tex.all_textures[rc->ceil_frame],
+										  rc_fl_cl->ceil_fl_tex_x, rc_fl_cl->ceil_fl_tex_y, 0);
+		else
+			return game_wrap->ceiling_tex.color;
+	}
+	else
+	{
+		if (game_wrap->floor_tex.type == IMAGE_TEXTURE)
+			return get_color_from_texture(game_wrap->floor_tex.all_textures[rc->floor_frame],
+										  rc_fl_cl->ceil_fl_tex_x, rc_fl_cl->ceil_fl_tex_y, 0);
+		else
+			return game_wrap->floor_tex.color;
+	}
+}
+
 void draw_ceil_floor(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc, int pixel, int mode)
 {
 	t_raycast_ceil_fl *rc_fl_cl;
-	uint32_t color_text;
 
 	rc_fl_cl = &(rc->ceil_fl_vars);
 	if (mode)
@@ -108,27 +126,10 @@ void draw_ceil_floor(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc, int pix
 	rc_fl_cl->ceil_fl_world_y = rc->player_posY_map + (rc_fl_cl->sin_ray * rc_fl_cl->ceil_fl_true_dist);
 
 	// Transoformamos los valores del mapa de suelo a valores para poder obtener los x, y de las texturas
-	// rc_fl_cl->ceil_fl_tex_x = (uint16_t)(rc_fl_cl->ceil_fl_world_x * CUBSIZE) % CUBSIZE;
-	// rc_fl_cl->ceil_fl_tex_y = (uint16_t)(rc_fl_cl->ceil_fl_world_y * CUBSIZE) % CUBSIZE;
+	rc_fl_cl->ceil_fl_tex_x = (uint16_t)(rc_fl_cl->ceil_fl_world_x * CUBSIZE) % CUBSIZE;
+	rc_fl_cl->ceil_fl_tex_y = (uint16_t)(rc_fl_cl->ceil_fl_world_y * CUBSIZE) % CUBSIZE;
 
-	float wx = fmodf(rc_fl_cl->ceil_fl_world_x, 1.0f);
-	if (wx < 0)
-		wx += 1.0f;
-	float wy = fmodf(rc_fl_cl->ceil_fl_world_y, 1.0f);
-	if (wy < 0)
-		wy += 1.0f;
-	rc_fl_cl->ceil_fl_tex_x = (uint16_t)(wx * CUBSIZE) % CUBSIZE;
-	rc_fl_cl->ceil_fl_tex_y = (uint16_t)(wy * CUBSIZE) % CUBSIZE;
-
-	// printf("HOLA %d, %p\n", rc->floor_frame, game_wrap->floor_tex.all_textures[rc->floor_frame]);
-	//  Dibujamos la textura
-	if (mode)
-		color_text = get_color_from_texture(game_wrap->ceiling_tex.all_textures[rc->ceil_frame],
-											rc_fl_cl->ceil_fl_tex_x, rc_fl_cl->ceil_fl_tex_y, 0);
-	else
-		color_text = get_color_from_texture(game_wrap->floor_tex.all_textures[rc->floor_frame],
-											rc_fl_cl->ceil_fl_tex_x, rc_fl_cl->ceil_fl_tex_y, 0);
-	mlx_put_pixel(game_wrap->game_view, x_trunc, pixel, color_text);
+	mlx_put_pixel(game_wrap->game_view, x_trunc, pixel, color_of_ceil_floor(game_wrap, rc, rc_fl_cl, mode));
 }
 
 void draw_player_view_line(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc)

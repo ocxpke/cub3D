@@ -40,3 +40,22 @@ void key_hook(void *param)
 
 	re_draw(all_info->game_wrap, all_info->player_info);
 }
+
+void mouse_movement_hook(double xpos, double ypos, void *param)
+{
+	t_all_structs *all_st;
+
+	all_st = (t_all_structs *)param;
+	(void)ypos;
+	float centerx = all_st->game_wrap->game_view->width / 2;
+	float centery = all_st->game_wrap->game_view->height / 2;
+	float deltax = xpos - centerx;
+	// int32_t deltay = ypos - centery;
+	float delta_time = all_st->game_wrap->window->delta_time * FPS * MOUSE_SENSIBILITY;
+	if (deltax > 0)
+		rotate_player_right(all_st->player_info, delta_time * deltax);
+	else if (deltax < 0)
+		rotate_player_left(all_st->player_info, delta_time * (deltax * -1));
+
+	mlx_set_mouse_pos(all_st->game_wrap->window, (int32_t)centerx, (int32_t)centery);
+}
