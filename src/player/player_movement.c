@@ -1,58 +1,77 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player_movement.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/03 15:21:08 by jose-ara          #+#    #+#             */
+/*   Updated: 2026/05/03 15:46:29 by jose-ara         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/cub3d.h"
 
-static inline void player_movement(t_game *game_wrap, t_player *player_info, float move_in_x, float move_in_y)
+static inline void	player_movement(t_game *game_wrap, t_player *player_info,
+		float move_in_x, float move_in_y)
 {
-	float marginX;
-	float marginY;
+	float	margin_x;
+	float	margin_y;
+	int		next_x;
+	int		next_y;
 
-	marginX = 0.25;
-	marginY = 0.25;
-	if (move_in_x < 0)
-		marginX = -0.25;
+	margin_x = 0.25f;
+	margin_y = 0.25;
+	if (move_in_x < 0.0f)
+		margin_x = -0.25f;
 	else if (move_in_x == 0)
-		marginX = 0;
+		margin_x = 0;
 	if (move_in_y < 0)
-		marginY = -0.25;
+		margin_y = -0.25f;
 	else if (move_in_y == 0)
-		marginY = 0;
-	int nextX = (int)(player_info->posX + move_in_x + marginX);
-	int nextY = (int)(player_info->posY + move_in_y + marginY);
-	if (game_wrap->map[(int)player_info->posY][nextX] != '1')
-		player_info->posX += move_in_x;
-	if (game_wrap->map[nextY][(int)player_info->posX] != '1')
-		player_info->posY += move_in_y;
+		margin_y = 0.0f;
+	next_x = (int)(player_info->posx + move_in_x + margin_x);
+	next_y = (int)(player_info->posy + move_in_y + margin_y);
+	if (game_wrap->map[(int)player_info->posy][next_x] != '1')
+		player_info->posx += move_in_x;
+	if (game_wrap->map[next_y][(int)player_info->posx] != '1')
+		player_info->posy += move_in_y;
 }
 
-static inline void calculate_player_speed(t_player *player_info, float *move_in_x, float *move_in_y, float delta_time)
+static inline void	calculate_player_speed(t_player *player_info,
+		float *move_in_x, float *move_in_y, float delta_time)
 {
 	if (player_info->key_control.w_key)
 	{
-		*move_in_x += player_info->deltaX * delta_time;
-		*move_in_y += player_info->deltaY * delta_time;
+		*move_in_x += player_info->deltax * delta_time;
+		*move_in_y += player_info->deltay * delta_time;
 	}
 	if (player_info->key_control.s_key)
 	{
-		*move_in_x += -1 * player_info->deltaX * delta_time;
-		*move_in_y += -1 * player_info->deltaY * delta_time;
+		*move_in_x += -1 * player_info->deltax * delta_time;
+		*move_in_y += -1 * player_info->deltay * delta_time;
 	}
 	if (player_info->key_control.a_key)
 	{
-		*move_in_x += player_info->deltaY * delta_time;
-		*move_in_y += -1 * player_info->deltaX * delta_time;
+		*move_in_x += player_info->deltay * delta_time;
+		*move_in_y += -1 * player_info->deltax * delta_time;
 	}
 	if (player_info->key_control.d_key)
 	{
-		*move_in_x += -1 * player_info->deltaY * delta_time;
-		*move_in_y += player_info->deltaX * delta_time;
+		*move_in_x += -1 * player_info->deltay * delta_time;
+		*move_in_y += player_info->deltax * delta_time;
 	}
 }
 
-static inline void normalize_speed(t_player *player_info, float *move_in_x, float *move_in_y, float delta_time)
+static inline void	normalize_speed(t_player *player_info, float *move_in_x,
+		float *move_in_y, float delta_time)
 {
-	float pressed_key_speed = sqrt(*move_in_x * *move_in_x + *move_in_y * *move_in_y);
-	float normal_speed = sqrt(player_info->deltaX * player_info->deltaX +
-							  player_info->deltaY * player_info->deltaY) *
-						 delta_time;
+	float	pressed_key_speed;
+	float	normal_speed;
+
+	pressed_key_speed = sqrt(*move_in_x * *move_in_x + *move_in_y * *move_in_y);
+	normal_speed = sqrt(player_info->deltax * player_info->deltax
+			+ player_info->deltay * player_info->deltay) * delta_time;
 	if (pressed_key_speed > normal_speed)
 	{
 		*move_in_x = (*move_in_x / pressed_key_speed) * normal_speed;
@@ -60,11 +79,15 @@ static inline void normalize_speed(t_player *player_info, float *move_in_x, floa
 	}
 }
 
-void player_key_movement(t_game *game_wrap, t_player *player_info)
+void	player_key_movement(t_game *game_wrap, t_player *player_info)
 {
-	float delta_time = game_wrap->window->delta_time * FPS * SENSIBILITY;
-	float move_in_x = 0;
-	float move_in_y = 0;
+	float	delta_time;
+	float	move_in_x;
+	float	move_in_y;
+
+	delta_time = game_wrap->window->delta_time * FPS * SENSIBILITY;
+	move_in_x = 0;
+	move_in_y = 0;
 	calculate_player_speed(player_info, &move_in_x, &move_in_y, delta_time);
 	normalize_speed(player_info, &move_in_x, &move_in_y, delta_time);
 	player_movement(game_wrap, player_info, move_in_x, move_in_y);

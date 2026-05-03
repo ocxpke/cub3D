@@ -1,5 +1,5 @@
 NAME	:= cub3d
-CFLAGS	:= -g -Wextra -Wall -Werror -Wunreachable-code -Ofast
+CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast -g
 LIBMLX	:= ./lib/MLX42
 LIBFT	:= ./lib/libft
 
@@ -12,7 +12,8 @@ PLAYER := src/player/player_view.c \
 			src/player/player_rotation.c
 
 MLX42_MNG := src/mlx42_management/hooks.c \
-				src/mlx42_management/window_management.c
+				src/mlx42_management/window_management.c \
+				src/mlx42_management/load_frames.c
 
 DRAW_UTILS := src/draw_utils/line_algorithym.c
 
@@ -43,7 +44,7 @@ PARSEO := src/parsing/parsing.c \
 				src/parsing/open_and_check_textures.c \
 				src/parsing/get_map_info.c \
 				src/parsing/map_info_utils.c \
-				src/parsing/check_for_anything_else.c \
+				src/parsing/check_for_anything_else.c\
 				src/parsing/square_map.c
 
 SRCS	= $(VIEWS) $(MLX42_MNG) $(DRAW_UTILS) $(RAYCASTING)\

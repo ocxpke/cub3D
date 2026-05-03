@@ -1,10 +1,10 @@
-NO ./src/imgs/nazeemPIX.png
-SO ./src/imgs/c_south.png
-WE ./src/imgs/c_west.png
-EA ./src/imgs/c_east.png
+NO ./src/imgs/wolftex/mossy.png
+SO ./src/imgs/wolftex/purplestone.png
+WE ./src/imgs/wolftex/redbrick.png
+EA ./src/imgs/wolftex/eagle.png
 
-F 255,0,0
-C 25,25,112
+F 245,245,245
+C 245,245,245
 
    11111111111111
    1000000000000111
