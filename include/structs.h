@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
-# define STRUCTS_H
+#define STRUCTS_H
 
-# include "cub3d.h"
+#include "cub3d.h"
 
 typedef struct s_color
 {
@@ -157,6 +157,21 @@ typedef struct s_raycast_ceil_fl
 	uint16_t			ceil_fl_tex_x;
 	uint16_t			ceil_fl_tex_y;
 }						t_raycast_ceil_fl;
+
+typedef struct s_raycast_ceil_fl
+{
+	float cos_corrected;
+	float cos_ray;
+	float sin_ray;
+	float ceil_fl_dy;
+	float ceil_fl_ang;
+	float ceil_fl_straight_dist;
+	float ceil_fl_true_dist;
+	float ceil_fl_world_x;
+	float ceil_fl_world_y;
+	uint16_t ceil_fl_tex_x;
+	uint16_t ceil_fl_tex_y;
+} t_raycast_ceil_fl;
 
 typedef struct s_raycast
 {

@@ -109,7 +109,6 @@ char	get_orientation(char **map);
 int		get_cols(char **map);
 int		get_rows(char **map);
 void	square_map(t_dpar *g);
-void	print_mapfile_map2(char c);
 
 //free
 void	free_all(t_dpar *path);
@@ -126,5 +125,6 @@ void	print_mapfile_tex( t_dpar *game);
 void	print_mapfile_colors( t_dpar *game);
 void	print_mapfile_map( t_dpar *g);
 void	print_mapfile_map_info( t_dpar *game);
+void	print_mapfile_map2(char c);
 
 #endif
