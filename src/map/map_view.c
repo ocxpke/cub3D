@@ -7,31 +7,28 @@
  *
  * @return Void
  */
-void draw_map(t_game *game_wrap)
+void draw_map(t_game *game_wrap, t_player *player_info)
 {
-	int startX = 0, startY = 0;
+	game_wrap->offset_x = (player_info->posX * game_wrap->tile_size) - (game_wrap->map_view->width / 2);
+	game_wrap->offset_y = (player_info->posY * game_wrap->tile_size) - (game_wrap->map_view->height / 2);
 	for (int i = 0; i < game_wrap->map_height; i++)
 	{
 		for (int j = 0; j < game_wrap->map_width; j++)
 		{
 			if (game_wrap->map[i][j] == '1')
 			{
-				startY = MAP_CUB_SIZE * i;
-				startX = MAP_CUB_SIZE * j;
-				for (int z = 0; z < MAP_CUB_SIZE; z++)
+				for (int z = 0; z < game_wrap->tile_size; z++)
 				{
-					for (int q = 0; q < MAP_CUB_SIZE; q++)
+					for (int q = 0; q < game_wrap->tile_size; q++)
 					{
-						if (((startX + q) >= 0) && ((startX + q) < (int)game_wrap->map_view->width) &&
-							((startY + z) >= 0) && ((startY + z) < (int)game_wrap->map_view->height))
-							mlx_put_pixel(game_wrap->map_view, startX + q, startY + z, 0x0000FFFF);
+						int px = (j * game_wrap->tile_size) - game_wrap->offset_x + q;
+						int py = (i * game_wrap->tile_size) - game_wrap->offset_y + z;
+						if (px >= 0 && px < (int)game_wrap->map_view->width &&
+							py >= 0 && py < (int)game_wrap->map_view->height)
+							mlx_put_pixel(game_wrap->map_view, px, py, WALL_COLOR);
 					}
 				}
-				draw_line_simple(game_wrap, (float[]){startX, 0}, (float[]){startX, game_wrap->map_view->height}, 0xFF0000FF);
-				draw_line_simple(game_wrap, (float[]){0, startY}, (float[]){game_wrap->map_view->width, startY}, 0xFF0000FF);
 			}
 		}
 	}
-	draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width, 0}, (float[]){game_wrap->map_view->width, game_wrap->map_view->height}, 0xFF0000FF);
-	draw_line_simple(game_wrap, (float[]){0, game_wrap->map_view->height}, (float[]){game_wrap->map_view->width, game_wrap->map_view->height}, 0xFF0000FF);
 }

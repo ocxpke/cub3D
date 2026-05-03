@@ -48,7 +48,7 @@ void check_ceiling_texture(t_ceil_floor_tex *ceil_tex)
 
 	if (ceil_tex->color != COLOR_SWAP)
 		return;
-	num_text = ft_itoa(CEILING_NUMBER);
+	num_text = ft_itoa(CEILING_TEX_NUMBER);
 	if (!num_text)
 		exit(EXIT_FAILURE);
 	image_path = ft_calloc(1, ft_strlen(CEILING_PATH) + ft_strlen(CEILING_TEXTURE) + ft_strlen(num_text) + ft_strlen(".png") + 1);
@@ -57,10 +57,10 @@ void check_ceiling_texture(t_ceil_floor_tex *ceil_tex)
 	free(num_text);
 	ft_strlcat(image_path, CEILING_PATH, ft_strlen(image_path) + ft_strlen(CEILING_PATH) + 1);
 	ft_strlcat(image_path, CEILING_TEXTURE, ft_strlen(image_path) + ft_strlen(CEILING_TEXTURE) + 1);
-	ceil_tex->all_textures = ft_calloc(CEILING_NUMBER, sizeof(mlx_texture_t *));
+	ceil_tex->all_textures = ft_calloc(CEILING_TEX_NUMBER, sizeof(mlx_texture_t *));
 	if (!ceil_tex->all_textures)
 		exit(EXIT_FAILURE);
-	load_all_frame_textures(ceil_tex, image_path, CEILING_NUMBER);
+	load_all_frame_textures(ceil_tex, image_path, CEILING_TEX_NUMBER);
 	free(image_path);
 	ceil_tex->type = IMAGE_TEXTURE;
 }
@@ -72,7 +72,7 @@ void check_floor_texture(t_ceil_floor_tex *floor_tex)
 
 	if (floor_tex->color != COLOR_SWAP)
 		return;
-	num_text = ft_itoa(FLOOR_NUMBER);
+	num_text = ft_itoa(FLOOR_TEX_NUMBER);
 	if (!num_text)
 		exit(EXIT_FAILURE);
 	image_path = ft_calloc(1, ft_strlen(FLOOR_PATH) + ft_strlen(FLOOR_TEXTURE) + ft_strlen(num_text) + ft_strlen(".png") + 1);
@@ -81,10 +81,10 @@ void check_floor_texture(t_ceil_floor_tex *floor_tex)
 	free(num_text);
 	ft_strlcat(image_path, FLOOR_PATH, ft_strlen(image_path) + ft_strlen(FLOOR_PATH) + 1);
 	ft_strlcat(image_path, FLOOR_TEXTURE, ft_strlen(image_path) + ft_strlen(FLOOR_TEXTURE) + 1);
-	floor_tex->all_textures = ft_calloc(FLOOR_NUMBER, sizeof(mlx_texture_t *));
+	floor_tex->all_textures = ft_calloc(FLOOR_TEX_NUMBER, sizeof(mlx_texture_t *));
 	if (!floor_tex->all_textures)
 		exit(EXIT_FAILURE);
-	load_all_frame_textures(floor_tex, image_path, FLOOR_NUMBER);
+	load_all_frame_textures(floor_tex, image_path, FLOOR_TEX_NUMBER);
 	free(image_path);
 	floor_tex->type = IMAGE_TEXTURE;
 }

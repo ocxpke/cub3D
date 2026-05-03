@@ -6,11 +6,16 @@
 void resize_hook(int32_t width, int32_t height, void *param)
 {
 	t_all_structs *all_things = (t_all_structs *)param;
-	mlx_resize_image(all_things->game_wrap->game_view, width, height);
-	all_things->game_wrap->map_view->instances[0].x = width - all_things->game_wrap->map_view->width;
-	all_things->game_wrap->pixels_cols = FOV * PIX_COL;
-	if ((FOV * PIX_COL) > width)
-		all_things->game_wrap->pixels_cols = width;
+	t_game *g_wrp = all_things->game_wrap;
+	mlx_resize_image(g_wrp->game_view, width, height);
+	mlx_resize_image(g_wrp->map_view, width * MAP_SIZE, height * MAP_SIZE);
+	g_wrp->map_view->instances[0].x = width - g_wrp->map_view->width;
+	g_wrp->col_gross = g_wrp->game_view->width / (FOV * PIX_COL);
+	if (g_wrp->col_gross < 1)
+		g_wrp->col_gross = 1;
+	g_wrp->pixels_cols = g_wrp->game_view->width / g_wrp->col_gross;
+	g_wrp->player_size = g_wrp->map_view->width * PLAYER_SIZE;
+	g_wrp->tile_size = g_wrp->map_view->width / NUM_TILES;
 }
 
 /**

@@ -37,22 +37,26 @@
 #define FOG 10
 #define FOV 60 // @note check for 360º as light source
 #define HALF_FOV (FOV / 2)
-#define PIX_COL 2
-#define MAP_CUB_SIZE 20
-#define PLAYER_MAP_SIZE (MAP_CUB_SIZE / 2)
+#define PIX_COL 16
 #define MAX_PLAYER_VIEW_DIST (FOG * CUBSIZE)
 #define COLOR_SWAP 0xF5F5F5FF // == 245, 245, 245, 255
 #define CEILING_PATH "./src/imgs/lava_64/"
 #define CEILING_TEXTURE "LavaF"
-#define CEILING_NUMBER 4
+#define CEILING_TEX_NUMBER 4
 #define FLOOR_PATH "./src/imgs/water_64/"
 #define FLOOR_TEXTURE "w_"
-#define FLOOR_NUMBER 8
+#define FLOOR_TEX_NUMBER 8
 #define FPS 60
 #define SENSIBILITY 0.5
 #define PLAYER_SPEED 0.2
 #define HALF_POS 0.5
 #define MOUSE_SENSIBILITY 0.01
+#define PLAYER_SIZE 0.025f
+#define NUM_TILES 15
+#define MAP_SIZE 0.25f
+#define PLAYER_COLOR 0xFF0000FF
+#define WALL_COLOR 0x0000FFFF
+#define RAY_COLOR 0x00FF00FF
 
 void re_draw(t_game *game_wrap, t_player *player_info);
 void set_color_from_var(t_color *color, uint32_t color_setted);

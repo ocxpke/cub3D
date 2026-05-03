@@ -52,8 +52,8 @@ static inline void init_raycast_values(t_player *player_info, t_raycast *raycast
 	raycast->ray_y = 0;
 	raycast->ray_x_offset = 0;
 	raycast->ray_y_offset = 0;
-	raycast->ceil_frame = (get_time() / 150) % CEILING_NUMBER;
-	raycast->floor_frame = (get_time() / 150) % FLOOR_NUMBER;
+	raycast->ceil_frame = (get_time() / 150) % CEILING_TEX_NUMBER;
+	raycast->floor_frame = (get_time() / 150) % FLOOR_TEX_NUMBER;
 }
 
 /**
@@ -227,8 +227,6 @@ static inline void fix_fish_eye(t_player *player_info, t_raycast *raycast)
  */
 static inline void draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
 {
-	printf("posX: %f, mapX: %f, posY: %f, mapY: %f, %lld\n",
-		 raycast->player_posX_cube, raycast->player_posX_map, raycast->player_posY_cube, raycast->player_posY_map, get_time());
 	raycast->wall_len = (CUBSIZE * game_wrap->game_view->height) / raycast->minor_distance;
 	raycast->save_tex_y = 0;
 	raycast->texture_steps = (float)CUBSIZE / raycast->wall_len;
@@ -275,8 +273,8 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 		raycast.texture_x_hp -= floor(raycast.texture_x_hp);
 		fix_fish_eye(player_info, &raycast);
 		draw_frame_cols(game_wrap, &raycast);
-		draw_line_simple(game_wrap, (float[]){player_info->posX * MAP_CUB_SIZE, player_info->posY * MAP_CUB_SIZE},
-						 (float[]){(raycast.ray_x / CUBSIZE) * MAP_CUB_SIZE, (raycast.ray_y / CUBSIZE) * MAP_CUB_SIZE}, 0x00FF00FF);
+		draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width / 2, game_wrap->map_view->height / 2},
+						 (float[]){(raycast.ray_x / CUBSIZE) * game_wrap->tile_size - game_wrap->offset_x, (raycast.ray_y / CUBSIZE) * game_wrap->tile_size - game_wrap->offset_y}, RAY_COLOR);
 		raycast.ray_angle += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
 		check_angle_bounds(&raycast.ray_angle);
 		raycast.ray_ct++;

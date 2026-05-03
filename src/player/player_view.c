@@ -8,21 +8,24 @@
  *
  * @return Void
  */
-void draw_player(t_game *game_wrap, t_player *player_info)
+void draw_player(t_game *game_wrap)
 {
-	int x = player_info->posX * MAP_CUB_SIZE;
-	int y = player_info->posY * MAP_CUB_SIZE;
-
-	for (int i = 0; i < PLAYER_MAP_SIZE; i++)
+	/**
+	 * @note guardar en algun lado, y solo recalcular con resize
+	 */
+	int32_t x = game_wrap->map_view->width / 2;
+	int32_t y = game_wrap->map_view->height / 2;
+	int32_t i = -1 * game_wrap->player_size / 2;
+	int32_t j;
+	while (i < (game_wrap->player_size / 2))
 	{
-		for (int j = 0; j < PLAYER_MAP_SIZE; j++)
+		j = -1 * game_wrap->player_size / 2;
+		while (j < (game_wrap->player_size / 2))
 		{
-			int draw_x = x - (PLAYER_MAP_SIZE / 2) + j;
-			int draw_y = y - (PLAYER_MAP_SIZE / 2) + i;
-			if (draw_x >= 0 && draw_x < (int)game_wrap->map_view->width &&
-				draw_y >= 0 && draw_y < (int)game_wrap->map_view->height)
-				mlx_put_pixel(game_wrap->map_view, draw_x, draw_y, 0xFF0000FF);
+			mlx_put_pixel(game_wrap->map_view, x + j, y + i, PLAYER_COLOR);
+			j++;
 		}
+		i++;
 	}
 }
 

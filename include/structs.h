@@ -40,16 +40,16 @@ typedef struct s_tex_col
 
 typedef struct s_map
 {
-	char		**map;
-	int			rows;
-	int			cols;
-	int			pstart_x;
-	int			pstart_y;
-	char		pstart_orientation;
-	int			key_count;
-	int			door_count;
-	t_tex_col	*tex_col_s;
-}		t_map;
+	char **map;
+	int rows;
+	int cols;
+	int pstart_x;
+	int pstart_y;
+	char pstart_orientation;
+	int key_count;
+	int door_count;
+	t_tex_col *tex_col_s;
+} t_map;
 
 typedef struct s_dpar
 {
@@ -116,6 +116,10 @@ typedef struct s_game
 	int map_height;
 	uint32_t init_width;
 	uint32_t init_height;
+	int32_t tile_size;
+	int32_t offset_x;
+	int32_t offset_y;
+	int32_t player_size;
 	uint16_t pixels_cols;
 	uint16_t col_gross;
 } t_game;
@@ -179,8 +183,8 @@ typedef struct s_raycast
 	uint16_t ray_ct;
 	int8_t hor_ver;
 	int8_t ns_ew;
-	uint8_t	ceil_frame;
-	uint8_t	floor_frame;
+	uint8_t ceil_frame;
+	uint8_t floor_frame;
 } t_raycast;
 
 #endif
