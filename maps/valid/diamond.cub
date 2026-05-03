@@ -1,0 +1,16 @@
+
+NO ./src/imgs/c_north.png
+SO ./src/imgs/c_south.png
+WE ./src/imgs/c_west.png
+EA ./src/imgs/c_east.png
+
+F 123,45,6
+C 1,22,230
+
+1111111
+1110111
+1110111
+100N001
+1110111
+1110111
+1111111

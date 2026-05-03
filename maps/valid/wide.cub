@@ -1,7 +1,7 @@
-NO ./placeholder_textures/bike_cat.png
-SO ./placeholder_textures/cat_stare.png
-WE ./placeholder_textures/cheezburger_cat.png
-EA ./placeholder_textures/monorail_cat.png
+NO ./src/imgs/c_north.png
+SO ./src/imgs/c_south.png
+WE ./src/imgs/c_west.png
+EA ./src/imgs/c_east.png
 
 F 220,100,0
 C 225,30,0

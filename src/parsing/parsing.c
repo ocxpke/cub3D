@@ -6,7 +6,7 @@
 /*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:31:30 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/13 16:15:13 by romorale         ###   ########.fr       */
+/*   Updated: 2026/04/23 16:54:00 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	parsing_part_2(t_dpar *game)
 		exit(0);
 	}
 	printf(B_G"YAY!"GRN" Elements retrieved successfully!!!\n"RES);
-	//elements_placement(game);
 }
 
 void	parsing_part_3(t_dpar *game)
@@ -99,7 +98,8 @@ int	parsing(int ac, char **av, t_dpar *game)
 	parsing_part_3(game);
 	open_and_check_textures(game);
 	get_map_info(game);
+	square_map(game);
 	print_mapfile(game);
 	printf(H_Y"\n__________________DONE_PARSING!___________________\n\n"RES);
-	return (0);
+	return (1);
 }

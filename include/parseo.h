@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   parseo.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 20:57:13 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/13 16:40:36 by romorale         ###   ########.fr       */
+/*   Updated: 2026/04/21 20:24:38 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int		get_player_pos_row(char **map);
 char	get_orientation(char **map);
 int		get_cols(char **map);
 int		get_rows(char **map);
+void	square_map(t_dpar *g);
 
 //free
 void	free_all(t_dpar *path);
@@ -124,5 +125,6 @@ void	print_mapfile_tex( t_dpar *game);
 void	print_mapfile_colors( t_dpar *game);
 void	print_mapfile_map( t_dpar *g);
 void	print_mapfile_map_info( t_dpar *game);
+void	print_mapfile_map2(char c);
 
 #endif
