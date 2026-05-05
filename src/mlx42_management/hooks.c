@@ -12,9 +12,6 @@
 
 #include "../../include/cub3d.h"
 
-/**
- * @note Ver si esto funciona
- */
 void	resize_hook(int32_t width, int32_t height, void *param)
 {
 	t_all_structs	*all_things;
@@ -29,13 +26,11 @@ void	resize_hook(int32_t width, int32_t height, void *param)
 	if (g_wrp->col_gross < 1)
 		g_wrp->col_gross = 1;
 	g_wrp->pixels_cols = g_wrp->game_view->width / g_wrp->col_gross;
-	g_wrp->player_size = g_wrp->map_view->width * PLAYER_SIZE;
-	g_wrp->tile_size = g_wrp->map_view->width / NUM_TILES;
 }
 
 /**
  * @brief We calculate the distance from point (x0, y0) to point (x1,
-	y1). Pythagorean theorem
+ * y1). Pythagorean theorem
  *
  * @note Read more about mlx_key_data_t
  *

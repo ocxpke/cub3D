@@ -54,10 +54,13 @@ static int	load_map_textures(t_wall_textures *wall_tex, t_dpar *game_d)
 		return (perror("Error opening south map texture"), 1);
 	wall_tex->east_tex = mlx_load_png(game_d->map_s->tex_col_s->ea_tex_path);
 	if (!wall_tex->east_tex)
-		return (perror("Error opening map texture"), 1);
+		return (perror("Error opening east map texture"), 1);
 	wall_tex->west_tex = mlx_load_png(game_d->map_s->tex_col_s->we_tex_path);
 	if (!wall_tex->west_tex)
-		return (perror("Error opening map texture"), 1);
+		return (perror("Error opening west map texture"), 1);
+	wall_tex->door_tex = mlx_load_png(FULL_PATH_DOOR_TEX);
+	if (!wall_tex->door_tex)
+		return (perror("Error opening door texture"), 1);
 	return (0);
 }
 

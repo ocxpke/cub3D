@@ -15,6 +15,12 @@
 
 #include "cub3d.h"
 
+typedef enum e_coll_tex
+{
+	WALL_TEX,
+	DOOR_TEX
+}						t_coll_tex;
+
 typedef struct s_color
 {
 	uint8_t				red;
@@ -83,6 +89,7 @@ typedef struct s_wall_textures
 	mlx_texture_t		*south_tex;
 	mlx_texture_t		*east_tex;
 	mlx_texture_t		*west_tex;
+	mlx_texture_t		*door_tex;
 	t_texture_type		type;
 	uint32_t			color;
 }						t_wall_textures;
@@ -212,6 +219,9 @@ typedef struct s_raycast
 	int8_t				ns_ew;
 	uint8_t				ceil_frame;
 	uint8_t				floor_frame;
+	t_coll_tex			coll_tex_ver;
+	t_coll_tex			coll_tex_hor;
+	t_coll_tex			coll_tex;
 }						t_raycast;
 
 #endif
