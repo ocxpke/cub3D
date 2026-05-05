@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:39:59 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/03 15:53:20 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/05 18:57:34 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@
 # define SENSIBILITY 0.5
 # define PLAYER_SPEED 0.2
 # define HALF_POS 0.5
-# define MOUSE_SENSIBILITY 0.01
+# define MOUSE_SENSIBILITY 0.005f
 # define PLAYER_SIZE 0.025f
 # define NUM_TILES 25
 # define MAP_SIZE 0.25f

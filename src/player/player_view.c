@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:22:01 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/03 15:22:02 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/05 18:58:06 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	draw_player(t_game *game_wrap)
 		j = -1 * game_wrap->player_size / 2;
 		while (j < (game_wrap->player_size / 2))
 		{
-			fast_put_pixel(game_wrap->map_view, x + j, y + i, PLAYER_COLOR);
+			mlx_put_pixel(game_wrap->map_view, x + j, y + i, PLAYER_COLOR);
 			j++;
 		}
 		i++;

@@ -6,22 +6,11 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:28:02 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/03 15:49:22 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/05 19:02:48 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-
-inline void	fast_put_pixel(mlx_image_t *img, uint32_t x, uint32_t y, uint32_t color)
-{
-	uint8_t	*pixel;
-
-	pixel = img->pixels + (y * img->width + x) * BPP;
-	pixel[0] = (color >> 24) & 0xFF;
-	pixel[1] = (color >> 16) & 0xFF;
-	pixel[2] = (color >> 8)  & 0xFF;
-	pixel[3] = (color)       & 0xFF;
-}
 
 /**
  * @note No la documento por q esto va a cambiar
@@ -59,113 +48,11 @@ void	draw_line_simple(t_game *game, float p0[2], float p1[2], uint32_t color)
 		if (pixel_x >= 0 && (uint32_t)pixel_x < game->map_view->width
 			&& pixel_y >= 0 && (uint32_t)pixel_y < game->map_view->height)
 		{
-			fast_put_pixel(game->map_view, pixel_x, pixel_y, color);
+			mlx_put_pixel(game->map_view, pixel_x, pixel_y, color);
 		}
 		current_x += x_inc;
 		current_y += y_inc;
 	}
-}
-
-uint32_t	get_color_from_texture(mlx_texture_t *texture, uint16_t x,
-		uint16_t y, float dist)
-{
-	float		dist_ratio;
-	float		intensity;
-	uint32_t	base;
-	uint32_t	final_color;
-
-	if (!texture)
-		return (0);
-	dist_ratio = dist / MAX_PLAYER_VIEW_DIST;
-	if (dist_ratio > 1.0f)
-		dist_ratio = 1.0f;
-	intensity = 0.9f - (dist_ratio * 0.8f);
-	if (dist >= MAX_PLAYER_VIEW_DIST)
-		intensity = 0;
-	if (x >= texture->width || y >= texture->height)
-		return (0);
-	base = (x + (y * texture->width)) * 4;
-	final_color = ((uint32_t)(texture->pixels[base] * intensity) << 24);
-	final_color |= ((uint32_t)(texture->pixels[base + 1] * intensity) << 16);
-	final_color |= ((uint32_t)(texture->pixels[base + 2] * intensity) << 8);
-	final_color |= 0xFF;
-	return (final_color);
-}
-
-static inline mlx_texture_t	*get_wall_texture(t_game *game, t_raycast *rc)
-{
-	if (rc->coll_tex == DOOR_TEX)
-		return (game->wall_text.door_tex);
-	if (rc->hor_ver == 1)
-	{
-		if (rc->ray_angle > RAD_180_DEG && rc->ray_angle < RAD_360_DEG)
-			return (game->wall_text.south_tex);
-		else
-			return (game->wall_text.north_tex);
-	}
-	else
-	{
-		if (rc->ray_angle > RAD_90_DEG && rc->ray_angle < RAD_270_DEG)
-			return (game->wall_text.east_tex);
-		else
-			return (game->wall_text.west_tex);
-	}
-}
-
-uint32_t	color_of_ceil_floor(t_game *game_wrap, t_raycast *rc,
-		t_raycast_ceil_fl *rc_fl_cl, int mode)
-{
-	if (mode)
-	{
-		if (game_wrap->ceiling_tex.type == IMAGE_TEXTURE)
-			return (get_color_from_texture(game_wrap->ceiling_tex.all_textures[rc->ceil_frame],
-					rc_fl_cl->ceil_fl_tex_x, rc_fl_cl->ceil_fl_tex_y, 0));
-		else
-			return (game_wrap->ceiling_tex.color);
-	}
-	else
-	{
-		if (game_wrap->floor_tex.type == IMAGE_TEXTURE)
-			return (get_color_from_texture(game_wrap->floor_tex.all_textures[rc->floor_frame],
-					rc_fl_cl->ceil_fl_tex_x, rc_fl_cl->ceil_fl_tex_y, 0));
-		else
-			return (game_wrap->floor_tex.color);
-	}
-}
-
-void	draw_ceil_floor(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc,
-		int pixel, int mode)
-{
-	t_raycast_ceil_fl	*rc_fl_cl;
-
-	rc_fl_cl = &(rc->ceil_fl_vars);
-	if (mode)
-		rc_fl_cl->ceil_fl_dy = (game_wrap->game_view->height / 2.0f) - pixel;
-	else
-		rc_fl_cl->ceil_fl_dy = pixel - (game_wrap->game_view->height / 2.0f);
-	if (rc_fl_cl->ceil_fl_dy <= 0.0f)
-		rc_fl_cl->ceil_fl_dy = 1.0f;
-	// Obtenemos la distancia total del jugador al pixel a representar y arreglamos de esa distacia el ojo de pez
-	rc_fl_cl->ceil_fl_straight_dist = (game_wrap->game_view->height / 2.0f)
-		/ rc_fl_cl->ceil_fl_dy;
-	if (rc_fl_cl->cos_corrected < 0.0001f)
-		rc_fl_cl->cos_corrected = 0.0001f;
-	rc_fl_cl->ceil_fl_true_dist = rc_fl_cl->ceil_fl_straight_dist
-		/ rc_fl_cl->cos_corrected;
-	// Obtenemos la posicion del pixel del suelo a dibujar en el mapa (el suelo hace de mapa en si mismo)
-	rc_fl_cl->ceil_fl_world_x = rc->player_posx_map + (rc_fl_cl->cos_ray
-			* rc_fl_cl->ceil_fl_true_dist);
-	// Se pone un mas por que el eje Y avanza hacia abajo
-	rc_fl_cl->ceil_fl_world_y = rc->player_posy_map + (rc_fl_cl->sin_ray
-			* rc_fl_cl->ceil_fl_true_dist);
-	// Transoformamos los valores del mapa de suelo a valores para poder obtener los x,
-	// y de las texturas
-	rc_fl_cl->ceil_fl_tex_x = (uint16_t)(rc_fl_cl->ceil_fl_world_x * CUBSIZE)
-		% CUBSIZE;
-	rc_fl_cl->ceil_fl_tex_y = (uint16_t)(rc_fl_cl->ceil_fl_world_y * CUBSIZE)
-		% CUBSIZE;
-	fast_put_pixel(game_wrap->game_view, x_trunc, pixel,
-		color_of_ceil_floor(game_wrap, rc, rc_fl_cl, mode));
 }
 
 void	draw_player_view_line(t_game *game_wrap, t_raycast *rc,
@@ -190,12 +77,12 @@ void	draw_player_view_line(t_game *game_wrap, t_raycast *rc,
 		{
 			color_text = get_color_from_texture(get_wall_texture(game_wrap, rc),
 					wall_hit_x, (uint16_t)rc->texture_y_hp, rc->minor_distance);
-			fast_put_pixel(game_wrap->game_view, x_trunc, i, color_text);
+			mlx_put_pixel(game_wrap->game_view, x_trunc, i, color_text);
 			rc->texture_y_hp += rc->texture_steps;
 		}
 		else if (i < y0_trunc)
-			draw_ceil_floor(game_wrap, rc, x_trunc, i, 1);
+			draw_ceil(game_wrap, rc, x_trunc, i);
 		else
-			draw_ceil_floor(game_wrap, rc, x_trunc, i, 0);
+			draw_floor(game_wrap, rc, x_trunc, i);
 	}
 }

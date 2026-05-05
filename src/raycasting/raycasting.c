@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:18:03 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/03 15:45:12 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/05 18:32:21 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,11 +323,11 @@ void	draw_rays(t_game *game_wrap, t_player *player_info)
 		raycast.texture_x_hp -= floor(raycast.texture_x_hp);
 		fix_fish_eye(player_info, &raycast);
 		draw_frame_cols(game_wrap, &raycast);
-		// draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width / 2,
-		// 	game_wrap->map_view->height / 2}, (float[]){(raycast.ray_x
-		// 		/ CUBSIZE) * game_wrap->tile_size - game_wrap->offset_x,
-		// 	(raycast.ray_y / CUBSIZE) * game_wrap->tile_size
-		// 	- game_wrap->offset_y}, RAY_COLOR);
+		draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width / 2,
+			game_wrap->map_view->height / 2}, (float[]){(raycast.ray_x
+				/ CUBSIZE) * game_wrap->tile_size - game_wrap->offset_x,
+			(raycast.ray_y / CUBSIZE) * game_wrap->tile_size
+			- game_wrap->offset_y}, RAY_COLOR);
 		raycast.ray_angle += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
 		check_angle_bounds(&raycast.ray_angle);
 		raycast.ray_ct++;

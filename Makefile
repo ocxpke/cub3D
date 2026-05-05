@@ -15,7 +15,9 @@ MLX42_MNG := src/mlx42_management/hooks.c \
 				src/mlx42_management/window_management.c \
 				src/mlx42_management/load_frames.c
 
-DRAW_UTILS := src/draw_utils/line_algorithym.c
+DRAW_UTILS := src/draw_utils/line_algorithym.c \
+				src/draw_utils/ceiling_floor.c \
+				src/draw_utils/texture_utils.c
 
 RAYCASTING := src/raycasting/raycasting.c
 
