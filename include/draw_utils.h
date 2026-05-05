@@ -22,5 +22,6 @@ void		draw_player_view_line(t_game *game, t_raycast *rc,
 				uint32_t x_trunc);
 uint32_t	get_color_from_texture(mlx_texture_t *texture, uint16_t x,
 				uint16_t y, float dist);
+void	fast_put_pixel(mlx_image_t *img, uint32_t x, uint32_t y, uint32_t color);
 
 #endif

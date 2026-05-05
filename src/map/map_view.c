@@ -43,10 +43,10 @@ void draw_map(t_game *game_wrap, t_player *player_info)
 						if (px >= 0 && px < (int)game_wrap->map_view->width && py >= 0 && py < (int)game_wrap->map_view->height)
 						{
 							if (game_wrap->map[i][j] == 'P')
-								mlx_put_pixel(game_wrap->map_view, px, py,
+								fast_put_pixel(game_wrap->map_view, px, py,
 											  DOOR_COLOR);
 							else
-								mlx_put_pixel(game_wrap->map_view, px, py,
+								fast_put_pixel(game_wrap->map_view, px, py,
 											  WALL_COLOR);
 						}
 					}

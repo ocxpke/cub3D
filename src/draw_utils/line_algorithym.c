@@ -12,6 +12,17 @@
 
 #include "../../include/cub3d.h"
 
+inline void	fast_put_pixel(mlx_image_t *img, uint32_t x, uint32_t y, uint32_t color)
+{
+	uint8_t	*pixel;
+
+	pixel = img->pixels + (y * img->width + x) * BPP;
+	pixel[0] = (color >> 24) & 0xFF;
+	pixel[1] = (color >> 16) & 0xFF;
+	pixel[2] = (color >> 8)  & 0xFF;
+	pixel[3] = (color)       & 0xFF;
+}
+
 /**
  * @note No la documento por q esto va a cambiar
  */
@@ -48,7 +59,7 @@ void	draw_line_simple(t_game *game, float p0[2], float p1[2], uint32_t color)
 		if (pixel_x >= 0 && (uint32_t)pixel_x < game->map_view->width
 			&& pixel_y >= 0 && (uint32_t)pixel_y < game->map_view->height)
 		{
-			mlx_put_pixel(game->map_view, pixel_x, pixel_y, color);
+			fast_put_pixel(game->map_view, pixel_x, pixel_y, color);
 		}
 		current_x += x_inc;
 		current_y += y_inc;
@@ -153,7 +164,7 @@ void	draw_ceil_floor(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc,
 		% CUBSIZE;
 	rc_fl_cl->ceil_fl_tex_y = (uint16_t)(rc_fl_cl->ceil_fl_world_y * CUBSIZE)
 		% CUBSIZE;
-	mlx_put_pixel(game_wrap->game_view, x_trunc, pixel,
+	fast_put_pixel(game_wrap->game_view, x_trunc, pixel,
 		color_of_ceil_floor(game_wrap, rc, rc_fl_cl, mode));
 }
 
@@ -179,7 +190,7 @@ void	draw_player_view_line(t_game *game_wrap, t_raycast *rc,
 		{
 			color_text = get_color_from_texture(get_wall_texture(game_wrap, rc),
 					wall_hit_x, (uint16_t)rc->texture_y_hp, rc->minor_distance);
-			mlx_put_pixel(game_wrap->game_view, x_trunc, i, color_text);
+			fast_put_pixel(game_wrap->game_view, x_trunc, i, color_text);
 			rc->texture_y_hp += rc->texture_steps;
 		}
 		else if (i < y0_trunc)
