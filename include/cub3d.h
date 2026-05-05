@@ -15,13 +15,13 @@
 
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include "../lib/libft/libft.h"
+# include "structs.h"
 # include "draw_utils.h"
 # include "map.h"
 # include "mlx42_mng.h"
 # include "parseo.h"
 # include "player.h"
 # include "raycasting.h"
-# include "structs.h"
 # include "time_mng.h"
 # include <GLFW/glfw3.h>
 # include <fcntl.h>
@@ -64,11 +64,13 @@
 # define HALF_POS 0.5
 # define MOUSE_SENSIBILITY 0.01
 # define PLAYER_SIZE 0.025f
-# define NUM_TILES 15
+# define NUM_TILES 25
 # define MAP_SIZE 0.25f
 # define PLAYER_COLOR 0xFF0000FF
 # define WALL_COLOR 0x0000FFFF
 # define RAY_COLOR 0x00FF00FF
+# define FULL_PATH_DOOR_TEX "./src/imgs/wolftex/wood.png"
+# define DOOR_COLOR 0x000000FF
 
 void		re_draw(t_game *game_wrap, t_player *player_info);
 void		set_color_from_var(t_color *color, uint32_t color_setted);

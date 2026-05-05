@@ -32,6 +32,8 @@ static inline void	player_movement(t_game *game_wrap, t_player *player_info,
 		margin_y = 0.0f;
 	next_x = (int)(player_info->posx + move_in_x + margin_x);
 	next_y = (int)(player_info->posy + move_in_y + margin_y);
+	if (game_wrap->map[(int)player_info->posy][next_x] == 'P')
+		game_wrap->map[(int)player_info->posy][next_x] = '0';
 	if (game_wrap->map[(int)player_info->posy][next_x] != '1')
 		player_info->posx += move_in_x;
 	if (game_wrap->map[next_y][(int)player_info->posx] != '1')

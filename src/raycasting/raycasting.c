@@ -80,17 +80,23 @@ static inline void	init_raycast_values(t_player *player_info,
  *
  * @return Void
  */
-static inline void	check_distance_of_field(t_game *game_wrap, t_raycast *rc)
+static inline void	check_distance_of_field(t_game *game_wrap, t_raycast *rc, uint8_t mode)
 {
+	t_coll_tex	aux;
+
+	aux = WALL_TEX;
 	while (rc->distance_of_field < FOG)
 	{
 		rc->map_x = (int)(rc->ray_x) >> BIT_SHIFT;
 		rc->map_y = (int)(rc->ray_y) >> BIT_SHIFT;
 		if ((rc->map_x >= 0 && rc->map_x < game_wrap->map_width)
 			&& (rc->map_y >= 0 && rc->map_y < game_wrap->map_height)
-			&& (game_wrap->map[rc->map_y][rc->map_x] == '1'))
+			&& ((game_wrap->map[rc->map_y][rc->map_x] == '1') || game_wrap->map[rc->map_y][rc->map_x] == 'P'))
 		{
 			rc->distance_of_field = FOG;
+			aux = WALL_TEX;
+			if (game_wrap->map[rc->map_y][rc->map_x] == 'P')
+				aux = DOOR_TEX;
 		}
 		else
 		{
@@ -99,6 +105,10 @@ static inline void	check_distance_of_field(t_game *game_wrap, t_raycast *rc)
 			rc->distance_of_field += 1;
 		}
 	}
+	if (!mode)
+		rc->coll_tex_hor = aux;
+	else
+		rc->coll_tex_ver = aux;
 }
 
 /**
@@ -118,7 +128,7 @@ static inline void	check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 {
 	rc->distance_of_field = 0;
 	if (tan(rc->ray_angle) == 0)
-		rc->ray_angle += 0.0001;
+		rc->ray_angle += 0.0001f;
 	rc->arc_tan = -1 / tan(rc->ray_angle);
 	if (rc->ray_angle > PI)
 	{
@@ -144,7 +154,7 @@ static inline void	check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 		rc->ray_y = rc->player_posy_cube;
 		rc->distance_of_field = FOG;
 	}
-	check_distance_of_field(game_wrap, rc);
+	check_distance_of_field(game_wrap, rc, 0);
 	rc->horizontal_dist = dist(rc->player_posx_cube, rc->player_posy_cube,
 			rc->ray_x, rc->ray_y);
 	rc->horizontal_x = rc->ray_x;
@@ -194,7 +204,7 @@ static inline void	check_vertical_ray(t_game *game_wrap, t_raycast *rc)
 		rc->ray_y = rc->player_posy_cube;
 		rc->distance_of_field = FOG;
 	}
-	check_distance_of_field(game_wrap, rc);
+	check_distance_of_field(game_wrap, rc, 1);
 	rc->vertical_dist = dist(rc->player_posx_cube, rc->player_posy_cube,
 			rc->ray_x, rc->ray_y);
 	rc->vertical_x = rc->ray_x;
@@ -218,6 +228,7 @@ static inline void	check_minor_distance(t_raycast *raycast)
 		raycast->minor_distance = raycast->horizontal_dist;
 		raycast->hor_ver = 1;
 		raycast->texture_x_hp = raycast->ray_x / CUBSIZE;
+		raycast->coll_tex = raycast->coll_tex_hor;
 	}
 	else
 	{
@@ -226,6 +237,7 @@ static inline void	check_minor_distance(t_raycast *raycast)
 		raycast->minor_distance = raycast->vertical_dist;
 		raycast->hor_ver = -1;
 		raycast->texture_x_hp = raycast->ray_y / CUBSIZE;
+		raycast->coll_tex = raycast->coll_tex_ver;
 	}
 }
 

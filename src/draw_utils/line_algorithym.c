@@ -83,6 +83,8 @@ uint32_t	get_color_from_texture(mlx_texture_t *texture, uint16_t x,
 
 static inline mlx_texture_t	*get_wall_texture(t_game *game, t_raycast *rc)
 {
+	if (rc->coll_tex == DOOR_TEX)
+		return (game->wall_text.door_tex);
 	if (rc->hor_ver == 1)
 	{
 		if (rc->ray_angle > RAD_180_DEG && rc->ray_angle < RAD_360_DEG)
