@@ -23,7 +23,7 @@
  *
  * @return The distance calculated
  */
-static inline float	dist(float x0, float y0, float x1, float y1)
+static inline float dist(float x0, float y0, float x1, float y1)
 {
 	return (sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
 }
@@ -35,7 +35,7 @@ static inline float	dist(float x0, float y0, float x1, float y1)
  *
  * @return Void
  */
-inline void	check_angle_bounds(float *angle)
+inline void check_angle_bounds(float *angle)
 {
 	if (*angle < 0)
 		*angle += RAD_360_DEG;
@@ -51,8 +51,8 @@ inline void	check_angle_bounds(float *angle)
  *
  * @return Void
  */
-static inline void	init_raycast_values(t_player *player_info,
-		t_raycast *raycast)
+static inline void init_raycast_values(t_player *player_info,
+									   t_raycast *raycast)
 {
 	raycast->player_angle = player_info->ang;
 	raycast->player_posx_cube = player_info->posx * CUBSIZE;
@@ -80,18 +80,16 @@ static inline void	init_raycast_values(t_player *player_info,
  *
  * @return Void
  */
-static inline void	check_distance_of_field(t_game *game_wrap, t_raycast *rc, uint8_t mode)
+static inline void check_distance_of_field(t_game *game_wrap, t_raycast *rc, uint8_t mode)
 {
-	t_coll_tex	aux;
+	t_coll_tex aux;
 
 	aux = WALL_TEX;
 	while (rc->distance_of_field < FOG)
 	{
 		rc->map_x = (int)(rc->ray_x) >> BIT_SHIFT;
 		rc->map_y = (int)(rc->ray_y) >> BIT_SHIFT;
-		if ((rc->map_x >= 0 && rc->map_x < game_wrap->map_width)
-			&& (rc->map_y >= 0 && rc->map_y < game_wrap->map_height)
-			&& ((game_wrap->map[rc->map_y][rc->map_x] == '1') || game_wrap->map[rc->map_y][rc->map_x] == 'P'))
+		if ((rc->map_x >= 0 && rc->map_x < game_wrap->map_width) && (rc->map_y >= 0 && rc->map_y < game_wrap->map_height) && ((game_wrap->map[rc->map_y][rc->map_x] == '1') || game_wrap->map[rc->map_y][rc->map_x] == 'P'))
 		{
 			rc->distance_of_field = FOG;
 			aux = WALL_TEX;
@@ -124,7 +122,7 @@ static inline void	check_distance_of_field(t_game *game_wrap, t_raycast *rc, uin
  *
  * @return Void
  */
-static inline void	check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
+static inline void check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 {
 	rc->distance_of_field = 0;
 	if (tan(rc->ray_angle) == 0)
@@ -132,19 +130,15 @@ static inline void	check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 	rc->arc_tan = -1 / tan(rc->ray_angle);
 	if (rc->ray_angle > PI)
 	{
-		rc->ray_y = (((int)rc->player_posy_cube >> BIT_SHIFT) << BIT_SHIFT)
-			- 0.01f;
-		rc->ray_x = (rc->player_posy_cube - rc->ray_y) * rc->arc_tan
-			+ rc->player_posx_cube;
+		rc->ray_y = (((int)rc->player_posy_cube >> BIT_SHIFT) << BIT_SHIFT) - 0.01f;
+		rc->ray_x = (rc->player_posy_cube - rc->ray_y) * rc->arc_tan + rc->player_posx_cube;
 		rc->ray_y_offset = -1 * CUBSIZE;
 		rc->ray_x_offset = -1 * rc->ray_y_offset * rc->arc_tan;
 	}
 	if (rc->ray_angle < PI)
 	{
-		rc->ray_y = (((int)rc->player_posy_cube >> BIT_SHIFT) << BIT_SHIFT)
-			+ CUBSIZE;
-		rc->ray_x = (rc->player_posy_cube - rc->ray_y) * rc->arc_tan
-			+ rc->player_posx_cube;
+		rc->ray_y = (((int)rc->player_posy_cube >> BIT_SHIFT) << BIT_SHIFT) + CUBSIZE;
+		rc->ray_x = (rc->player_posy_cube - rc->ray_y) * rc->arc_tan + rc->player_posx_cube;
 		rc->ray_y_offset = CUBSIZE;
 		rc->ray_x_offset = -1 * rc->ray_y_offset * rc->arc_tan;
 	}
@@ -156,7 +150,7 @@ static inline void	check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 	}
 	check_distance_of_field(game_wrap, rc, 0);
 	rc->horizontal_dist = dist(rc->player_posx_cube, rc->player_posy_cube,
-			rc->ray_x, rc->ray_y);
+							   rc->ray_x, rc->ray_y);
 	rc->horizontal_x = rc->ray_x;
 	rc->horizontal_y = rc->ray_y;
 }
@@ -174,7 +168,7 @@ static inline void	check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
  *
  * @return Void
  */
-static inline void	check_vertical_ray(t_game *game_wrap, t_raycast *rc)
+static inline void check_vertical_ray(t_game *game_wrap, t_raycast *rc)
 {
 	rc->distance_of_field = 0;
 	if (tan(rc->ray_angle) == 0)
@@ -182,19 +176,15 @@ static inline void	check_vertical_ray(t_game *game_wrap, t_raycast *rc)
 	rc->neg_tan = -1 * tan(rc->ray_angle);
 	if (rc->ray_angle > RAD_90_DEG && rc->ray_angle < RAD_270_DEG)
 	{
-		rc->ray_x = (((int)rc->player_posx_cube >> BIT_SHIFT) << BIT_SHIFT)
-			- 0.01f;
-		rc->ray_y = (rc->player_posx_cube - rc->ray_x) * rc->neg_tan
-			+ rc->player_posy_cube;
+		rc->ray_x = (((int)rc->player_posx_cube >> BIT_SHIFT) << BIT_SHIFT) - 0.01f;
+		rc->ray_y = (rc->player_posx_cube - rc->ray_x) * rc->neg_tan + rc->player_posy_cube;
 		rc->ray_x_offset = -CUBSIZE;
 		rc->ray_y_offset = -rc->ray_x_offset * rc->neg_tan;
 	}
 	if (rc->ray_angle < RAD_90_DEG || rc->ray_angle > RAD_270_DEG)
 	{
-		rc->ray_x = (((int)rc->player_posx_cube >> BIT_SHIFT) << BIT_SHIFT)
-			+ CUBSIZE;
-		rc->ray_y = (rc->player_posx_cube - rc->ray_x) * rc->neg_tan
-			+ rc->player_posy_cube;
+		rc->ray_x = (((int)rc->player_posx_cube >> BIT_SHIFT) << BIT_SHIFT) + CUBSIZE;
+		rc->ray_y = (rc->player_posx_cube - rc->ray_x) * rc->neg_tan + rc->player_posy_cube;
 		rc->ray_x_offset = CUBSIZE;
 		rc->ray_y_offset = -rc->ray_x_offset * rc->neg_tan;
 	}
@@ -206,7 +196,7 @@ static inline void	check_vertical_ray(t_game *game_wrap, t_raycast *rc)
 	}
 	check_distance_of_field(game_wrap, rc, 1);
 	rc->vertical_dist = dist(rc->player_posx_cube, rc->player_posy_cube,
-			rc->ray_x, rc->ray_y);
+							 rc->ray_x, rc->ray_y);
 	rc->vertical_x = rc->ray_x;
 	rc->vertical_y = rc->ray_y;
 }
@@ -219,7 +209,7 @@ static inline void	check_vertical_ray(t_game *game_wrap, t_raycast *rc)
  *
  * @return Void
  */
-static inline void	check_minor_distance(t_raycast *raycast)
+static inline void check_minor_distance(t_raycast *raycast)
 {
 	if (raycast->horizontal_dist <= raycast->vertical_dist)
 	{
@@ -250,14 +240,34 @@ static inline void	check_minor_distance(t_raycast *raycast)
  *
  * @return Void
  */
-static inline void	fix_fish_eye(t_player *player_info, t_raycast *raycast)
+static inline void fix_fish_eye(t_player *player_info, t_raycast *raycast)
 {
 	raycast->corrected_angle = player_info->ang - raycast->ray_angle;
 	check_angle_bounds(&raycast->corrected_angle);
-	raycast->minor_distance = raycast->minor_distance
-		* cos(raycast->corrected_angle);
+	raycast->minor_distance = raycast->minor_distance * cos(raycast->corrected_angle);
 }
 
+/**
+ * @brief We swap the x position to fix the mirror effect that ocurrs when display
+ * a texture
+ *
+ * @param raycast Struct containing all raycaster previously calculated values
+ *
+ * @return Void
+ */
+static inline void invert_texture_x(t_raycast *raycast)
+{
+	if (raycast->horizontal_dist <= raycast->vertical_dist)
+	{
+		if (raycast->ray_angle < PI)
+			raycast->texture_x_hp = 1.0f - raycast->texture_x_hp;
+	}
+	else
+	{
+		if (raycast->ray_angle > RAD_90_DEG && raycast->ray_angle < RAD_270_DEG)
+			raycast->texture_x_hp = 1.0f - raycast->texture_x_hp;
+	}
+}
 /**
  * @brief Where all the graphic magic takes place here we will calculate ray
  * col gross and draw a pixel col of each colum color per gross.
@@ -267,27 +277,23 @@ static inline void	fix_fish_eye(t_player *player_info, t_raycast *raycast)
  *
  * @return Void
  */
-static inline void	draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
+static inline void draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
 {
-	raycast->wall_len = (CUBSIZE * game_wrap->game_view->height)
-		/ raycast->minor_distance;
+	raycast->wall_len = (CUBSIZE * game_wrap->game_view->height) / raycast->minor_distance;
 	raycast->save_tex_y = 0;
 	raycast->texture_steps = (float)CUBSIZE / raycast->wall_len;
 	if (raycast->wall_len > game_wrap->game_view->height)
 	{
-		raycast->save_tex_y = ((raycast->wall_len
-					- game_wrap->game_view->height) / 2)
-			* raycast->texture_steps;
+		raycast->save_tex_y = ((raycast->wall_len - game_wrap->game_view->height) / 2) * raycast->texture_steps;
 		raycast->wall_len = game_wrap->game_view->height;
 	}
-	raycast->wall_start = (game_wrap->game_view->height - raycast->wall_len)
-		/ 2;
+	raycast->wall_start = (game_wrap->game_view->height - raycast->wall_len) / 2;
 	raycast->iter_gross = 0;
+	invert_texture_x(raycast);
 	while (raycast->iter_gross < game_wrap->col_gross)
 	{
 		raycast->texture_y_hp = raycast->save_tex_y;
-		draw_player_view_line(game_wrap, raycast, (uint32_t)(raycast->ray_ct
-				* game_wrap->col_gross) + raycast->iter_gross);
+		draw_player_view_line(game_wrap, raycast, (uint32_t)(raycast->ray_ct * game_wrap->col_gross) + raycast->iter_gross);
 		raycast->iter_gross++;
 	}
 }
@@ -308,9 +314,9 @@ static inline void	draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
  *
  * @return Void
  */
-void	draw_rays(t_game *game_wrap, t_player *player_info)
+void draw_rays(t_game *game_wrap, t_player *player_info)
 {
-	t_raycast	raycast;
+	t_raycast raycast;
 
 	init_raycast_values(player_info, &raycast);
 	raycast.ray_angle = player_info->ang - (ONE_DEGREE * HALF_FOV);
@@ -323,11 +329,7 @@ void	draw_rays(t_game *game_wrap, t_player *player_info)
 		raycast.texture_x_hp -= floor(raycast.texture_x_hp);
 		fix_fish_eye(player_info, &raycast);
 		draw_frame_cols(game_wrap, &raycast);
-		draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width / 2,
-			game_wrap->map_view->height / 2}, (float[]){(raycast.ray_x
-				/ CUBSIZE) * game_wrap->tile_size - game_wrap->offset_x,
-			(raycast.ray_y / CUBSIZE) * game_wrap->tile_size
-			- game_wrap->offset_y}, RAY_COLOR);
+		draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width / 2, game_wrap->map_view->height / 2}, (float[]){(raycast.ray_x / CUBSIZE) * game_wrap->tile_size - game_wrap->offset_x, (raycast.ray_y / CUBSIZE) * game_wrap->tile_size - game_wrap->offset_y}, RAY_COLOR);
 		raycast.ray_angle += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
 		check_angle_bounds(&raycast.ray_angle);
 		raycast.ray_ct++;

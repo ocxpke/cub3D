@@ -88,6 +88,9 @@ re: clean all
 run: all
 	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3d ./src/placeholder_textures/valid_simple_map_cat_textures.cub
 
+run1: all
+	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3d ./maps/valid/diamonds.cub
+
 valgrind_run: all
 	valgrind -s ./cub3d
 
