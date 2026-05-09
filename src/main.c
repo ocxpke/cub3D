@@ -127,12 +127,16 @@ void	re_draw(t_game *game_wrap, t_player *player_info)
 /**
  * @note frames need to be cleaned
  */
-void	exit_mlx42(t_game *game_wrap)
+void	exit_mlx42(t_game *game_wrap, t_player *player_info, t_dpar *game_d)
 {
+	//Liberar mlx textures
 	mlx_delete_image(game_wrap->window, game_wrap->map_view);
 	mlx_delete_image(game_wrap->window, game_wrap->game_view);
 	mlx_close_window(game_wrap->window);
 	mlx_terminate(game_wrap->window);
+	free_map(&game_d);
+	free_up_to_cheklist(&game_d);
+	free(player_info->wall_distance);
 	exit(EXIT_SUCCESS);
 }
 
@@ -147,6 +151,9 @@ int	main(int argc, char **argv)
 		return (perror("Something went wrong at parsing"), EXIT_FAILURE);
 	set_init_vals(&game_wrap, &player_info, &game_d);
 	manage_mlx42_resources(&game_wrap, &game_d);
+	player_info.wall_distance = ft_calloc(1, sizeof(float)*game_wrap.pixels_cols);
+	if (!player_info.wall_distance)
+		exit(EXIT_FAILURE);
 	all.game_wrap = &game_wrap;
 	all.player_info = &player_info;
 	all.parser_data = &game_d;
@@ -155,8 +162,6 @@ int	main(int argc, char **argv)
 	mlx_cursor_hook(game_wrap.window, mouse_movement_hook, &all);
 	mlx_loop_hook(game_wrap.window, key_hook, &all);
 	mlx_loop(game_wrap.window);
-	exit_mlx42(&game_wrap);
-	free_map(&game_d);
-	free_up_to_cheklist(&game_d);
+	exit_mlx42(&game_wrap, &player_info, &game_d);
 	return (EXIT_SUCCESS);
 }

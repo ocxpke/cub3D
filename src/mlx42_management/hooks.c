@@ -26,6 +26,10 @@ void	resize_hook(int32_t width, int32_t height, void *param)
 	if (g_wrp->col_gross < 1)
 		g_wrp->col_gross = 1;
 	g_wrp->pixels_cols = g_wrp->game_view->width / g_wrp->col_gross;
+	free(all_things->player_info->wall_distance);
+	all_things->player_info->wall_distance = ft_calloc(1, sizeof(float)*g_wrp->pixels_cols);
+	if (!all_things->player_info->wall_distance)
+		exit(EXIT_FAILURE);
 }
 
 /**

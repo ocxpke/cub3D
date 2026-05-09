@@ -31,6 +31,8 @@ uint32_t	get_color_from_texture(mlx_texture_t *texture, uint16_t x,
 	if (x >= texture->width || y >= texture->height)
 		return (0);
 	base = (x + (y * texture->width)) * 4;
+	if (dist == 0)
+		intensity = 1;
 	final_color = ((uint32_t)(texture->pixels[base] * intensity) << 24);
 	final_color |= ((uint32_t)(texture->pixels[base + 1] * intensity) << 16);
 	final_color |= ((uint32_t)(texture->pixels[base + 2] * intensity) << 8);
