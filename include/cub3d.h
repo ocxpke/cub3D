@@ -71,10 +71,13 @@
 # define RAY_COLOR 0x00FF00FF
 # define FULL_PATH_DOOR_TEX "./src/imgs/wolftex/wood.png"
 # define DOOR_COLOR 0x000000FF
+# define OBJ_PATH "./src/imgs/key_64/"
+# define OBJ_TEXTURE "k_"
+# define OBJ_NUMBER 12
 
 void		re_draw(t_game *game_wrap, t_player *player_info);
 void		set_color_from_var(t_color *color, uint32_t color_setted);
-void		exit_mlx42(t_game *game_wrap);
+void		exit_mlx42(t_game *game_wrap, t_player *player_info, t_dpar *game_d);
 uint32_t	get_color_from_struct(t_color *color, uint8_t alpha);
 
 #endif
