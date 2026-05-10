@@ -23,6 +23,8 @@
 # include "player.h"
 # include "raycasting.h"
 # include "time_mng.h"
+# include "aux.h"
+# include "init_end.h"
 # include <GLFW/glfw3.h>
 # include <fcntl.h>
 # include <math.h>
@@ -60,7 +62,7 @@
 # define FLOOR_TEX_NUMBER 8
 # define FPS 60
 # define SENSIBILITY 0.5
-# define PLAYER_SPEED 0.2
+# define PLAYER_SPEED 0.1
 # define HALF_POS 0.5
 # define MOUSE_SENSIBILITY 0.005f
 # define PLAYER_SIZE 0.025f
@@ -74,6 +76,7 @@
 # define OBJ_PATH "./src/imgs/key_64/"
 # define OBJ_TEXTURE "k_"
 # define OBJ_NUMBER 12
+# define IGNORE_COLOR 0xFF00FFFF
 
 void		re_draw(t_game *game_wrap, t_player *player_info);
 void		set_color_from_var(t_color *color, uint32_t color_setted);
