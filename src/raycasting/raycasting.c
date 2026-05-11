@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:18:03 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/05 18:32:21 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/11 19:09:54 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
  *
  * @return Void
  */
-static inline void init_raycast_values(t_player *player_info,
-									   t_raycast *raycast)
+static inline void	init_raycast_values(t_player *player_info,
+		t_raycast *raycast)
 {
 	raycast->player_angle = player_info->ang;
 	raycast->player_posx_cube = player_info->posx * CUBSIZE;
@@ -40,14 +40,14 @@ static inline void init_raycast_values(t_player *player_info,
 }
 
 /**
- * @brief We swap the x position to fix the mirror effect that ocurrs when display
- * a texture
+ * @brief We swap the x position to fix the mirror effect that ocurrs when
+ * display a texture
  *
  * @param raycast Struct containing all raycaster previously calculated values
  *
  * @return Void
  */
-static inline void invert_texture_x(t_raycast *raycast)
+static inline void	invert_texture_x(t_raycast *raycast)
 {
 	if (raycast->horizontal_dist <= raycast->vertical_dist)
 	{
@@ -60,6 +60,7 @@ static inline void invert_texture_x(t_raycast *raycast)
 			raycast->texture_x_hp = 1.0f - raycast->texture_x_hp;
 	}
 }
+
 /**
  * @brief Where all the graphic magic takes place here we will calculate ray
  * col gross and draw a pixel col of each colum color per gross.
@@ -69,23 +70,28 @@ static inline void invert_texture_x(t_raycast *raycast)
  *
  * @return Void
  */
-static inline void draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
+static inline void	draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
 {
-	raycast->wall_len = (CUBSIZE * game_wrap->game_view->height) / raycast->minor_distance;
+	raycast->wall_len = (CUBSIZE * game_wrap->game_view->height)
+		/ raycast->minor_distance;
 	raycast->save_tex_y = 0;
 	raycast->texture_steps = (float)CUBSIZE / raycast->wall_len;
 	if (raycast->wall_len > game_wrap->game_view->height)
 	{
-		raycast->save_tex_y = ((raycast->wall_len - game_wrap->game_view->height) / 2) * raycast->texture_steps;
+		raycast->save_tex_y = ((raycast->wall_len
+					- game_wrap->game_view->height) / 2)
+			* raycast->texture_steps;
 		raycast->wall_len = game_wrap->game_view->height;
 	}
-	raycast->wall_start = (game_wrap->game_view->height - raycast->wall_len) / 2;
+	raycast->wall_start = (game_wrap->game_view->height - raycast->wall_len)
+		/ 2;
 	raycast->iter_gross = 0;
 	invert_texture_x(raycast);
 	while (raycast->iter_gross < game_wrap->col_gross)
 	{
 		raycast->texture_y_hp = raycast->save_tex_y;
-		draw_player_view_line(game_wrap, raycast, (uint32_t)(raycast->ray_ct * game_wrap->col_gross) + raycast->iter_gross);
+		draw_player_view_line(game_wrap, raycast, (uint32_t)(raycast->ray_ct
+				* game_wrap->col_gross) + raycast->iter_gross);
 		raycast->iter_gross++;
 	}
 }
@@ -106,9 +112,9 @@ static inline void draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
  *
  * @return Void
  */
-void draw_rays(t_game *game_wrap, t_player *player_info)
+void	draw_rays(t_game *game_wrap, t_player *player_info)
 {
-	t_raycast raycast;
+	t_raycast	raycast;
 
 	init_raycast_values(player_info, &raycast);
 	raycast.ray_angle = player_info->ang - (ONE_DEGREE * HALF_FOV);
@@ -121,7 +127,11 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 		raycast.texture_x_hp -= floor(raycast.texture_x_hp);
 		fix_fish_eye(player_info, &raycast);
 		draw_frame_cols(game_wrap, &raycast);
-		draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width / 2, game_wrap->map_view->height / 2}, (float[]){(raycast.ray_x / CUBSIZE) * game_wrap->tile_size - game_wrap->offset_x, (raycast.ray_y / CUBSIZE) * game_wrap->tile_size - game_wrap->offset_y}, RAY_COLOR);
+		draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width / 2,
+			game_wrap->map_view->height / 2}, (float[]){(raycast.ray_x
+				/ CUBSIZE) * game_wrap->tile_size - game_wrap->offset_x,
+			(raycast.ray_y / CUBSIZE) * game_wrap->tile_size
+			- game_wrap->offset_y}, RAY_COLOR);
 		raycast.ray_angle += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
 		check_angle_bounds(&raycast.ray_angle);
 		raycast.ray_ct++;

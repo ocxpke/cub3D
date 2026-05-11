@@ -4,8 +4,8 @@ SO ./src/imgs/c_southa.png
 WE ./src/imgs/c_westa.png
 EA ./src/imgs/c_easta.png
 
-F 123,45,6
-C 1,22,230
+F 245,245,245
+C 245,245,245
 
 111111111111111
 111101111101111

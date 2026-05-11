@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:40:48 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/05 18:46:39 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/11 19:27:10 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef enum e_obj_type
 {
 	OBJECT,
 	ENEMY
-}			t_obj_type;
+}						t_obj_type;
 
 typedef enum e_coll_tex
 {
@@ -29,12 +29,12 @@ typedef enum e_coll_tex
 
 typedef struct s_object_info
 {
-	t_obj_type		type;
-	uint8_t			state;
-	mlx_texture_t	*obj_texture;
-	float			x_pos;
-	float			y_pos;
-	float			z_pos;
+	t_obj_type			type;
+	uint8_t				state;
+	mlx_texture_t		*obj_texture;
+	float				x_pos;
+	float				y_pos;
+	float				z_pos;
 }						t_object_info;
 
 typedef struct s_color

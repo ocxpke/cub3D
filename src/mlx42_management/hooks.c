@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:23:57 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/03 15:24:32 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/11 19:10:55 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	resize_hook(int32_t width, int32_t height, void *param)
 		g_wrp->col_gross = 1;
 	g_wrp->pixels_cols = g_wrp->game_view->width / g_wrp->col_gross;
 	free(all_things->player_info->wall_distance);
-	all_things->player_info->wall_distance = ft_calloc(1, sizeof(float)*g_wrp->pixels_cols);
+	all_things->player_info->wall_distance = ft_calloc(1, sizeof(float)
+			* g_wrp->pixels_cols);
 	if (!all_things->player_info->wall_distance)
 		exit(EXIT_FAILURE);
 }
@@ -64,7 +65,8 @@ void	key_hook(void *param)
 	player_keyboard->right_arrow = mlx_is_key_down(all_info->game_wrap->window,
 			MLX_KEY_RIGHT);
 	if (mlx_is_key_down(all_info->game_wrap->window, MLX_KEY_ESCAPE))
-		return (exit_mlx42(all_info->game_wrap, all_info->player_info, all_info->parser_data));
+		return (exit_mlx42(all_info->game_wrap, all_info->player_info,
+				all_info->parser_data));
 	re_draw(all_info->game_wrap, all_info->player_info);
 }
 

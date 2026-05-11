@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:14:28 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/03 15:43:48 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/11 19:05:53 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@
  *
  * @return Void
  */
-void re_draw(t_game *game_wrap, t_player *player_info)
+void	re_draw(t_game *game_wrap, t_player *player_info)
 {
-	ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
+	ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width
+		* game_wrap->map_view->height * BPP);
 	draw_player(game_wrap);
 	draw_map(game_wrap, player_info);
 	player_key_rotation(game_wrap, player_info);
@@ -37,19 +38,20 @@ void re_draw(t_game *game_wrap, t_player *player_info)
 	draw_sprites(game_wrap, player_info);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_dpar game_d;
-	t_game game_wrap;
-	t_player player_info;
-	t_all_structs all;
+	t_dpar			game_d;
+	t_game			game_wrap;
+	t_player		player_info;
+	t_all_structs	all;
 
 	macro_checker();
 	if (!parsing(argc, argv, &game_d))
 		return (perror("Something went wrong at parsing"), EXIT_FAILURE);
 	set_init_vals(&game_wrap, &player_info, &game_d);
 	manage_mlx42_resources(&game_wrap, &game_d);
-	player_info.wall_distance = ft_calloc(1, sizeof(float) * game_wrap.pixels_cols);
+	player_info.wall_distance = ft_calloc(1, sizeof(float)
+			* game_wrap.pixels_cols);
 	if (!player_info.wall_distance)
 		exit(EXIT_FAILURE);
 	all.game_wrap = &game_wrap;
