@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color_mng.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/13 14:29:37 by jose-ara          #+#    #+#             */
+/*   Updated: 2026/05/13 14:29:38 by jose-ara         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/cub3d.h"
 
 /**
@@ -8,7 +20,7 @@
  *
  * @return The color in the corresponding uint32_t
  */
-inline void set_color_from_var(t_color *color, uint32_t color_setted)
+inline void	set_color_from_var(t_color *color, uint32_t color_setted)
 {
 	color->red = (color_setted >> 24) & 0xFF;
 	color->green = (color_setted >> 16) & 0xFF;
@@ -25,9 +37,9 @@ inline void set_color_from_var(t_color *color, uint32_t color_setted)
  *
  * @return The color in the corresponding uint32_t
  */
-inline uint32_t get_color_from_struct(t_color *color, uint8_t alpha)
+inline uint32_t	get_color_from_struct(t_color *color, uint8_t alpha)
 {
-	uint32_t ret_color;
+	uint32_t	ret_color;
 
 	ret_color = ((uint32_t)color->red << 24);
 	ret_color |= ((uint32_t)color->green << 16);

@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:14:28 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/11 19:05:53 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/13 15:02:50 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	main(int argc, char **argv)
 	t_player		player_info;
 	t_all_structs	all;
 
-	macro_checker();
 	if (!parsing(argc, argv, &game_d))
 		return (perror("Something went wrong at parsing"), EXIT_FAILURE);
 	set_init_vals(&game_wrap, &player_info, &game_d);

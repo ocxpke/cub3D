@@ -6,11 +6,38 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 19:08:21 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/11 19:08:22 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:44:28 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+/**
+ * @brief Just a function that checks all macros have the correct values
+ *
+ * @return Void
+ */
+// inline void	macro_checker(void)
+// {
+// 	if (CUBSIZE <= 0 || (CUBSIZE & (CUBSIZE - 1)) != 0)
+// 		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
+// 	if (FOV <= 0 || FOV > 360 || FPS <= 0 || HALF_FOV <= 0 || FOG <= 0
+// 		|| PIX_COL <= 0 || NUM_TILES <= 0)
+// 		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
+// 	if (!(CEILING_TEX_NUMBER > 0) || !(FLOOR_TEX_NUMBER > 0)
+// 		|| !(OBJ_NUMBER > 0))
+// 		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
+// 	if (MOUSE_SENSIBILITY <= 0.0f || MOUSE_SENSIBILITY >= 0.5f)
+// 		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
+// 	if (PLAYER_SPEED <= 0.0f || PLAYER_SPEED >= 1.0f)
+// 		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
+// 	if (SENSIBILITY <= 0.0f)
+// 		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
+// 	if (MAP_SIZE <= 0.0f || MAP_SIZE >= 1.0f)
+// 		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
+// 	if (PLAYER_SIZE <= 0.0f || PLAYER_SIZE >= 1.0f)
+// 		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
+// }
 
 /**
  * @brief We set player orientation into the corresponding radians
@@ -33,35 +60,6 @@ static inline void	set_orientation(t_player *player_info, t_map *map_info)
 		player_info->ang = RAD_360_DEG;
 	else
 		write(STDERR_FILENO, "Error at set_orientation", 24);
-}
-
-/**
- * @brief Just a function that checks all macros have the correct values
- *
- * @return Void
- */
-inline void	macro_checker(void)
-{
-	/*
-	if (CUBSIZE <= 0 || (CUBSIZE & (CUBSIZE - 1)) != 0)
-		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
-	if (FOV <= 0 || FOV > 360 || FPS <= 0 || HALF_FOV <= 0 || FOG <= 0
-		|| PIX_COL <= 0 || NUM_TILES <= 0)
-		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
-	if (!(CEILING_TEX_NUMBER > 0) || !(FLOOR_TEX_NUMBER > 0)
-		|| !(OBJ_NUMBER > 0))
-		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
-	if (MOUSE_SENSIBILITY <= 0.0f || MOUSE_SENSIBILITY >= 0.5f)
-		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
-	if (PLAYER_SPEED <= 0.0f || PLAYER_SPEED >= 1.0f)
-		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
-	if (SENSIBILITY <= 0.0f)
-		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
-	if (MAP_SIZE <= 0.0f || MAP_SIZE >= 1.0f)
-		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
-	if (PLAYER_SIZE <= 0.0f || PLAYER_SIZE >= 1.0f)
-		return (write(STDERR_FILENO, "Check macros\n", 13), exit(EXIT_FAILURE));
-		*/
 }
 
 /**
