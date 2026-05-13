@@ -15,11 +15,21 @@ MLX42_MNG := src/mlx42_management/hooks.c \
 				src/mlx42_management/window_management.c \
 				src/mlx42_management/load_frames.c
 
-DRAW_UTILS := src/draw_utils/line_algorithym.c
+DRAW_UTILS := src/draw_utils/line_algorithym.c \
+				src/draw_utils/ceiling_floor.c \
+				src/draw_utils/texture_utils.c
 
-RAYCASTING := src/raycasting/raycasting.c
+RAYCASTING := src/raycasting/raycasting.c \
+				src/raycasting/aux_raycast.c \
+				src/raycasting/objects_rendering.c \
+				src/raycasting/hor_ver_rays.c
 
 TIME_MNG := src/time_mng/get_time.c
+
+AUX := src/aux/color_mng.c
+
+INIT_END := src/init_end/init.c \
+				src/init_end/end.c
 
 PARSEO := src/parsing/parsing.c \
 				src/parsing/file_validation_utils.c \
@@ -50,7 +60,7 @@ PARSEO := src/parsing/parsing.c \
 				src/parsing/free_key_array.c
 
 SRCS	= $(VIEWS) $(MLX42_MNG) $(DRAW_UTILS) $(RAYCASTING)\
-			$(MAP) $(PLAYER) $(TIME_MNG) $(PARSEO)\
+			$(MAP) $(PLAYER) $(TIME_MNG) $(AUX) $(INIT_END) $(PARSEO)\
 			src/main.c
 
 OBJ_DIR	:= build/objs
@@ -86,7 +96,10 @@ fclean: clean
 re: clean all
 
 run: all
-	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3d ./src/placeholder_textures/valid_simple_map_cat_textures.cub
+	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3d ./maps/placeholder_textures/valid_simple_map_cat_textures.cub
+
+run1: all
+	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3d ./maps/valid/diamonds.cub
 
 valgrind_run: all
 	valgrind -s ./cub3d

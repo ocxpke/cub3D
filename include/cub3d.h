@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:39:59 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/03 15:53:20 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/05 18:57:34 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include "player.h"
 # include "raycasting.h"
 # include "time_mng.h"
+# include "aux.h"
+# include "init_end.h"
 # include <GLFW/glfw3.h>
 # include <fcntl.h>
 # include <math.h>
@@ -60,9 +62,9 @@
 # define FLOOR_TEX_NUMBER 8
 # define FPS 60
 # define SENSIBILITY 0.5
-# define PLAYER_SPEED 0.2
+# define PLAYER_SPEED 0.1
 # define HALF_POS 0.5
-# define MOUSE_SENSIBILITY 0.01
+# define MOUSE_SENSIBILITY 0.005f
 # define PLAYER_SIZE 0.025f
 # define NUM_TILES 25
 # define MAP_SIZE 0.25f
@@ -71,10 +73,14 @@
 # define RAY_COLOR 0x00FF00FF
 # define FULL_PATH_DOOR_TEX "./src/imgs/wolftex/wood.png"
 # define DOOR_COLOR 0x000000FF
+# define OBJ_PATH "./src/imgs/key_64/"
+# define OBJ_TEXTURE "k_"
+# define OBJ_NUMBER 12
+# define IGNORE_COLOR 0xFF00FFFF
 
 void		re_draw(t_game *game_wrap, t_player *player_info);
 void		set_color_from_var(t_color *color, uint32_t color_setted);
-void		exit_mlx42(t_game *game_wrap);
+void		exit_mlx42(t_game *game_wrap, t_player *player_info, t_dpar *game_d);
 uint32_t	get_color_from_struct(t_color *color, uint8_t alpha);
 
 #endif

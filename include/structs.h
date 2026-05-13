@@ -11,15 +11,31 @@
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
-#define STRUCTS_H
+# define STRUCTS_H
 
-#include "cub3d.h"
+# include "cub3d.h"
+
+typedef enum e_obj_type
+{
+	OBJECT,
+	ENEMY
+}						t_obj_type;
 
 typedef enum e_coll_tex
 {
 	WALL_TEX,
 	DOOR_TEX
 }						t_coll_tex;
+
+typedef struct s_object_info
+{
+	t_obj_type			type;
+	uint8_t				state;
+	mlx_texture_t		*obj_texture;
+	float				x_pos;
+	float				y_pos;
+	float				z_pos;
+}						t_object_info;
 
 typedef struct s_color
 {
@@ -122,12 +138,13 @@ typedef struct s_keys
 
 typedef struct s_player
 {
+	float				*wall_distance;
+	t_keys				key_control;
 	float				posx;
 	float				posy;
 	float				deltax;
 	float				deltay;
 	float				ang;
-	t_keys				key_control;
 }						t_player;
 
 typedef struct s_game
@@ -136,11 +153,13 @@ typedef struct s_game
 	mlx_t				*window;
 	mlx_image_t			*map_view;
 	mlx_image_t			*game_view;
+	t_object_info		*obj_info;
 	t_wall_textures		wall_text;
 	t_ceil_floor_tex	floor_tex;
 	t_ceil_floor_tex	ceiling_tex;
 	int					map_width;
 	int					map_height;
+	int					obj_num;
 	uint32_t			init_width;
 	uint32_t			init_height;
 	int32_t				tile_size;
