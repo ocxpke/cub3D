@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
+/*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:40:48 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/03 15:50:14 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/12 17:16:32 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,13 @@ typedef struct s_tex_col
 	t_color				*cl_col_val;
 }						t_tex_col;
 
+typedef struct s_pairs
+{
+	int					k_num;
+	int					k_posx;
+	int					k_posy;
+}						t_pairs;
+
 typedef struct s_map
 {
 	char				**map;
@@ -66,6 +73,7 @@ typedef struct s_map
 	char				pstart_orientation;
 	int					key_count;
 	int					door_count;
+	t_pairs				*keys_arr;
 	t_tex_col			*tex_col_s;
 }						t_map;
 
@@ -164,21 +172,6 @@ typedef struct s_raycast_ceil_fl
 	uint16_t			ceil_fl_tex_x;
 	uint16_t			ceil_fl_tex_y;
 }						t_raycast_ceil_fl;
-
-typedef struct s_raycast_ceil_fl
-{
-	float cos_corrected;
-	float cos_ray;
-	float sin_ray;
-	float ceil_fl_dy;
-	float ceil_fl_ang;
-	float ceil_fl_straight_dist;
-	float ceil_fl_true_dist;
-	float ceil_fl_world_x;
-	float ceil_fl_world_y;
-	uint16_t ceil_fl_tex_x;
-	uint16_t ceil_fl_tex_y;
-} t_raycast_ceil_fl;
 
 typedef struct s_raycast
 {

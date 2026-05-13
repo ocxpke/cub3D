@@ -1,0 +1,569 @@
+# Suppressions for leaks coming from MLX42 and its windowing stack (GLFW/X11/GL)
+# Usage:
+# valgrind --leak-check=full --show-leak-kinds=all \
+#   --suppressions=./valgrind-mlx.supp ./build/minirt <scene.rt>
+{
+   mlx42_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   fun:mlx_*
+   ...
+}
+{
+   glfw_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   fun:glfw*
+   ...
+}
+{
+   x11_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   obj:*/libX11.so*
+   ...
+}
+{
+   xext_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   obj:*/libXext.so*
+   ...
+}
+{
+   xrandr_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   obj:*/libXrandr.so*
+   ...
+}
+{
+   xcursor_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   obj:*/libXcursor.so*
+   ...
+}
+{
+   xinerama_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   obj:*/libXinerama.so*
+   ...
+}
+{
+   xxf86vm_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   obj:*/libXxf86vm.so*
+   ...
+}
+{
+   libgl_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   obj:*/libGL.so*
+   ...
+}
+{
+   libglx_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   obj:*/libGLX.so*
+   ...
+}
+{
+   libgldispatch_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   obj:*/libGLdispatch.so*
+   ...
+}
+{
+   wsl_libd3d12_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   obj:*/libd3d12.so*
+   ...
+}
+{
+   wsl_libd3d12core_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   obj:*/libd3d12core.so*
+   ...
+}
+{
+   mesa_swrast_dri_any_leak
+   Memcheck:Leak
+   match-leak-kinds:all
+   ...
+   obj:*/swrast_dri.so*
+   ...
+}
+{
+   glibc_rtld_dl_open_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:calloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+   fun:_dl_map_object
+   fun:openaux
+   fun:_dl_map_object_deps
+   fun:dl_open_worker_begin
+   fun:dl_open_worker
+   fun:_dl_open
+}
+{
+   glibc_rtld_lookup_symbol_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:calloc
+   fun:do_lookup_unique
+   fun:do_lookup_x
+   fun:_dl_lookup_symbol_x
+   fun:resolve_map
+   fun:_dl_relocate_object
+   fun:dl_open_worker_begin
+   fun:dl_open_worker
+   fun:_dl_open
+}
+{
+   glibc_rtld_check_versions_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:calloc
+   fun:_dl_check_map_versions
+   fun:dl_open_worker_begin
+   fun:dl_open_worker
+   fun:_dl_open
+}
+{
+   glibc_cxa_atexit_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:calloc
+   fun:__new_exitfn
+   fun:__internal_atexit
+   fun:call_init
+   fun:_dl_init
+}
+{
+   llvm15_init_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   ...
+   obj:*/libLLVM-15.so*
+   ...
+   fun:call_init
+   fun:_dl_init
+}
+{
+   libstdcpp_init_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   ...
+   obj:*/libstdc++.so*
+   ...
+   fun:call_init
+   fun:_dl_init
+}
+{
+   glibc_rtld_cache_lookup_strdup_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   fun:strdup
+   fun:_dl_load_cache_lookup
+   fun:_dl_map_object
+   fun:dl_open_worker_begin
+   fun:dl_open_worker
+   fun:_dl_open
+}
+{
+   glibc_rtld_new_object_malloc_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+   fun:_dl_map_object
+   fun:dl_open_worker_begin
+   fun:dl_open_worker
+   fun:_dl_open
+}
+{
+   glibc_rtld_global_resize_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   fun:add_to_global_resize
+   fun:dl_open_worker_begin
+   fun:dl_open_worker
+   fun:_dl_open
+}
+{
+   glibc_rtld_map_object_deps_malloc_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   fun:_dl_map_object_deps
+   fun:dl_open_worker_begin
+   fun:dl_open_worker
+   fun:_dl_open
+}
+{
+   glibc_rtld_find_object_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   fun:_dlfo_mappings_segment_allocate
+   fun:_dl_find_object_update_1
+   fun:_dl_find_object_update
+   fun:dl_open_worker_begin
+   fun:dl_open_worker
+   fun:_dl_open
+}
+{
+   glibc_rtld_find_object_possible
+   Memcheck:Leak
+   match-leak-kinds:possible
+   fun:malloc
+   fun:_dlfo_mappings_segment_allocate
+   fun:_dl_find_object_update_1
+   fun:_dl_find_object_update
+   fun:dl_open_worker_begin
+   fun:dl_open_worker
+   fun:_dl_open
+}
+{
+   glibc_stdio_printf_buffer_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   fun:_IO_file_doallocate
+   fun:_IO_doallocbuf
+   fun:_IO_file_overflow*
+   fun:_IO_*xsputn*
+   fun:__vfprintf_internal
+   fun:printf
+}
+{
+   libz3_atexit_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:calloc
+   fun:__new_exitfn
+   fun:__internal_atexit
+   ...
+   obj:*/libz3.so*
+   ...
+   fun:call_init
+   fun:_dl_init
+}
+{
+   wsl_nvidia_nvwgf2umx_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   ...
+   obj:*/libnvwgf2umx.so*
+   ...
+}
+{
+   wsl_nvidia_nvwgf2umx_possible
+   Memcheck:Leak
+   match-leak-kinds:possible
+   ...
+   obj:*/libnvwgf2umx.so*
+   ...
+}
+{
+   wsl_nvidia_nvwgf2umx_definite
+   Memcheck:Leak
+   match-leak-kinds:definite
+   ...
+   obj:*/libnvwgf2umx.so*
+   ...
+}
+{
+   glibc_rtld_fillin_rpath_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   fun:fillin_rpath*
+   fun:decompose_rpath
+   fun:_dl_map_object
+   fun:dl_open_worker_begin
+   fun:dl_open_worker
+   fun:_dl_open
+}
+{
+   glibc_rtld_loader_obj_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   ...
+   obj:*/ld-linux-*.so*
+   ...
+   fun:dl_open_worker_begin
+   fun:dl_open_worker
+   fun:_dl_open
+}
+{
+   glibc_rtld_loader_obj_possible
+   Memcheck:Leak
+   match-leak-kinds:possible
+   ...
+   obj:*/ld-linux-*.so*
+   ...
+   fun:dl_open_worker_begin
+   fun:dl_open_worker
+   fun:_dl_open
+}
+{
+   external_pthread_cond_broadcast_definite
+   Memcheck:Leak
+   match-leak-kinds:definite
+   fun:calloc
+   fun:pthread_cond_broadcast*
+   ...
+}
+{
+   glibc_dlopen_rtld_malloc_chain_reachable_2026
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   ...
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen_implementation
+   fun:dlopen@@GLIBC_2.34
+}
+{
+   glibc_dlopen_rtld_malloc_chain_possible_2026
+   Memcheck:Leak
+   match-leak-kinds:possible
+   fun:malloc
+   ...
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen_implementation
+   fun:dlopen@@GLIBC_2.34
+}
+{
+   glibc_dlopen_rtld_calloc_chain_reachable_2026
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:calloc
+   ...
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen_implementation
+   fun:dlopen@@GLIBC_2.34
+}
+{
+   glibc_rtld_load_cache_lookup_openaux_reachable_2026
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   fun:malloc
+   fun:strdup
+   fun:_dl_load_cache_lookup
+   fun:_dl_map_object
+   fun:openaux
+   fun:_dl_catch_exception
+   fun:_dl_map_object_deps
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+}
+{
+   glibc_rtld_new_object_openaux_reachable_2026
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   fun:malloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+   fun:_dl_map_object
+   fun:openaux
+   fun:_dl_catch_exception
+   fun:_dl_map_object_deps
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+}
+{
+   glibc_rtld_new_object_dlopen_reachable_2026
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:calloc
+   fun:calloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+   fun:_dl_map_object
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+}
+{
+   glibc_rtld_lookup_symbol_dlopen_reachable_2026
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:calloc
+   fun:calloc
+   fun:do_lookup_unique
+   fun:do_lookup_x
+   fun:_dl_lookup_symbol_x
+   fun:resolve_map
+   fun:elf_machine_rela
+   fun:elf_dynamic_do_Rela
+   fun:_dl_relocate_object
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+}
+{
+   glibc_rtld_new_object_openaux_calloc_reachable_2026
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:calloc
+   fun:calloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+   fun:_dl_map_object
+   fun:openaux
+   fun:_dl_catch_exception
+   fun:_dl_map_object_deps
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+}
+{
+   glibc_rtld_find_object_dlopen_reachable_2026
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   fun:malloc
+   fun:_dlfo_mappings_segment_allocate
+   fun:_dl_find_object_update_1
+   fun:_dl_find_object_update
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen_implementation
+   fun:dlopen@@GLIBC_2.34
+}
+{
+   glibc_rtld_find_object_dlopen_possible_2026
+   Memcheck:Leak
+   match-leak-kinds:possible
+   fun:malloc
+   fun:malloc
+   fun:_dlfo_mappings_segment_allocate
+   fun:_dl_find_object_update_1
+   fun:_dl_find_object_update
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen_implementation
+   fun:dlopen@@GLIBC_2.34
+}
+{
+   glibc_rtld_load_cache_lookup_dlopen_reachable_2026
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   fun:malloc
+   fun:strdup
+   fun:_dl_load_cache_lookup
+   fun:_dl_map_object
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+}
+{
+   glibc_rtld_new_object_dlopen_malloc_reachable_2026
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   fun:malloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+   fun:_dl_map_object
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+}

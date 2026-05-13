@@ -6,7 +6,7 @@
 /*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:31:30 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/23 16:54:00 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:57:38 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int	parsing(int ac, char **av, t_dpar *game)
 	open_and_check_textures(game);
 	get_map_info(game);
 	square_map(game);
+	get_keys_info(game);
 	print_mapfile(game);
 	printf(H_Y"\n__________________DONE_PARSING!___________________\n\n"RES);
 	return (1);
