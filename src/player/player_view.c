@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:22:01 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/03 15:22:02 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/05 18:58:06 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	draw_direction(t_game *game_wrap, t_player *player_info)
 		if (draw_x >= 0 && draw_x < (int)game_wrap->map_view->width &&
 			draw_y >= 0 && draw_y < (int)game_wrap->map_view->height)
 		{
-			mlx_put_pixel(game_wrap->map_view, draw_x, draw_y, 0xFF0000FF);
+			fast_put_pixel(game_wrap->map_view, draw_x, draw_y, 0xFF0000FF);
 		}
 	}
 }

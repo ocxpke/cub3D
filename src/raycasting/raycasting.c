@@ -6,42 +6,11 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:18:03 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/03 15:45:12 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/11 19:09:54 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-
-/**
- * @brief We calculate the distance from point (x0, y0) to point (x1,
-	y1). Pythagorean theorem
- *
- * @param x0 First point X axis value
- * @param y0 First point Y axis value
- * @param x1 Second point X axis value
- * @param y1 Second point Y axis value
- *
- * @return The distance calculated
- */
-static inline float	dist(float x0, float y0, float x1, float y1)
-{
-	return (sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
-}
-
-/**
- * @brief Here we check if the angle passed as a parameter has got out of bounds
- *
- * @param angle The angle to be check
- *
- * @return Void
- */
-inline void	check_angle_bounds(float *angle)
-{
-	if (*angle < 0)
-		*angle += RAD_360_DEG;
-	else if (*angle > RAD_360_DEG)
-		*angle -= RAD_360_DEG;
-}
 
 /**
  * @brief Just a function to initialize values for the raycast struct
@@ -71,191 +40,25 @@ static inline void	init_raycast_values(t_player *player_info,
 }
 
 /**
- * @brief This fucntion help us identifying the collision against a wall,
- * consists of trying to check if we got out of map or if
- * we colide against a wall.
- *
- * @param game_wrap Struct containing all game info
- * @param rc Struct containing all raycaster previously calculated values
- *
- * @return Void
- */
-static inline void	check_distance_of_field(t_game *game_wrap, t_raycast *rc, uint8_t mode)
-{
-	t_coll_tex	aux;
-
-	aux = WALL_TEX;
-	while (rc->distance_of_field < FOG)
-	{
-		rc->map_x = (int)(rc->ray_x) >> BIT_SHIFT;
-		rc->map_y = (int)(rc->ray_y) >> BIT_SHIFT;
-		if ((rc->map_x >= 0 && rc->map_x < game_wrap->map_width)
-			&& (rc->map_y >= 0 && rc->map_y < game_wrap->map_height)
-			&& ((game_wrap->map[rc->map_y][rc->map_x] == '1') || game_wrap->map[rc->map_y][rc->map_x] == 'P'))
-		{
-			rc->distance_of_field = FOG;
-			aux = WALL_TEX;
-			if (game_wrap->map[rc->map_y][rc->map_x] == 'P')
-				aux = DOOR_TEX;
-		}
-		else
-		{
-			rc->ray_x += rc->ray_x_offset;
-			rc->ray_y += rc->ray_y_offset;
-			rc->distance_of_field += 1;
-		}
-	}
-	if (!mode)
-		rc->coll_tex_hor = aux;
-	else
-		rc->coll_tex_ver = aux;
-}
-
-/**
- * @brief Here we check the length of the horizontal rays, we calculate it
- * taking the ray angle value, to check where the ray is going,
-	calculating the offset,
- * and then calling the check distance of field func.
- *
- * @note APRECIATE HOW FLOAT WORKS --> -0.01f (ALWAYS 7 DIGITS)
- *
- * @param game_wrap Struct containing all game info
- * @param rc Struct were we will safe our computed values
- *
- * @return Void
- */
-static inline void	check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
-{
-	rc->distance_of_field = 0;
-	if (tan(rc->ray_angle) == 0)
-		rc->ray_angle += 0.0001f;
-	rc->arc_tan = -1 / tan(rc->ray_angle);
-	if (rc->ray_angle > PI)
-	{
-		rc->ray_y = (((int)rc->player_posy_cube >> BIT_SHIFT) << BIT_SHIFT)
-			- 0.01f;
-		rc->ray_x = (rc->player_posy_cube - rc->ray_y) * rc->arc_tan
-			+ rc->player_posx_cube;
-		rc->ray_y_offset = -1 * CUBSIZE;
-		rc->ray_x_offset = -1 * rc->ray_y_offset * rc->arc_tan;
-	}
-	if (rc->ray_angle < PI)
-	{
-		rc->ray_y = (((int)rc->player_posy_cube >> BIT_SHIFT) << BIT_SHIFT)
-			+ CUBSIZE;
-		rc->ray_x = (rc->player_posy_cube - rc->ray_y) * rc->arc_tan
-			+ rc->player_posx_cube;
-		rc->ray_y_offset = CUBSIZE;
-		rc->ray_x_offset = -1 * rc->ray_y_offset * rc->arc_tan;
-	}
-	if (rc->ray_angle == 0 || rc->ray_angle == PI)
-	{
-		rc->ray_x = rc->player_posx_cube;
-		rc->ray_y = rc->player_posy_cube;
-		rc->distance_of_field = FOG;
-	}
-	check_distance_of_field(game_wrap, rc, 0);
-	rc->horizontal_dist = dist(rc->player_posx_cube, rc->player_posy_cube,
-			rc->ray_x, rc->ray_y);
-	rc->horizontal_x = rc->ray_x;
-	rc->horizontal_y = rc->ray_y;
-}
-
-/**
- * @brief Here we check the length of the vertical rays, we calculate it
- * taking the ray angle value, to check where the ray is going,
-	calculating the offset,
- * and then calling the check distance of field func.
- *
- * @note APRECIATE HOW FLOAT WORKS --> -0.01f (ALWAYS 7 DIGITS)
- *
- * @param game_wrap Struct containing all game info
- * @param rc Struct were we will safe our computed values
- *
- * @return Void
- */
-static inline void	check_vertical_ray(t_game *game_wrap, t_raycast *rc)
-{
-	rc->distance_of_field = 0;
-	if (tan(rc->ray_angle) == 0)
-		rc->ray_angle += 0.00001;
-	rc->neg_tan = -1 * tan(rc->ray_angle);
-	if (rc->ray_angle > RAD_90_DEG && rc->ray_angle < RAD_270_DEG)
-	{
-		rc->ray_x = (((int)rc->player_posx_cube >> BIT_SHIFT) << BIT_SHIFT)
-			- 0.01f;
-		rc->ray_y = (rc->player_posx_cube - rc->ray_x) * rc->neg_tan
-			+ rc->player_posy_cube;
-		rc->ray_x_offset = -CUBSIZE;
-		rc->ray_y_offset = -rc->ray_x_offset * rc->neg_tan;
-	}
-	if (rc->ray_angle < RAD_90_DEG || rc->ray_angle > RAD_270_DEG)
-	{
-		rc->ray_x = (((int)rc->player_posx_cube >> BIT_SHIFT) << BIT_SHIFT)
-			+ CUBSIZE;
-		rc->ray_y = (rc->player_posx_cube - rc->ray_x) * rc->neg_tan
-			+ rc->player_posy_cube;
-		rc->ray_x_offset = CUBSIZE;
-		rc->ray_y_offset = -rc->ray_x_offset * rc->neg_tan;
-	}
-	if (rc->ray_angle == 0 || rc->ray_angle == PI)
-	{
-		rc->ray_x = rc->player_posx_cube;
-		rc->ray_y = rc->player_posy_cube;
-		rc->distance_of_field = FOG;
-	}
-	check_distance_of_field(game_wrap, rc, 1);
-	rc->vertical_dist = dist(rc->player_posx_cube, rc->player_posy_cube,
-			rc->ray_x, rc->ray_y);
-	rc->vertical_x = rc->ray_x;
-	rc->vertical_y = rc->ray_y;
-}
-
-/**
- * @brief Having horizontal and vertical ray lengths computed we check which
- * one is the minor one, which will be the one to be drawed.
+ * @brief We swap the x position to fix the mirror effect that ocurrs when
+ * display a texture
  *
  * @param raycast Struct containing all raycaster previously calculated values
  *
  * @return Void
  */
-static inline void	check_minor_distance(t_raycast *raycast)
+static inline void	invert_texture_x(t_raycast *raycast)
 {
 	if (raycast->horizontal_dist <= raycast->vertical_dist)
 	{
-		raycast->ray_x = raycast->horizontal_x;
-		raycast->ray_y = raycast->horizontal_y;
-		raycast->minor_distance = raycast->horizontal_dist;
-		raycast->hor_ver = 1;
-		raycast->texture_x_hp = raycast->ray_x / CUBSIZE;
-		raycast->coll_tex = raycast->coll_tex_hor;
+		if (raycast->ray_angle < PI)
+			raycast->texture_x_hp = 1.0f - raycast->texture_x_hp;
 	}
 	else
 	{
-		raycast->ray_x = raycast->vertical_x;
-		raycast->ray_y = raycast->vertical_y;
-		raycast->minor_distance = raycast->vertical_dist;
-		raycast->hor_ver = -1;
-		raycast->texture_x_hp = raycast->ray_y / CUBSIZE;
-		raycast->coll_tex = raycast->coll_tex_ver;
+		if (raycast->ray_angle > RAD_90_DEG && raycast->ray_angle < RAD_270_DEG)
+			raycast->texture_x_hp = 1.0f - raycast->texture_x_hp;
 	}
-}
-
-/**
- * @brief Here we will fix the fish eye efect cause by the con/sin function,
- * and by their sinusoidal behavior.
- *
- * @param player_info Struct containing all player usefull informaion
- * @param raycast Struct containing all raycaster previously calculated values
- *
- * @return Void
- */
-static inline void	fix_fish_eye(t_player *player_info, t_raycast *raycast)
-{
-	raycast->corrected_angle = player_info->ang - raycast->ray_angle;
-	check_angle_bounds(&raycast->corrected_angle);
-	raycast->minor_distance = raycast->minor_distance
-		* cos(raycast->corrected_angle);
 }
 
 /**
@@ -283,6 +86,7 @@ static inline void	draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
 	raycast->wall_start = (game_wrap->game_view->height - raycast->wall_len)
 		/ 2;
 	raycast->iter_gross = 0;
+	invert_texture_x(raycast);
 	while (raycast->iter_gross < game_wrap->col_gross)
 	{
 		raycast->texture_y_hp = raycast->save_tex_y;

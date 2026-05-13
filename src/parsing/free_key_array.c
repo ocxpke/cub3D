@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time_mng.h                                         :+:      :+:    :+:   */
+/*   free_key_array.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
+/*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/03 15:40:56 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/11 19:27:13 by jose-ara         ###   ########.fr       */
+/*   Created: 2026/03/13 19:34:16 by romorale          #+#    #+#             */
+/*   Updated: 2026/05/12 18:55:53 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TIME_MNG_H
-# define TIME_MNG_H
+#include "../../include/cub3d.h"
 
-# include "cub3d.h"
+void	free_key_array(t_dpar *path)
+{
+	int	k_num;
 
-long long	get_time(void);
-
-#endif
+	k_num = path->map_s->key_count;
+	if (k_num > 0)
+		free(path->map_s->keys_arr);
+}
