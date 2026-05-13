@@ -1,6 +1,8 @@
 # Cub3d
 _This project has been created as part of the 42 curriculum by jose-ara and romorale._
 
+![Gameplay](https://github.com/Rosasquared/test_cub_text/blob/main/key_test/ezgif-1e7c71b020278037.gif)
+
 ## Description
 This project is inspired by the 3D game Wolfenstein, which is considered the first FPS ever created.
 
@@ -87,6 +89,12 @@ The floor and ceiling are drawn in the same color as the rgb value in the .cub f
 - Animated sprites and textures
 - Rotating the point of view with the mouse
 - Textured floor and ceiling
+
+Screen captures:
+
+![Gameplay](https://github.com/Rosasquared/test_cub_text/blob/main/key_test/eeee)
+
+![Gameplay](https://github.com/Rosasquared/test_cub_text/blob/main/key_test/a)
 
 256x256 animated spinning key sprite:
 
