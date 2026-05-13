@@ -6,11 +6,40 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:27:07 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/05 18:57:53 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/13 17:20:23 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+static inline void	draw_tile(t_game *game_wrap, int i, int j)
+{
+	int	px;
+	int	py;
+	int	z;
+	int	q;
+
+	z = 0;
+	while (z < game_wrap->tile_size)
+	{
+		q = 0;
+		while (q < game_wrap->tile_size)
+		{
+			px = (j * game_wrap->tile_size) - game_wrap->offset_x + q;
+			py = (i * game_wrap->tile_size) - game_wrap->offset_y + z;
+			if (px >= 0 && px < (int)game_wrap->map_view->width && py >= 0
+				&& py < (int)game_wrap->map_view->height)
+			{
+				if (game_wrap->map[i][j] == 'P')
+					mlx_put_pixel(game_wrap->map_view, px, py, DOOR_COLOR);
+				else
+					mlx_put_pixel(game_wrap->map_view, px, py, WALL_COLOR);
+			}
+			q++;
+		}
+		z++;
+	}
+}
 
 /**
  * @brief Here we calculate every pixel that needs to be drawed and draw
@@ -23,40 +52,23 @@
  */
 void	draw_map(t_game *game_wrap, t_player *player_info)
 {
-	int	px;
-	int	py;
+	int	i;
+	int	j;
 
 	game_wrap->offset_x = (player_info->posx * game_wrap->tile_size)
 		- (game_wrap->map_view->width / 2);
 	game_wrap->offset_y = (player_info->posy * game_wrap->tile_size)
 		- (game_wrap->map_view->height / 2);
-	for (int i = 0; i < game_wrap->map_height; i++)
+	i = 0;
+	while (i < game_wrap->map_height)
 	{
-		for (int j = 0; j < game_wrap->map_width; j++)
+		j = 0;
+		while (j < game_wrap->map_width)
 		{
 			if (game_wrap->map[i][j] == '1' || game_wrap->map[i][j] == 'P')
-			{
-				for (int z = 0; z < game_wrap->tile_size; z++)
-				{
-					for (int q = 0; q < game_wrap->tile_size; q++)
-					{
-						px = (j * game_wrap->tile_size) - game_wrap->offset_x
-							+ q;
-						py = (i * game_wrap->tile_size) - game_wrap->offset_y
-							+ z;
-						if (px >= 0 && px < (int)game_wrap->map_view->width
-							&& py >= 0 && py < (int)game_wrap->map_view->height)
-						{
-							if (game_wrap->map[i][j] == 'P')
-								mlx_put_pixel(game_wrap->map_view, px, py,
-									DOOR_COLOR);
-							else
-								mlx_put_pixel(game_wrap->map_view, px, py,
-									WALL_COLOR);
-						}
-					}
-				}
-			}
+				draw_tile(game_wrap, i, j);
+			j++;
 		}
+		i++;
 	}
 }

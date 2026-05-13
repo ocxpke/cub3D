@@ -1,8 +1,8 @@
 
-NO ./src/imgs/c_northa.png
-SO ./src/imgs/c_southa.png
-WE ./src/imgs/c_westa.png
-EA ./src/imgs/c_easta.png
+NO ./src/imgs/s_north.png
+SO ./src/imgs/s_south.png
+WE ./src/imgs/s_west.png
+EA ./src/imgs/s_east.png
 
 F 245,245,245
 C 245,245,245

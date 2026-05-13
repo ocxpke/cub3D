@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 19:11:08 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/13 14:57:05 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/13 15:20:51 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	exit_mlx42(t_game *game_wrap, t_player *player_info, t_dpar *game_d)
 	mlx_close_window(game_wrap->window);
 	mlx_terminate(game_wrap->window);
 	free_map(game_d);
+	free_key_array(game_d);
 	free_up_to_cheklist(game_d);
 	free(player_info->wall_distance);
 	exit(EXIT_SUCCESS);

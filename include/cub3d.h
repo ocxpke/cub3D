@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:39:59 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/05 18:57:34 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/13 15:24:13 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@
 # define PIX_COL 16
 # define MAX_PLAYER_VIEW_DIST (FOG * CUBSIZE)
 # define COLOR_SWAP 0xF5F5F5FF // == 245, 245, 245, 255
-# define CEILING_PATH "./src/imgs/lava_64/"
-# define CEILING_TEXTURE "LavaF"
-# define CEILING_TEX_NUMBER 4
+# define CEILING_PATH "./src/imgs/"
+# define CEILING_TEXTURE "s_top_"
+# define CEILING_TEX_NUMBER 1
 # define FLOOR_PATH "./src/imgs/water_64/"
 # define FLOOR_TEXTURE "w_"
 # define FLOOR_TEX_NUMBER 8

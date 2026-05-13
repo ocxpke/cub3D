@@ -6,11 +6,18 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 19:08:37 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/11 19:09:10 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/13 17:15:35 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+static inline void	inclement_ray_len(t_raycast *rc)
+{
+	rc->ray_x += rc->ray_x_offset;
+	rc->ray_y += rc->ray_y_offset;
+	rc->distance_of_field += 1;
+}
 
 /**
  * @brief This fucntion help us identifying the collision against a wall,
@@ -43,16 +50,39 @@ static inline void	check_distance_of_field(t_game *game_wrap, t_raycast *rc,
 				aux = DOOR_TEX;
 		}
 		else
-		{
-			rc->ray_x += rc->ray_x_offset;
-			rc->ray_y += rc->ray_y_offset;
-			rc->distance_of_field += 1;
-		}
+			inclement_ray_len(rc);
 	}
 	if (!mode)
 		rc->coll_tex_hor = aux;
 	else
 		rc->coll_tex_ver = aux;
+}
+
+static inline void	edge_angle_case_and_final_values(t_game *game_wrap,
+		t_raycast *rc, int mode)
+{
+	if (rc->ray_angle == 0 || rc->ray_angle == PI)
+	{
+		rc->ray_x = rc->player_posx_cube;
+		rc->ray_y = rc->player_posy_cube;
+		rc->distance_of_field = FOG;
+	}
+	if (!mode)
+	{
+		check_distance_of_field(game_wrap, rc, mode);
+		rc->horizontal_dist = dist(rc->player_posx_cube, rc->player_posy_cube,
+				rc->ray_x, rc->ray_y);
+		rc->horizontal_x = rc->ray_x;
+		rc->horizontal_y = rc->ray_y;
+	}
+	else
+	{
+		check_distance_of_field(game_wrap, rc, mode);
+		rc->vertical_dist = dist(rc->player_posx_cube, rc->player_posy_cube,
+				rc->ray_x, rc->ray_y);
+		rc->vertical_x = rc->ray_x;
+		rc->vertical_y = rc->ray_y;
+	}
 }
 
 /**
@@ -92,17 +122,7 @@ void	check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 		rc->ray_y_offset = CUBSIZE;
 		rc->ray_x_offset = -1 * rc->ray_y_offset * rc->arc_tan;
 	}
-	if (rc->ray_angle == 0 || rc->ray_angle == PI)
-	{
-		rc->ray_x = rc->player_posx_cube;
-		rc->ray_y = rc->player_posy_cube;
-		rc->distance_of_field = FOG;
-	}
-	check_distance_of_field(game_wrap, rc, 0);
-	rc->horizontal_dist = dist(rc->player_posx_cube, rc->player_posy_cube,
-			rc->ray_x, rc->ray_y);
-	rc->horizontal_x = rc->ray_x;
-	rc->horizontal_y = rc->ray_y;
+	edge_angle_case_and_final_values(game_wrap, rc, 0);
 }
 
 /**
@@ -142,15 +162,5 @@ void	check_vertical_ray(t_game *game_wrap, t_raycast *rc)
 		rc->ray_x_offset = CUBSIZE;
 		rc->ray_y_offset = -rc->ray_x_offset * rc->neg_tan;
 	}
-	if (rc->ray_angle == 0 || rc->ray_angle == PI)
-	{
-		rc->ray_x = rc->player_posx_cube;
-		rc->ray_y = rc->player_posy_cube;
-		rc->distance_of_field = FOG;
-	}
-	check_distance_of_field(game_wrap, rc, 1);
-	rc->vertical_dist = dist(rc->player_posx_cube, rc->player_posy_cube,
-			rc->ray_x, rc->ray_y);
-	rc->vertical_x = rc->ray_x;
-	rc->vertical_y = rc->ray_y;
+	edge_angle_case_and_final_values(game_wrap, rc, 1);
 }
