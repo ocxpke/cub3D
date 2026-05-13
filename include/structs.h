@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
+/*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:40:48 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/11 19:27:10 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/12 17:16:32 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,13 @@ typedef struct s_tex_col
 	t_color				*cl_col_val;
 }						t_tex_col;
 
+typedef struct s_pairs
+{
+	int					k_num;
+	int					k_posx;
+	int					k_posy;
+}						t_pairs;
+
 typedef struct s_map
 {
 	char				**map;
@@ -82,6 +89,7 @@ typedef struct s_map
 	char				pstart_orientation;
 	int					key_count;
 	int					door_count;
+	t_pairs				*keys_arr;
 	t_tex_col			*tex_col_s;
 }						t_map;
 

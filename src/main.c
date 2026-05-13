@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
+/*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:14:28 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/13 15:02:50 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:34:57 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main(int argc, char **argv)
 
 	if (!parsing(argc, argv, &game_d))
 		return (perror("Something went wrong at parsing"), EXIT_FAILURE);
+	printf(H_R"\n\n---------------------not mine!-----------------\n\n"RES);
 	set_init_vals(&game_wrap, &player_info, &game_d);
 	manage_mlx42_resources(&game_wrap, &game_d);
 	player_info.wall_distance = ft_calloc(1, sizeof(float)
@@ -61,6 +62,10 @@ int	main(int argc, char **argv)
 	mlx_cursor_hook(game_wrap.window, mouse_movement_hook, &all);
 	mlx_loop_hook(game_wrap.window, key_hook, &all);
 	mlx_loop(game_wrap.window);
-	exit_mlx42(&game_wrap, &player_info, &game_d);
+	exit_mlx42(&game_wrap);
+	printf(H_B"\n\n---------------------mine!-----------------\n\n"RES);
+	free_map(&game_d);
+	free_key_array(&game_d);
+	free_up_to_cheklist(&game_d);
 	return (EXIT_SUCCESS);
 }

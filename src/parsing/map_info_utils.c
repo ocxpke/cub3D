@@ -6,7 +6,7 @@
 /*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 18:54:42 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/21 20:33:29 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/12 18:27:31 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,7 @@ void	print_mapfile( t_dpar *game)
 		i++;
 	}
 	printf(">["H_B"%d"MAG"]\n"RES, game->map_s->cols - 1);
+	printf(H_M"\n____________________key_position____________________\n\n"RES);
+	print_key_positions(game);
 	printf(H_M"\n________________________END________________________\n"RES);
 }

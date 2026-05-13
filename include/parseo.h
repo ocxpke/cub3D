@@ -6,7 +6,7 @@
 /*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 20:57:13 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/21 20:24:38 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/12 17:29:06 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ char	get_orientation(char **map);
 int		get_cols(char **map);
 int		get_rows(char **map);
 void	square_map(t_dpar *g);
+void	get_keys_info(t_dpar *game);
+void	print_key_positions(t_dpar *game);
 
 //free
 void	free_all(t_dpar *path);
@@ -117,6 +119,7 @@ void	free_file_cont(t_dpar *path);
 void	free_up_to_cheklist(t_dpar *path);
 void	free_tex_col_val(t_dpar *path);
 void	free_tex_col_paths(t_dpar *path);
+void	free_key_array(t_dpar *path);
 
 //map visualizer
 void	print_mapfile( t_dpar *game);
