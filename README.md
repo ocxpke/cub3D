@@ -1,7 +1,7 @@
 # Cub3d
 _This project has been created as part of the 42 curriculum by jose-ara and romorale._
 
-![Gameplay](https://github.com/ocxpke/cub3D/blob/develop/rosa/key_test/gp.gif)
+![Gameplay](https://github.com/ocxpke/cub3D/blob/develop/rosa/key_test/ezgif-12e01257d4854ab6.gif)
 
 ## Description
 This project is inspired by the 3D game Wolfenstein, which is considered the first FPS ever created.
@@ -81,6 +81,12 @@ The file can be edited to change colors, textures and map structure.
 4 different images (.png) are used for the wall texture depending on its orientation (north, south, east and west).
 The floor and ceiling are drawn in the same color as the rgb value in the .cub file.
 
+Screen captures:
+
+![Gameplay](https://github.com/ocxpke/cub3D/blob/develop/rosa/key_test/e.png)
+
+![Gameplay](https://github.com/ocxpke/cub3D/blob/develop/rosa/key_test/a.png)
+
 ### **Bonus list:**
 
 - Wall collisions
@@ -90,11 +96,7 @@ The floor and ceiling are drawn in the same color as the rgb value in the .cub f
 - Rotating the point of view with the mouse
 - Textured floor and ceiling
 
-Screen captures:
-
-![Gameplay](https://github.com/ocxpke/cub3D/blob/develop/rosa/key_test/e.png)
-
-![Gameplay](https://github.com/ocxpke/cub3D/blob/develop/rosa/key_test/a.png)
+![Gameplay](https://github.com/ocxpke/cub3D/blob/develop/rosa/key_test/ezgif-191e86ff5c7ef780.gif)
 
 ## Resources
 
