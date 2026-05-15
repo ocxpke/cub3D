@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:40:48 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/12 17:16:32 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/15 14:20:54 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,14 @@ typedef enum e_coll_tex
 	DOOR_TEX
 }						t_coll_tex;
 
+/**
+ * @note if we had diferent types of objects we would
+ * load all texture in this object
+ */
 typedef struct s_object_info
 {
 	t_obj_type			type;
 	uint8_t				state;
-	mlx_texture_t		*obj_texture;
 	float				x_pos;
 	float				y_pos;
 	float				z_pos;
@@ -149,6 +152,7 @@ typedef struct s_player
 
 typedef struct s_game
 {
+	mlx_texture_t		**obj_textures;
 	char				**map;
 	mlx_t				*window;
 	mlx_image_t			*map_view;
@@ -168,6 +172,7 @@ typedef struct s_game
 	int32_t				player_size;
 	uint16_t			pixels_cols;
 	uint16_t			col_gross;
+	uint8_t				obj_frame;
 }						t_game;
 
 typedef struct s_all_struct
@@ -235,5 +240,28 @@ typedef struct s_raycast
 	t_coll_tex			coll_tex_hor;
 	t_coll_tex			coll_tex;
 }						t_raycast;
+
+typedef struct s_object_render
+{
+	float				delta_x;
+	float				delta_y;
+	float				cosine;
+	float				sine;
+	float				depth;
+	float				horizontal;
+	float				angle_to_sprite;
+	float				screen_x;
+	int					sprite_size;
+	float				screen_y;
+	float				dist_ratio;
+	float				intensity;
+	int					px;
+	int					tex_x;
+	int					py;
+	int					tex_y;
+	int					half_spr;
+	uint32_t			color;
+	uint32_t			f_color;
+}						t_object_render;
 
 #endif

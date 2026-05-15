@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:39:59 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/05 18:57:34 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/15 14:40:37 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include "../lib/libft/libft.h"
 # include "structs.h"
+# include "aux.h"
 # include "draw_utils.h"
+# include "init_end.h"
 # include "map.h"
 # include "mlx42_mng.h"
 # include "parseo.h"
 # include "player.h"
 # include "raycasting.h"
 # include "time_mng.h"
-# include "aux.h"
-# include "init_end.h"
 # include <GLFW/glfw3.h>
 # include <fcntl.h>
 # include <math.h>
@@ -54,9 +54,9 @@
 # define PIX_COL 16
 # define MAX_PLAYER_VIEW_DIST (FOG * CUBSIZE)
 # define COLOR_SWAP 0xF5F5F5FF // == 245, 245, 245, 255
-# define CEILING_PATH "./src/imgs/lava_64/"
-# define CEILING_TEXTURE "LavaF"
-# define CEILING_TEX_NUMBER 4
+# define CEILING_PATH "./src/imgs/"
+# define CEILING_TEXTURE "s_top_"
+# define CEILING_TEX_NUMBER 1
 # define FLOOR_PATH "./src/imgs/water_64/"
 # define FLOOR_TEXTURE "w_"
 # define FLOOR_TEX_NUMBER 8
@@ -77,10 +77,12 @@
 # define OBJ_TEXTURE "k_"
 # define OBJ_NUMBER 12
 # define IGNORE_COLOR 0xFF00FFFF
+# define TEXTURE_EXT ".png"
 
 void		re_draw(t_game *game_wrap, t_player *player_info);
 void		set_color_from_var(t_color *color, uint32_t color_setted);
-void		exit_mlx42(t_game *game_wrap, t_player *player_info, t_dpar *game_d);
+void		exit_mlx42(t_game *game_wrap, t_player *player_info,
+				t_dpar *game_d);
 uint32_t	get_color_from_struct(t_color *color, uint8_t alpha);
 
 #endif

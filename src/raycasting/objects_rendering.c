@@ -6,87 +6,115 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 19:09:14 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/11 19:09:16 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/15 14:41:41 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	draw_sprites(t_game *game_wrap, t_player *player_info)
+static inline void	draw_object_pixel(t_game *game_wrap,
+		t_object_render *obj_render, int index)
 {
-	t_object_info	obj;
-	float			dx;
-	float			dy;
-	float			cs;
-	float			sn;
-	float			depth;
-	float			horizontal;
-	float			angle_to_sprite;
-	float			screen_x;
-	int				sprite_size;
-	float			screen_y;
-	int				half_s;
-	float			dist_ratio;
-	float			intensity;
-	int				px;
-	int				tex_x;
-	int				py;
-	int				tex_y;
-	uint32_t		color;
-	uint32_t		final_color;
+	int	t_num;
 
-	obj.obj_texture = mlx_load_png("./src/imgs/key_64/k_7.png");
-	if (!obj.obj_texture)
-		exit(1);
-	obj.x_pos = 4.4f;
-	obj.y_pos = 4.4f;
-	dx = obj.x_pos - player_info->posx;
-	dy = obj.y_pos - player_info->posy;
-	cs = cos(player_info->ang);
-	sn = sin(player_info->ang);
-	depth = dx * cs + dy * sn;
-	horizontal = -dx * sn + dy * cs;
-	if (depth <= 0.1f)
+	t_num = game_wrap->obj_frame;
+	obj_render->py = (int)obj_render->screen_y - obj_render->half_spr + index;
+	if (obj_render->py < 0
+		|| obj_render->py >= (int)game_wrap->game_view->height)
 		return ;
-	angle_to_sprite = atan2f(horizontal, depth);
-	screen_x = (angle_to_sprite / (ONE_DEGREE * HALF_FOV))
-		* (game_wrap->game_view->width / 2.0f) + (game_wrap->game_view->width
-			/ 2.0f);
-	sprite_size = (int)(game_wrap->game_view->height / depth);
-	screen_y = game_wrap->game_view->height / 2.0f + sprite_size / 4.0f;
-	half_s = sprite_size / 2;
-	dist_ratio = (dist(player_info->posx, player_info->posy, obj.x_pos,
-				obj.y_pos) * CUBSIZE) / MAX_PLAYER_VIEW_DIST;
-	if (dist_ratio > 1.0f)
-		dist_ratio = 1.0f;
-	intensity = 0.9f - (dist_ratio * 0.8f);
-	for (int i = 0; i < sprite_size; i++)
+	obj_render->tex_y = (int)((float)index / obj_render->sprite_size * CUBSIZE);
+	obj_render->color = get_color_from_texture(game_wrap->obj_textures[t_num],
+			obj_render->tex_x, obj_render->tex_y, 0);
+	if (obj_render->color != IGNORE_COLOR)
 	{
-		px = (int)screen_x - half_s + i;
-		if (px < 0 || px >= (int)game_wrap->game_view->width)
-			continue ;
-		if (player_info->wall_distance[px / game_wrap->col_gross] < (depth
-				* CUBSIZE))
-			continue ;
-		tex_x = (int)((float)i / sprite_size * obj.obj_texture->width);
-		for (int j = 0; j < sprite_size; j++)
+		obj_render->f_color = ((uint32_t)(((obj_render->color >> 24) & 0xFF)
+					* obj_render->intensity) << 24);
+		obj_render->f_color |= ((uint32_t)(((obj_render->color >> 16) & 0xFF)
+					* obj_render->intensity) << 16);
+		obj_render->f_color |= ((uint32_t)(((obj_render->color >> 8) & 0xFF)
+					* obj_render->intensity) << 8);
+		obj_render->f_color |= 0xFF;
+		mlx_put_pixel(game_wrap->game_view, obj_render->px, obj_render->py,
+			obj_render->f_color);
+	}
+}
+
+static inline int	check_pixel_pos_wall_dist(t_game *game_wrap,
+		t_player *player_info, t_object_render *obj_render, int game_depth)
+{
+	if ((obj_render->px < 0)
+		|| (obj_render->px >= (int)game_wrap->game_view->width))
+		return (0);
+	if (player_info->wall_distance[(int)(obj_render->px
+			/ game_wrap->col_gross)] < game_depth)
+		return (0);
+	return (1);
+}
+
+inline void	represent_object(t_game *game_wrap, t_player *player_info,
+		t_object_render *obj_render)
+{
+	int	i;
+	int	j;
+	int	game_depth;
+
+	i = 0;
+	game_depth = obj_render->depth * CUBSIZE;
+	while (i < obj_render->sprite_size)
+	{
+		j = 0;
+		obj_render->px = (int)obj_render->screen_x - obj_render->half_spr + i;
+		if (check_pixel_pos_wall_dist(game_wrap, player_info, obj_render,
+				game_depth))
 		{
-			py = (int)screen_y - half_s + j;
-			if (py < 0 || py >= (int)game_wrap->game_view->height)
-				continue ;
-			tex_y = (int)((float)j / sprite_size * obj.obj_texture->height);
-			color = get_color_from_texture(obj.obj_texture, tex_x, tex_y, 0);
-			if (color != IGNORE_COLOR)
+			obj_render->tex_x = (int)(((float)i / obj_render->sprite_size
+						* CUBSIZE));
+			while (j < obj_render->sprite_size)
 			{
-				final_color = ((uint32_t)(((color >> 24) & 0xFF)
-							* intensity) << 24);
-				final_color |= ((uint32_t)(((color >> 16) & 0xFF)
-							* intensity) << 16);
-				final_color |= ((uint32_t)(((color >> 8) & 0xFF)
-							* intensity) << 8);
-				final_color |= 0xFF;
-				mlx_put_pixel(game_wrap->game_view, px, py, final_color);
+				draw_object_pixel(game_wrap, obj_render, j);
+				j++;
 			}
 		}
+		i++;
 	}
+}
+
+inline int	calculate_obj_sprite_position(t_game *game_wrap,
+		t_player *player_info, t_object_render *obj_render, int index)
+{
+	obj_render->horizontal = -1 * obj_render->delta_x * obj_render->sine
+		+ obj_render->delta_y * obj_render->cosine;
+	obj_render->angle_to_sprite = atan2f(obj_render->horizontal,
+			obj_render->depth);
+	obj_render->sprite_size = (int)(game_wrap->game_view->height
+			/ obj_render->depth);
+	obj_render->half_spr = obj_render->sprite_size / 2;
+	obj_render->screen_x = (obj_render->angle_to_sprite / (ONE_DEGREE
+				* HALF_FOV)) * (game_wrap->game_view->width / 2.0f)
+		+ (game_wrap->game_view->width / 2.0f);
+	obj_render->screen_y = game_wrap->game_view->height / 2.0f
+		+ obj_render->sprite_size / 4.0f;
+	obj_render->dist_ratio = (dist(player_info->posx, player_info->posy,
+				game_wrap->obj_info[index].x_pos,
+				game_wrap->obj_info[index].y_pos) * CUBSIZE)
+		/ MAX_PLAYER_VIEW_DIST;
+	if (obj_render->dist_ratio > 1.0f)
+		obj_render->dist_ratio = 1.0f;
+	obj_render->intensity = 0.9f - (obj_render->dist_ratio * 0.8f);
+	return (1);
+}
+
+inline int	calculate_deltas_and_check_depth(t_game *game_wrap,
+		t_player *player_info, t_object_render *obj_render, int index)
+{
+	obj_render->delta_x = game_wrap->obj_info[index].x_pos - player_info->posx;
+	obj_render->delta_y = game_wrap->obj_info[index].y_pos - player_info->posy;
+	if ((obj_render->delta_x > -0.2f && obj_render->delta_x < 0.2f)
+		&& (obj_render->delta_y > -0.2f && obj_render->delta_y < 0.2f))
+		return (game_wrap->obj_info[index].state = 0, 0);
+	obj_render->depth = obj_render->delta_x * obj_render->cosine
+		+ obj_render->delta_y * obj_render->sine;
+	if (obj_render->depth <= 0.1f)
+		return (0);
+	return (1);
 }

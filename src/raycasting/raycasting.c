@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:18:03 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/11 19:09:54 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/15 14:33:53 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,13 +127,35 @@ void	draw_rays(t_game *game_wrap, t_player *player_info)
 		raycast.texture_x_hp -= floor(raycast.texture_x_hp);
 		fix_fish_eye(player_info, &raycast);
 		draw_frame_cols(game_wrap, &raycast);
-		draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width / 2,
-			game_wrap->map_view->height / 2}, (float[]){(raycast.ray_x
-				/ CUBSIZE) * game_wrap->tile_size - game_wrap->offset_x,
+		draw_line_simple(game_wrap, (float []){game_wrap->map_view->width / 2,
+			game_wrap->map_view->height / 2}, (float []){((raycast.ray_x
+					/ CUBSIZE) * game_wrap->tile_size) - game_wrap->offset_x,
 			(raycast.ray_y / CUBSIZE) * game_wrap->tile_size
 			- game_wrap->offset_y}, RAY_COLOR);
 		raycast.ray_angle += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
 		check_angle_bounds(&raycast.ray_angle);
 		raycast.ray_ct++;
+	}
+}
+
+void	draw_sprites(t_game *game_wrap, t_player *player_info)
+{
+	t_object_render	obj_render;
+	int				i;
+
+	i = 0;
+	game_wrap->obj_frame = (get_time() / 150) % OBJ_NUMBER;
+	obj_render.cosine = cos(player_info->ang);
+	obj_render.sine = sin(player_info->ang);
+	while (i < game_wrap->obj_num)
+	{
+		if (game_wrap->obj_info[i].state == 1)
+		{
+			if (calculate_deltas_and_check_depth(game_wrap, player_info,
+					&obj_render, i) && calculate_obj_sprite_position(game_wrap,
+					player_info, &obj_render, i))
+				represent_object(game_wrap, player_info, &obj_render);
+		}
+		i++;
 	}
 }
