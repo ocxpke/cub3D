@@ -101,7 +101,7 @@ run: all
 run1: all
 	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3d ./maps/valid/diamonds.cub
 
-valgrind_run: all
-	valgrind -s ./cub3d
+valgrind_test: all
+	valgrind --leak-check=full --track-origins=yes --suppressions=valgrind-mlx.supp -s ./cub3d ./maps/valid/diamonds.cub
 
 .PHONY: all clean fclean re libmlx run valgrind_run
