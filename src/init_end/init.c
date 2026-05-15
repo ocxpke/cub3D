@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 19:08:21 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/15 15:49:52 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/15 16:01:42 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,9 @@ static void	load_all_obj_textures(t_game *game_wrap)
 	free(path_name);
 }
 
+/**
+ * @note We need to swap Rosa's And I cordinates axis
+ */
 void	load_all_sprites(t_game *game_wrap, t_dpar *pars)
 {
 	int		i;
@@ -146,8 +149,8 @@ void	load_all_sprites(t_game *game_wrap, t_dpar *pars)
 	i = 0;
 	while (i < map_s->key_count)
 	{
-		game_wrap->obj_info[i].x_pos = map_s->keys_arr[i].k_posx + HALF_POS;
-		game_wrap->obj_info[i].y_pos = map_s->keys_arr[i].k_posy + HALF_POS;
+		game_wrap->obj_info[i].x_pos = map_s->keys_arr[i].k_posy + HALF_POS;
+		game_wrap->obj_info[i].y_pos = map_s->keys_arr[i].k_posx + HALF_POS;
 		game_wrap->obj_info[i].z_pos = 0;
 		game_wrap->obj_info[i].state = 1;
 		game_wrap->obj_info[i].type = OBJECT;
