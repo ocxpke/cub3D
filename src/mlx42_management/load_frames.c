@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:24:43 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/03 15:24:44 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/15 14:10:15 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  *
  * @return The pointer to the start of the string.
  */
-char	*num_and_extension(int i, const char* ext)
+char	*num_and_extension(int i, const char *ext)
 {
 	char	*ret;
 	char	*num_text;

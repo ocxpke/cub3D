@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:40:52 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/11 19:27:08 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/15 14:20:51 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,11 @@ void	fix_fish_eye(t_player *player_info, t_raycast *raycast);
 void	check_horizontal_ray(t_game *game_wrap, t_raycast *rc);
 void	check_vertical_ray(t_game *game_wrap, t_raycast *rc);
 void	draw_sprites(t_game *game_wrap, t_player *player_info);
+int		calculate_deltas_and_check_depth(t_game *game_wrap,
+			t_player *player_info, t_object_render *obj_render, int index);
+int		calculate_obj_sprite_position(t_game *game_wrap, t_player *player_info,
+			t_object_render *obj_render, int index);
+void	represent_object(t_game *game_wrap, t_player *player_info,
+			t_object_render *obj_render);
 
 #endif

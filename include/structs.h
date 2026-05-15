@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:40:48 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/12 17:16:32 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/15 14:20:54 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,26 +241,27 @@ typedef struct s_raycast
 	t_coll_tex			coll_tex;
 }						t_raycast;
 
-typedef struct s_object_render {
-	float	delta_x;
-	float	delta_y;
-	float	cosine;
-	float	sine;
-	float	depth;
-	float	horizontal;
-	float	angle_to_sprite;
-	float	screen_x;
-	int		sprite_size;
-	float	screen_y;
-	float			dist_ratio;
-	float			intensity;
-	int				px;
-	int				tex_x;
-	int				py;
-	int				tex_y;
-	int				half_sprite;
-	uint32_t		color;
-	uint32_t		final_color;
-}			t_object_render;
+typedef struct s_object_render
+{
+	float				delta_x;
+	float				delta_y;
+	float				cosine;
+	float				sine;
+	float				depth;
+	float				horizontal;
+	float				angle_to_sprite;
+	float				screen_x;
+	int					sprite_size;
+	float				screen_y;
+	float				dist_ratio;
+	float				intensity;
+	int					px;
+	int					tex_x;
+	int					py;
+	int					tex_y;
+	int					half_spr;
+	uint32_t			color;
+	uint32_t			f_color;
+}						t_object_render;
 
 #endif

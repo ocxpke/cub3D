@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:14:28 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/13 15:20:25 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/15 14:33:15 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,31 @@ void	re_draw(t_game *game_wrap, t_player *player_info)
 	draw_sprites(game_wrap, player_info);
 }
 
+static inline void	init_wall_arr_and_full_wrapper(t_all_structs *all,
+		t_dpar *parsing, t_game *game_wrap, t_player *player_info)
+{
+	player_info->wall_distance = ft_calloc(game_wrap->pixels_cols,
+			sizeof(float));
+	if (!player_info->wall_distance)
+		exit(EXIT_FAILURE);
+	all->game_wrap = game_wrap;
+	all->player_info = player_info;
+	all->parser_data = parsing;
+}
+
 int	main(int argc, char **argv)
 {
+	t_all_structs	all;
 	t_dpar			game_d;
 	t_game			game_wrap;
 	t_player		player_info;
-	t_all_structs	all;
 
 	if (!parsing(argc, argv, &game_d))
 		return (perror("Something went wrong at parsing"), EXIT_FAILURE);
 	set_init_vals(&game_wrap, &player_info, &game_d);
 	manage_mlx42_resources(&game_wrap, &game_d);
-	player_info.wall_distance = ft_calloc(1, sizeof(float)
-			* game_wrap.pixels_cols);
-	if (!player_info.wall_distance)
-		exit(EXIT_FAILURE);
 	load_all_sprites(&game_wrap, &game_d);
-	all.game_wrap = &game_wrap;
-	all.player_info = &player_info;
-	all.parser_data = &game_d;
+	init_wall_arr_and_full_wrapper(&all, &game_d, &game_wrap, &player_info);
 	re_draw(&game_wrap, &player_info);
 	mlx_resize_hook(game_wrap.window, resize_hook, &all);
 	mlx_cursor_hook(game_wrap.window, mouse_movement_hook, &all);
