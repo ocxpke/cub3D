@@ -49,10 +49,8 @@ void	search_loop(t_dpar *game, char **map)
 
 void	find_keys(t_dpar *game, char **map)
 {
-	int		i;
 	t_pairs	*k_arr;
 
-	i = 1;
 	k_arr = malloc(sizeof(t_pairs) * (game->map_s->key_count));
 	if (!(game->map_s->keys_arr))
 		free(game->map_s->keys_arr);

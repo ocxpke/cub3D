@@ -77,6 +77,7 @@
 # define OBJ_TEXTURE "k_"
 # define OBJ_NUMBER 12
 # define IGNORE_COLOR 0xFF00FFFF
+# define TEXTURE_EXT ".png"
 
 void		re_draw(t_game *game_wrap, t_player *player_info);
 void		set_color_from_var(t_color *color, uint32_t color_setted);

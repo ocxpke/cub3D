@@ -16,5 +16,5 @@
 
 void	set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game_d);
 void	exit_mlx42(t_game *game_wrap, t_player *player_info, t_dpar *game_d);
-
+void	load_all_sprites(t_game*game_wrap, t_dpar *pars);
 #endif

@@ -53,6 +53,7 @@ int	main(int argc, char **argv)
 			* game_wrap.pixels_cols);
 	if (!player_info.wall_distance)
 		exit(EXIT_FAILURE);
+	load_all_sprites(&game_wrap, &game_d);
 	all.game_wrap = &game_wrap;
 	all.player_info = &player_info;
 	all.parser_data = &game_d;
