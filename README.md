@@ -91,10 +91,13 @@ The floor and ceiling are drawn in the same color as the rgb value in the .cub f
 - Animated sprites and textures
 - Rotating the point of view with the mouse
 - Textured floor and ceiling
+- 
+![Gameplay](https://github.com/ocxpke/cub3D/blob/develop/rosa/key_test/ezgif-17077c9fec3223d1.gif)
 
 ![Gameplay](https://github.com/ocxpke/cub3D/blob/develop/rosa/key_test/ezgif-191e86ff5c7ef780.gif)
 
-![Gameplay](https://github.com/ocxpke/cub3D/blob/develop/rosa/key_test/e.png)
+![Gameplay](https://github.com/ocxpke/cub3D/blob/develop/rosa/key_test/ezgif-1a54236339a12583.gif)
+
 
 ## Resources
 
