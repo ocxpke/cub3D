@@ -122,7 +122,8 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 		raycast.texture_x_hp -= floor(raycast.texture_x_hp);
 		fix_fish_eye(player_info, &raycast);
 		draw_frame_cols(game_wrap, &raycast);
-		draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width / 2, game_wrap->map_view->height / 2}, (float[]){((raycast.ray_x / CUBSIZE) * game_wrap->tile_size) - game_wrap->offset_x, (raycast.ray_y / CUBSIZE) * game_wrap->tile_size - game_wrap->offset_y}, RAY_COLOR);
+		if (player_info->p_moves)
+			draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width / 2, game_wrap->map_view->height / 2}, (float[]){((raycast.ray_x / CUBSIZE) * game_wrap->tile_size) - game_wrap->offset_x, (raycast.ray_y / CUBSIZE) * game_wrap->tile_size - game_wrap->offset_y}, RAY_COLOR);
 		raycast.ray_angle += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
 		check_angle_bounds(&raycast.ray_angle);
 		raycast.ray_ct++;
@@ -135,6 +136,8 @@ void draw_sprites(t_game *game_wrap, t_player *player_info)
 	int i;
 
 	i = 0;
+	if (game_wrap->obj_num == 0)
+		return;
 	game_wrap->obj_frame = (get_time() / 150) % OBJ_NUMBER;
 	obj_render.cosine = cos(player_info->ang);
 	obj_render.sine = sin(player_info->ang);
@@ -142,7 +145,8 @@ void draw_sprites(t_game *game_wrap, t_player *player_info)
 	{
 		if (game_wrap->obj_ordered[i].state == 1)
 		{
-			game_wrap->obj_ordered[i].dist_to_player = dist(player_info->posx, player_info->posy, game_wrap->obj_ordered[i].x_pos, game_wrap->obj_ordered[i].y_pos);
+			if (player_info->p_moves)
+				game_wrap->obj_ordered[i].dist_to_player = dist(player_info->posx, player_info->posy, game_wrap->obj_ordered[i].x_pos, game_wrap->obj_ordered[i].y_pos);
 			if (calculate_deltas_and_check_depth(game_wrap, player_info,
 												 &obj_render, i) &&
 				calculate_obj_sprite_position(game_wrap, &obj_render, i))

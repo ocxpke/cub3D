@@ -17,7 +17,6 @@ void order_objects(t_game *game_wrap)
 	int i = 0;
 	int j = 0;
 	t_object_info aux;
-	i = 0;
 	while (i < game_wrap->obj_num - 1)
 	{
 		j = i + 1;
