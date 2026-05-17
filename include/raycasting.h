@@ -27,7 +27,7 @@ void	check_vertical_ray(t_game *game_wrap, t_raycast *rc);
 void	draw_sprites(t_game *game_wrap, t_player *player_info);
 int		calculate_deltas_and_check_depth(t_game *game_wrap,
 			t_player *player_info, t_object_render *obj_render, int index);
-int		calculate_obj_sprite_position(t_game *game_wrap, t_player *player_info,
+int		calculate_obj_sprite_position(t_game *game_wrap,
 			t_object_render *obj_render, int index);
 void	represent_object(t_game *game_wrap, t_player *player_info,
 			t_object_render *obj_render);

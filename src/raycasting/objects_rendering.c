@@ -72,8 +72,7 @@ inline void represent_object(t_game *game_wrap, t_player *player_info,
 	}
 }
 
-inline int calculate_obj_sprite_position(t_game *game_wrap,
-										 t_player *player_info, t_object_render *obj_render, int index)
+inline int calculate_obj_sprite_position(t_game *game_wrap,t_object_render *obj_render, int index)
 {
 	obj_render->horizontal = -1 * obj_render->delta_x * obj_render->sine + obj_render->delta_y * obj_render->cosine;
 	obj_render->angle_to_sprite = atan2f(obj_render->horizontal,
@@ -82,9 +81,7 @@ inline int calculate_obj_sprite_position(t_game *game_wrap,
 	obj_render->half_spr = obj_render->sprite_size / 2;
 	obj_render->screen_x = (obj_render->angle_to_sprite / (ONE_DEGREE * HALF_FOV)) * (game_wrap->game_view->width / 2.0f) + (game_wrap->game_view->width / 2.0f);
 	obj_render->screen_y = game_wrap->game_view->height / 2.0f + obj_render->sprite_size / 4.0f;
-	obj_render->dist_ratio = (dist(player_info->posx, player_info->posy,
-								   game_wrap->obj_ordered[index].x_pos,
-								   game_wrap->obj_ordered[index].y_pos) *
+	obj_render->dist_ratio = (game_wrap->obj_ordered[index].dist_to_player *
 							  CUBSIZE) /
 							 MAX_PLAYER_VIEW_DIST;
 	if (obj_render->dist_ratio > 1.0f)

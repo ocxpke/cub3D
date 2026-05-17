@@ -145,8 +145,7 @@ void draw_sprites(t_game *game_wrap, t_player *player_info)
 			game_wrap->obj_ordered[i].dist_to_player = dist(player_info->posx, player_info->posy, game_wrap->obj_ordered[i].x_pos, game_wrap->obj_ordered[i].y_pos);
 			if (calculate_deltas_and_check_depth(game_wrap, player_info,
 												 &obj_render, i) &&
-				calculate_obj_sprite_position(game_wrap,
-											  player_info, &obj_render, i))
+				calculate_obj_sprite_position(game_wrap, &obj_render, i))
 				represent_object(game_wrap, player_info, &obj_render);
 		}
 		i++;

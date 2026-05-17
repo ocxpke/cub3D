@@ -85,6 +85,7 @@ void	mouse_movement_hook(double xpos, double ypos, void *param)
 	deltax = xpos - centerx;
 	delta_time = all_st->game_wrap->window->delta_time * FPS
 		* MOUSE_SENSIBILITY;
+	all_st->player_info->p_moves = 1;
 	if (deltax > 0)
 		rotate_player_right(all_st->player_info, delta_time * deltax);
 	else if (deltax < 0)
