@@ -15,6 +15,7 @@
 
 # include "cub3d.h"
 
+void	order_objects(t_game *game_wrap);
 void	check_angle_bounds(float *angle);
 void	draw_rays(t_game *game_wrap, t_player *player_info);
 float	dist(float x0, float y0, float x1, float y1);

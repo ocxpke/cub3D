@@ -28,13 +28,17 @@
  */
 void re_draw(t_game *game_wrap, t_player *player_info)
 {
-	ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
-	draw_player(game_wrap);
-	draw_map(game_wrap, player_info);
 	player_key_rotation(game_wrap, player_info);
 	player_key_movement(game_wrap, player_info);
+	if (player_info->p_moves)
+	{
+		ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
+		draw_player(game_wrap);
+		draw_map(game_wrap, player_info);
+	}
 	draw_rays(game_wrap, player_info);
 	draw_sprites(game_wrap, player_info);
+	player_info->p_moves = 0;
 }
 
 static inline void init_wall_arr_and_full_wrapper(t_all_structs *all,

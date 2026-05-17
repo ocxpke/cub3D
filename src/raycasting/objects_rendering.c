@@ -99,7 +99,13 @@ inline int calculate_deltas_and_check_depth(t_game *game_wrap,
 	obj_render->delta_x = game_wrap->obj_ordered[index].x_pos - player_info->posx;
 	obj_render->delta_y = game_wrap->obj_ordered[index].y_pos - player_info->posy;
 	if ((obj_render->delta_x > -0.2f && obj_render->delta_x < 0.2f) && (obj_render->delta_y > -0.2f && obj_render->delta_y < 0.2f))
-		return (game_wrap->obj_ordered[index].state = 0, game_wrap->obj_ordered[index].dist_to_player = 0, 0);
+	{
+		game_wrap->obj_ordered[index].state = 0;
+		game_wrap->obj_ordered[index].dist_to_player = 0;
+		game_wrap->map[(int)game_wrap->obj_ordered[index].y_pos][(int)game_wrap->obj_ordered[index].x_pos] = '0' ;
+		return (0);
+	}
+
 	obj_render->depth = obj_render->delta_x * obj_render->cosine + obj_render->delta_y * obj_render->sine;
 	if (obj_render->depth <= 0.1f)
 		return (0);

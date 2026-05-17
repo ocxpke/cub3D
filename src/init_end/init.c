@@ -87,6 +87,7 @@ void set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game_d)
 	player_info->key_control.d_key = 0;
 	player_info->key_control.left_arrow = 0;
 	player_info->key_control.right_arrow = 0;
+	player_info->p_moves = 0;
 }
 
 static inline void load_obj_texture(t_game *game_wrap, const char *path_name,
@@ -158,6 +159,7 @@ void load_all_sprites(t_game *game_wrap, t_player *player_info, t_dpar *pars)
 		game_wrap->obj_ordered[i] = game_wrap->obj_info[i];
 		i++;
 	}
-	load_all_obj_textures(game_wrap);
 	game_wrap->obj_num = map_s->key_count;
+	order_objects(game_wrap);
+	load_all_obj_textures(game_wrap);
 }

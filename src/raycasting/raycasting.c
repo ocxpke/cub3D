@@ -12,30 +12,6 @@
 
 #include "../../include/cub3d.h"
 
-static inline void order_objects(t_game *game_wrap)
-{
-	int i = 0;
-	int j = 0;
-	t_object_info aux;
-	i = 0;
-	while (i < game_wrap->obj_num - 1)
-	{
-		j = i + 1;
-		while (j < game_wrap->obj_num)
-		{
-			if (game_wrap->obj_ordered[i].state && game_wrap->obj_ordered[i].dist_to_player < game_wrap->obj_ordered[j].dist_to_player)
-			{
-
-				aux = game_wrap->obj_ordered[i];
-				game_wrap->obj_ordered[i] = game_wrap->obj_ordered[j];
-				game_wrap->obj_ordered[j] = aux;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
 /**
  * @brief Just a function to initialize values for the raycast struct
  *
@@ -162,7 +138,6 @@ void draw_sprites(t_game *game_wrap, t_player *player_info)
 	game_wrap->obj_frame = (get_time() / 150) % OBJ_NUMBER;
 	obj_render.cosine = cos(player_info->ang);
 	obj_render.sine = sin(player_info->ang);
-	order_objects(game_wrap);
 	while (i < game_wrap->obj_num)
 	{
 		if (game_wrap->obj_ordered[i].state == 1)
@@ -176,4 +151,6 @@ void draw_sprites(t_game *game_wrap, t_player *player_info)
 		}
 		i++;
 	}
+	if (player_info->p_moves)
+		order_objects(game_wrap);
 }

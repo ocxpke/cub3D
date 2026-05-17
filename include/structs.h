@@ -149,6 +149,7 @@ typedef struct s_player
 	float				deltax;
 	float				deltay;
 	float				ang;
+	uint8_t				p_moves;
 }						t_player;
 
 typedef struct s_game

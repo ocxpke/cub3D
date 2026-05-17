@@ -67,7 +67,7 @@ void	draw_map(t_game *game_wrap, t_player *player_info)
 		j = 0;
 		while (j < game_wrap->map_width)
 		{
-			if (game_wrap->map[i][j] == '1' || game_wrap->map[i][j] == 'P')
+			if (game_wrap->map[i][j] == '1' || game_wrap->map[i][j] == 'P' || game_wrap->map[i][j] == 'K')
 				draw_tile(game_wrap, i, j);
 			j++;
 		}
