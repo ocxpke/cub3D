@@ -12,6 +12,30 @@
 
 #include "../../include/cub3d.h"
 
+static inline void order_objects(t_game *game_wrap)
+{
+	int i = 0;
+	int j = 0;
+	t_object_info aux;
+	i = 0;
+	while (i < game_wrap->obj_num - 1)
+	{
+		j = i + 1;
+		while (j < game_wrap->obj_num)
+		{
+			if (game_wrap->obj_ordered[i].state && game_wrap->obj_ordered[i].dist_to_player < game_wrap->obj_ordered[j].dist_to_player)
+			{
+
+				aux = game_wrap->obj_ordered[i];
+				game_wrap->obj_ordered[i] = game_wrap->obj_ordered[j];
+				game_wrap->obj_ordered[j] = aux;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 /**
  * @brief Just a function to initialize values for the raycast struct
  *
@@ -20,8 +44,8 @@
  *
  * @return Void
  */
-static inline void	init_raycast_values(t_player *player_info,
-		t_raycast *raycast)
+static inline void init_raycast_values(t_player *player_info,
+									   t_raycast *raycast)
 {
 	raycast->player_angle = player_info->ang;
 	raycast->player_posx_cube = player_info->posx * CUBSIZE;
@@ -47,7 +71,7 @@ static inline void	init_raycast_values(t_player *player_info,
  *
  * @return Void
  */
-static inline void	invert_texture_x(t_raycast *raycast)
+static inline void invert_texture_x(t_raycast *raycast)
 {
 	if (raycast->horizontal_dist <= raycast->vertical_dist)
 	{
@@ -70,28 +94,23 @@ static inline void	invert_texture_x(t_raycast *raycast)
  *
  * @return Void
  */
-static inline void	draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
+static inline void draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
 {
-	raycast->wall_len = (CUBSIZE * game_wrap->game_view->height)
-		/ raycast->minor_distance;
+	raycast->wall_len = (CUBSIZE * game_wrap->game_view->height) / raycast->minor_distance;
 	raycast->save_tex_y = 0;
 	raycast->texture_steps = (float)CUBSIZE / raycast->wall_len;
 	if (raycast->wall_len > game_wrap->game_view->height)
 	{
-		raycast->save_tex_y = ((raycast->wall_len
-					- game_wrap->game_view->height) / 2)
-			* raycast->texture_steps;
+		raycast->save_tex_y = ((raycast->wall_len - game_wrap->game_view->height) / 2) * raycast->texture_steps;
 		raycast->wall_len = game_wrap->game_view->height;
 	}
-	raycast->wall_start = (game_wrap->game_view->height - raycast->wall_len)
-		/ 2;
+	raycast->wall_start = (game_wrap->game_view->height - raycast->wall_len) / 2;
 	raycast->iter_gross = 0;
 	invert_texture_x(raycast);
 	while (raycast->iter_gross < game_wrap->col_gross)
 	{
 		raycast->texture_y_hp = raycast->save_tex_y;
-		draw_player_view_line(game_wrap, raycast, (uint32_t)(raycast->ray_ct
-				* game_wrap->col_gross) + raycast->iter_gross);
+		draw_player_view_line(game_wrap, raycast, (uint32_t)(raycast->ray_ct * game_wrap->col_gross) + raycast->iter_gross);
 		raycast->iter_gross++;
 	}
 }
@@ -112,9 +131,9 @@ static inline void	draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
  *
  * @return Void
  */
-void	draw_rays(t_game *game_wrap, t_player *player_info)
+void draw_rays(t_game *game_wrap, t_player *player_info)
 {
-	t_raycast	raycast;
+	t_raycast raycast;
 
 	init_raycast_values(player_info, &raycast);
 	raycast.ray_angle = player_info->ang - (ONE_DEGREE * HALF_FOV);
@@ -127,33 +146,32 @@ void	draw_rays(t_game *game_wrap, t_player *player_info)
 		raycast.texture_x_hp -= floor(raycast.texture_x_hp);
 		fix_fish_eye(player_info, &raycast);
 		draw_frame_cols(game_wrap, &raycast);
-		draw_line_simple(game_wrap, (float []){game_wrap->map_view->width / 2,
-			game_wrap->map_view->height / 2}, (float []){((raycast.ray_x
-					/ CUBSIZE) * game_wrap->tile_size) - game_wrap->offset_x,
-			(raycast.ray_y / CUBSIZE) * game_wrap->tile_size
-			- game_wrap->offset_y}, RAY_COLOR);
+		draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width / 2, game_wrap->map_view->height / 2}, (float[]){((raycast.ray_x / CUBSIZE) * game_wrap->tile_size) - game_wrap->offset_x, (raycast.ray_y / CUBSIZE) * game_wrap->tile_size - game_wrap->offset_y}, RAY_COLOR);
 		raycast.ray_angle += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
 		check_angle_bounds(&raycast.ray_angle);
 		raycast.ray_ct++;
 	}
 }
 
-void	draw_sprites(t_game *game_wrap, t_player *player_info)
+void draw_sprites(t_game *game_wrap, t_player *player_info)
 {
-	t_object_render	obj_render;
-	int				i;
+	t_object_render obj_render;
+	int i;
 
 	i = 0;
 	game_wrap->obj_frame = (get_time() / 150) % OBJ_NUMBER;
 	obj_render.cosine = cos(player_info->ang);
 	obj_render.sine = sin(player_info->ang);
+	order_objects(game_wrap);
 	while (i < game_wrap->obj_num)
 	{
-		if (game_wrap->obj_info[i].state == 1)
+		if (game_wrap->obj_ordered[i].state == 1)
 		{
+			game_wrap->obj_ordered[i].dist_to_player = dist(player_info->posx, player_info->posy, game_wrap->obj_ordered[i].x_pos, game_wrap->obj_ordered[i].y_pos);
 			if (calculate_deltas_and_check_depth(game_wrap, player_info,
-					&obj_render, i) && calculate_obj_sprite_position(game_wrap,
-					player_info, &obj_render, i))
+												 &obj_render, i) &&
+				calculate_obj_sprite_position(game_wrap,
+											  player_info, &obj_render, i))
 				represent_object(game_wrap, player_info, &obj_render);
 		}
 		i++;

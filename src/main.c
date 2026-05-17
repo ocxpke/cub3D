@@ -26,10 +26,9 @@
  *
  * @return Void
  */
-void	re_draw(t_game *game_wrap, t_player *player_info)
+void re_draw(t_game *game_wrap, t_player *player_info)
 {
-	ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width
-		* game_wrap->map_view->height * BPP);
+	ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
 	draw_player(game_wrap);
 	draw_map(game_wrap, player_info);
 	player_key_rotation(game_wrap, player_info);
@@ -38,11 +37,11 @@ void	re_draw(t_game *game_wrap, t_player *player_info)
 	draw_sprites(game_wrap, player_info);
 }
 
-static inline void	init_wall_arr_and_full_wrapper(t_all_structs *all,
-		t_dpar *parsing, t_game *game_wrap, t_player *player_info)
+static inline void init_wall_arr_and_full_wrapper(t_all_structs *all,
+												  t_dpar *parsing, t_game *game_wrap, t_player *player_info)
 {
 	player_info->wall_distance = ft_calloc(game_wrap->pixels_cols,
-			sizeof(float));
+										   sizeof(float));
 	if (!player_info->wall_distance)
 		exit(EXIT_FAILURE);
 	all->game_wrap = game_wrap;
@@ -50,18 +49,18 @@ static inline void	init_wall_arr_and_full_wrapper(t_all_structs *all,
 	all->parser_data = parsing;
 }
 
-int	main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-	t_all_structs	all;
-	t_dpar			game_d;
-	t_game			game_wrap;
-	t_player		player_info;
+	t_all_structs all;
+	t_dpar game_d;
+	t_game game_wrap;
+	t_player player_info;
 
 	if (!parsing(argc, argv, &game_d))
 		return (perror("Something went wrong at parsing"), EXIT_FAILURE);
 	set_init_vals(&game_wrap, &player_info, &game_d);
 	manage_mlx42_resources(&game_wrap, &game_d);
-	load_all_sprites(&game_wrap, &game_d);
+	load_all_sprites(&game_wrap, &player_info, &game_d);
 	init_wall_arr_and_full_wrapper(&all, &game_d, &game_wrap, &player_info);
 	re_draw(&game_wrap, &player_info);
 	mlx_resize_hook(game_wrap.window, resize_hook, &all);

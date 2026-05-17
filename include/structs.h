@@ -38,6 +38,7 @@ typedef struct s_object_info
 	float				x_pos;
 	float				y_pos;
 	float				z_pos;
+	float				dist_to_player;
 }						t_object_info;
 
 typedef struct s_color
@@ -158,6 +159,7 @@ typedef struct s_game
 	mlx_image_t			*map_view;
 	mlx_image_t			*game_view;
 	t_object_info		*obj_info;
+	t_object_info		*obj_ordered;
 	t_wall_textures		wall_text;
 	t_ceil_floor_tex	floor_tex;
 	t_ceil_floor_tex	ceiling_tex;

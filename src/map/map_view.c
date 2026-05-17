@@ -32,6 +32,8 @@ static inline void	draw_tile(t_game *game_wrap, int i, int j)
 			{
 				if (game_wrap->map[i][j] == 'P')
 					mlx_put_pixel(game_wrap->map_view, px, py, DOOR_COLOR);
+				else if (game_wrap->map[i][j] == 'K')
+					mlx_put_pixel(game_wrap->map_view, px, py, KEY_COLOR);
 				else
 					mlx_put_pixel(game_wrap->map_view, px, py, WALL_COLOR);
 			}

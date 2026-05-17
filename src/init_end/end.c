@@ -26,6 +26,7 @@ void	delete_object_tex(t_game *game_wrap)
 	}
 	free(game_wrap->obj_textures);
 	free(game_wrap->obj_info);
+	free(game_wrap->obj_ordered);
 }
 
 void	delete_floor_ceiling_tex(t_ceil_floor_tex *ceil_tex,
