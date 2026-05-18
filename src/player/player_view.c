@@ -12,20 +12,23 @@
 
 #include "../../include/cub3d.h"
 
-void	player_opens_door(t_game *game_wrap, t_player *p_info)
+void	player_interact_door(t_game *game_wrap, t_player *p_info)
 {
-	t_const_vals	const_vals;
+	int				target_map_x;
+	int				target_map_y;
 
-	const_vals = game_wrap->const_values;
-	if (!p_info->key_control.p_key)
-		return ;
-	if (p_info->ang > const_vals.rad_90_deg
-		&& p_info->ang < const_vals.rad_270_deg)
-	{
-		if (game_wrap->map[(int)p_info->posy][(int)p_info->posx - 1]
-			 == 'P')
-			//develop
-	}
+	p_info->p_moves = 1;
+	if ((get_time() - p_info->last_int_door) < BOUNCE_KEY_TIME)
+		return;
+	target_map_x = (int)(p_info->posx + cos(p_info->ang));
+	target_map_y = (int)(p_info->posy + sin(p_info->ang));
+	if ((((int)p_info->posx) == target_map_x) && (((int)p_info->posy) == target_map_y))
+		return;
+	p_info->last_int_door = get_time();
+	if (game_wrap->map[target_map_y][target_map_x] == 'P')
+		game_wrap->map[target_map_y][target_map_x] = 'A';
+	else if (game_wrap->map[target_map_y][target_map_x] == 'A')
+		game_wrap->map[target_map_y][target_map_x] = 'P';
 }
 
 /**

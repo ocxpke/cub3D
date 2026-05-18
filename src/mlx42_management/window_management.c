@@ -104,5 +104,6 @@ int	manage_mlx42_resources(t_game *game_wrap, t_dpar *game_d)
 	game_wrap->tile_size = game_wrap->map_view->width / NUM_TILES;
 	set_ceil_floor_texture(game_wrap, game_d->map_s->tex_col_s);
 	mlx_set_cursor_mode(game_wrap->window, MLX_MOUSE_HIDDEN);
+	game_wrap->mouse_trap = true;
 	return (0);
 }

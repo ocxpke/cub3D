@@ -150,7 +150,6 @@ typedef struct s_keys
 	bool				s_key;
 	bool				a_key;
 	bool				d_key;
-	bool				p_key;
 }						t_keys;
 
 typedef struct s_player
@@ -163,6 +162,7 @@ typedef struct s_player
 	float				deltay;
 	float				ang;
 	uint8_t				p_moves;
+	long long			last_int_door;
 }						t_player;
 
 typedef struct s_game
@@ -190,6 +190,8 @@ typedef struct s_game
 	uint16_t			col_gross;
 	uint8_t				obj_frame;
 	t_const_vals		const_values;
+	bool				mouse_trap;
+	long long			mouse_trap_bounce;
 }						t_game;
 
 typedef struct s_all_struct

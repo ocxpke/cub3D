@@ -105,8 +105,10 @@ void	set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game_d)
 	player_info->key_control.d_key = 0;
 	player_info->key_control.left_arrow = 0;
 	player_info->key_control.right_arrow = 0;
-	player_info->key_control.p_key = 0;
 	player_info->p_moves = 1;
+	player_info->last_int_door = get_time();
+	game_wrap->mouse_trap_bounce = player_info->last_int_door;
+
 }
 
 static inline void	load_obj_texture(t_game *game_wrap, const char *path_name,

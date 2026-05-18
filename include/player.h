@@ -20,4 +20,5 @@ void	rotate_player_right(t_player *player_info, float delta_time);
 void	draw_player(t_game *game_wrap);
 void	player_key_movement(t_game *game_wrap, t_player *player_info);
 void	player_key_rotation(t_game *game_wrap, t_player *player_info);
+void	player_interact_door(t_game *game_wrap, t_player *p_info);
 #endif
