@@ -1,16 +1,14 @@
-
 NO ./src/imgs/c_north.png
 SO ./src/imgs/c_south.png
 WE ./src/imgs/c_west.png
-EA ./src/imgs/c_east.png
+EA ./src/imgs/c_eas.png
 
-F 123,45,6
-C 1,22,230
+
+F 255,113,39
+C 51,198,227
 
 1111111
-111K111
-11KKK11
-1KKNKK1
-11KKK11
-111K111
+1000001
+100N001
+1000001
 1111111
