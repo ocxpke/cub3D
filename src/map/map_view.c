@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:27:07 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/18 16:17:31 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 20:37:43 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static inline void	map_color_selec(t_game *game_wrap, int i, int j, int pp[2])
 {
-	if (game_wrap->map[i][j] == 'P')
+	if (game_wrap->map[i][j] == 'P' || game_wrap->map[i][j] == 'A')
 		mlx_put_pixel(game_wrap->map_view, pp[0], pp[1], DOOR_COLOR);
 	else if (game_wrap->map[i][j] == 'K')
 		mlx_put_pixel(game_wrap->map_view, pp[0], pp[1], KEY_COLOR);
@@ -71,7 +71,7 @@ void	draw_map(t_game *game_wrap, t_player *player_info)
 		while (j < game_wrap->map_width)
 		{
 			if (game_wrap->map[i][j] == '1' || game_wrap->map[i][j] == 'P'
-				|| game_wrap->map[i][j] == 'K')
+				|| game_wrap->map[i][j] == 'K' || game_wrap->map[i][j] == 'A')
 				draw_tile(game_wrap, i, j);
 			j++;
 		}

@@ -6,11 +6,25 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:21:08 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/18 20:19:21 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 20:43:21 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+static inline void	collision_management(t_game *game_wrap,
+		t_player *player_info, int next[2], float move[2])
+{
+	char	*cell_x;
+	char	*cell_y;
+
+	cell_x = &game_wrap->map[(int)player_info->posy][next[0]];
+	cell_y = &game_wrap->map[next[1]][(int)player_info->posx];
+	if (*cell_x != '1' && *cell_x != 'P')
+		player_info->posx += move[0];
+	if (*cell_y != '1' && *cell_y != 'P')
+		player_info->posy += move[1];
+}
 
 static inline void	player_movement(t_game *game_wrap, t_player *player_info,
 		float move_in_x, float move_in_y)
@@ -32,12 +46,8 @@ static inline void	player_movement(t_game *game_wrap, t_player *player_info,
 		margin_y = 0.0f;
 	next_x = (int)(player_info->posx + move_in_x + margin_x);
 	next_y = (int)(player_info->posy + move_in_y + margin_y);
-	if (game_wrap->map[(int)player_info->posy][next_x] == 'P')
-		game_wrap->map[(int)player_info->posy][next_x] = '0';
-	if (game_wrap->map[(int)player_info->posy][next_x] != '1')
-		player_info->posx += move_in_x;
-	if (game_wrap->map[next_y][(int)player_info->posx] != '1')
-		player_info->posy += move_in_y;
+	collision_management(game_wrap, player_info, (int [2]){next_x, next_y},
+		(float [2]){move_in_x, move_in_y});
 }
 
 static inline void	calculate_player_speed(t_player *player_info,

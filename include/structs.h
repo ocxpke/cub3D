@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:40:48 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/18 16:06:14 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 20:23:50 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ typedef struct s_player
 	float				deltay;
 	float				ang;
 	uint8_t				p_moves;
+	long long			last_int_door;
 }						t_player;
 
 typedef struct s_game
@@ -189,6 +190,8 @@ typedef struct s_game
 	uint16_t			col_gross;
 	uint8_t				obj_frame;
 	t_const_vals		const_values;
+	bool				mouse_trap;
+	long long			mouse_trap_bounce;
 }						t_game;
 
 typedef struct s_all_struct

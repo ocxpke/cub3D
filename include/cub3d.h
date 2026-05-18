@@ -71,6 +71,7 @@
 # define IGNORE_COLOR 0xFF00FFFF
 # define TEXTURE_EXT ".png"
 # define KEY_COLOR 0xFFD700FF
+# define BOUNCE_KEY_TIME 200
 
 void		re_draw(t_game *game_wrap, t_player *player_info);
 void		set_color_from_var(t_color *color, uint32_t color_setted);

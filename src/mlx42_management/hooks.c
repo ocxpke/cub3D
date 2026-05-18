@@ -6,11 +6,27 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:23:57 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/11 19:10:55 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 20:44:50 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+void	mouse_free_trap(t_game *game_wrap)
+{
+	if ((get_time() - game_wrap->mouse_trap_bounce) < BOUNCE_KEY_TIME)
+		return;
+	if (game_wrap->mouse_trap)
+	{
+		game_wrap->mouse_trap = false;
+		mlx_set_cursor_mode(game_wrap->window, MLX_MOUSE_NORMAL);
+	}
+	else
+	{
+		game_wrap->mouse_trap = true;
+		mlx_set_cursor_mode(game_wrap->window, MLX_MOUSE_HIDDEN);
+	}
+}
 
 void	resize_hook(int32_t width, int32_t height, void *param)
 {
@@ -60,6 +76,10 @@ void	key_hook(void *param)
 			MLX_KEY_A);
 	player_keyboard->d_key = mlx_is_key_down(all_info->game_wrap->window,
 			MLX_KEY_D);
+	if (mlx_is_key_down(all_info->game_wrap->window, MLX_KEY_P))
+		player_interact_door(all_info->game_wrap, all_info->player_info);
+	if (mlx_is_key_down(all_info->game_wrap->window, MLX_KEY_M))
+		mouse_free_trap(all_info->game_wrap);
 	player_keyboard->left_arrow = mlx_is_key_down(all_info->game_wrap->window,
 			MLX_KEY_LEFT);
 	player_keyboard->right_arrow = mlx_is_key_down(all_info->game_wrap->window,

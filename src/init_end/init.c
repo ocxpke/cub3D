@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 19:08:21 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/18 19:34:02 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 20:35:25 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,9 @@ void	set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game_d)
 	player_info->key_control.left_arrow = 0;
 	player_info->key_control.right_arrow = 0;
 	player_info->p_moves = 1;
+	player_info->last_int_door = get_time();
+	game_wrap->mouse_trap_bounce = player_info->last_int_door;
+
 }
 
 static inline void	load_obj_texture(t_game *game_wrap, const char *path_name,
