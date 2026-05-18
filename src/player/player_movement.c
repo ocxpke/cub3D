@@ -45,21 +45,25 @@ static inline void	calculate_player_speed(t_player *player_info,
 {
 	if (player_info->key_control.w_key)
 	{
+		player_info->p_moves = 1;
 		*move_in_x += player_info->deltax * delta_time;
 		*move_in_y += player_info->deltay * delta_time;
 	}
 	if (player_info->key_control.s_key)
 	{
+		player_info->p_moves = 1;
 		*move_in_x += -1 * player_info->deltax * delta_time;
 		*move_in_y += -1 * player_info->deltay * delta_time;
 	}
 	if (player_info->key_control.a_key)
 	{
+		player_info->p_moves = 1;
 		*move_in_x += player_info->deltay * delta_time;
 		*move_in_y += -1 * player_info->deltax * delta_time;
 	}
 	if (player_info->key_control.d_key)
 	{
+		player_info->p_moves = 1;
 		*move_in_x += -1 * player_info->deltay * delta_time;
 		*move_in_y += player_info->deltax * delta_time;
 	}

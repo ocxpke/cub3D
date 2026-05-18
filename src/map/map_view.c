@@ -32,6 +32,8 @@ static inline void	draw_tile(t_game *game_wrap, int i, int j)
 			{
 				if (game_wrap->map[i][j] == 'P')
 					mlx_put_pixel(game_wrap->map_view, px, py, DOOR_COLOR);
+				else if (game_wrap->map[i][j] == 'K')
+					mlx_put_pixel(game_wrap->map_view, px, py, KEY_COLOR);
 				else
 					mlx_put_pixel(game_wrap->map_view, px, py, WALL_COLOR);
 			}
@@ -65,7 +67,7 @@ void	draw_map(t_game *game_wrap, t_player *player_info)
 		j = 0;
 		while (j < game_wrap->map_width)
 		{
-			if (game_wrap->map[i][j] == '1' || game_wrap->map[i][j] == 'P')
+			if (game_wrap->map[i][j] == '1' || game_wrap->map[i][j] == 'P' || game_wrap->map[i][j] == 'K')
 				draw_tile(game_wrap, i, j);
 			j++;
 		}

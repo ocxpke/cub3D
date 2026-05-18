@@ -6,7 +6,7 @@
 /*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 19:34:39 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/07 20:02:25 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/15 15:11:14 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	open_and_check_textures(t_dpar *game)
 	if (!validate_tex_paths(game))
 	{
 		printf(B_R"Error:"RED" Texture/s not found at path!\n"RES);
+		free_map(game);
 		free_up_to_cheklist(game);
 		exit(0);
 	}
