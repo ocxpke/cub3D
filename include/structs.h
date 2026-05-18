@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:40:48 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/18 16:06:14 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 20:23:50 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ typedef struct s_keys
 	bool				s_key;
 	bool				a_key;
 	bool				d_key;
+	bool				p_key;
 }						t_keys;
 
 typedef struct s_player

@@ -6,11 +6,27 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:22:01 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/05 18:58:06 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 20:52:17 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+void	player_opens_door(t_game *game_wrap, t_player *p_info)
+{
+	t_const_vals	const_vals;
+
+	const_vals = game_wrap->const_values;
+	if (!p_info->key_control.p_key)
+		return ;
+	if (p_info->ang > const_vals.rad_90_deg
+		&& p_info->ang < const_vals.rad_270_deg)
+	{
+		if (game_wrap->map[(int)p_info->posy][(int)p_info->posx - 1]
+			 == 'P')
+			//develop
+	}
+}
 
 /**
  * @brief Here we draw in the image map_view the player actual position as a dot

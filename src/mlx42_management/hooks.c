@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:23:57 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/11 19:10:55 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 20:44:50 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	key_hook(void *param)
 			MLX_KEY_A);
 	player_keyboard->d_key = mlx_is_key_down(all_info->game_wrap->window,
 			MLX_KEY_D);
+	player_keyboard->p_key = mlx_is_key_down(all_info->game_wrap->window,
+			MLX_KEY_P);
 	player_keyboard->left_arrow = mlx_is_key_down(all_info->game_wrap->window,
 			MLX_KEY_LEFT);
 	player_keyboard->right_arrow = mlx_is_key_down(all_info->game_wrap->window,
