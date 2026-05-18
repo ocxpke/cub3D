@@ -12,6 +12,29 @@
 
 #include "../../include/cub3d.h"
 
+void order_objects(t_game *game_wrap)
+{
+	int i = 0;
+	int j = 0;
+	t_object_info aux;
+	while (i < game_wrap->obj_num - 1)
+	{
+		j = i + 1;
+		while (j < game_wrap->obj_num)
+		{
+			if (game_wrap->obj_ordered[i].state && game_wrap->obj_ordered[i].dist_to_player < game_wrap->obj_ordered[j].dist_to_player)
+			{
+
+				aux = game_wrap->obj_ordered[i];
+				game_wrap->obj_ordered[i] = game_wrap->obj_ordered[j];
+				game_wrap->obj_ordered[j] = aux;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 /**
  * @brief We calculate the distance from point (x0, y0) to point (x1,
 	y1). Pythagorean theorem
@@ -23,7 +46,7 @@
  *
  * @return The distance calculated
  */
-inline float	dist(float x0, float y0, float x1, float y1)
+inline float dist(float x0, float y0, float x1, float y1)
 {
 	return (sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
 }
@@ -35,12 +58,12 @@ inline float	dist(float x0, float y0, float x1, float y1)
  *
  * @return Void
  */
-inline void	check_angle_bounds(float *angle)
+inline void check_angle_bounds(t_const_vals const_val, float *angle)
 {
 	if (*angle < 0)
-		*angle += RAD_360_DEG;
-	else if (*angle > RAD_360_DEG)
-		*angle -= RAD_360_DEG;
+		*angle += const_val.rad_360_deg;
+	else if (*angle > const_val.rad_360_deg)
+		*angle -= const_val.rad_360_deg;
 }
 
 /**
@@ -51,7 +74,7 @@ inline void	check_angle_bounds(float *angle)
  *
  * @return Void
  */
-inline void	check_minor_distance(t_raycast *raycast)
+inline void check_minor_distance(t_raycast *raycast)
 {
 	if (raycast->horizontal_dist <= raycast->vertical_dist)
 	{
@@ -84,11 +107,10 @@ inline void	check_minor_distance(t_raycast *raycast)
  *
  * @return Void
  */
-inline void	fix_fish_eye(t_player *player_info, t_raycast *raycast)
+inline void fix_fish_eye(t_const_vals const_val,t_player *player_info, t_raycast *raycast)
 {
 	raycast->corrected_angle = player_info->ang - raycast->ray_angle;
-	check_angle_bounds(&raycast->corrected_angle);
-	raycast->minor_distance = raycast->minor_distance
-		* cos(raycast->corrected_angle);
+	check_angle_bounds(const_val, &raycast->corrected_angle);
+	raycast->minor_distance = raycast->minor_distance * cos(raycast->corrected_angle);
 	player_info->wall_distance[raycast->ray_ct] = raycast->minor_distance;
 }

@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 19:11:08 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/15 14:18:40 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/15 15:35:32 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void	delete_object_tex(t_game *game_wrap)
 	i = 0;
 	if (game_wrap->obj_num == 0)
 		return ;
-	while (i < game_wrap->obj_num)
+	while (i < OBJ_NUMBER)
 	{
 		mlx_delete_texture(game_wrap->obj_textures[i]);
 		i++;
 	}
 	free(game_wrap->obj_textures);
+	free(game_wrap->obj_info);
+	free(game_wrap->obj_ordered);
 }
 
 void	delete_floor_ceiling_tex(t_ceil_floor_tex *ceil_tex,
@@ -77,6 +79,7 @@ static void	delete_wall_tex(t_wall_textures *wall_text)
  */
 void	exit_mlx42(t_game *game_wrap, t_player *player_info, t_dpar *game_d)
 {
+	delete_object_tex(game_wrap);
 	delete_floor_ceiling_tex(&(game_wrap->ceiling_tex),
 		&(game_wrap->floor_tex));
 	delete_wall_tex(&(game_wrap->wall_text));

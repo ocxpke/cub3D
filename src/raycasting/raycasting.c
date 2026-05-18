@@ -20,8 +20,8 @@
  *
  * @return Void
  */
-static inline void	init_raycast_values(t_player *player_info,
-		t_raycast *raycast)
+static inline void init_raycast_values(t_player *player_info,
+									   t_raycast *raycast)
 {
 	raycast->player_angle = player_info->ang;
 	raycast->player_posx_cube = player_info->posx * CUBSIZE;
@@ -47,7 +47,7 @@ static inline void	init_raycast_values(t_player *player_info,
  *
  * @return Void
  */
-static inline void	invert_texture_x(t_raycast *raycast)
+static inline void invert_texture_x(t_const_vals const_vals,t_raycast *raycast)
 {
 	if (raycast->horizontal_dist <= raycast->vertical_dist)
 	{
@@ -56,7 +56,7 @@ static inline void	invert_texture_x(t_raycast *raycast)
 	}
 	else
 	{
-		if (raycast->ray_angle > RAD_90_DEG && raycast->ray_angle < RAD_270_DEG)
+		if (raycast->ray_angle > const_vals.rad_90_deg && raycast->ray_angle < const_vals.rad_270_deg)
 			raycast->texture_x_hp = 1.0f - raycast->texture_x_hp;
 	}
 }
@@ -70,28 +70,23 @@ static inline void	invert_texture_x(t_raycast *raycast)
  *
  * @return Void
  */
-static inline void	draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
+static inline void draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
 {
-	raycast->wall_len = (CUBSIZE * game_wrap->game_view->height)
-		/ raycast->minor_distance;
+	raycast->wall_len = (CUBSIZE * game_wrap->game_view->height) / raycast->minor_distance;
 	raycast->save_tex_y = 0;
 	raycast->texture_steps = (float)CUBSIZE / raycast->wall_len;
 	if (raycast->wall_len > game_wrap->game_view->height)
 	{
-		raycast->save_tex_y = ((raycast->wall_len
-					- game_wrap->game_view->height) / 2)
-			* raycast->texture_steps;
+		raycast->save_tex_y = ((raycast->wall_len - game_wrap->game_view->height) / 2) * raycast->texture_steps;
 		raycast->wall_len = game_wrap->game_view->height;
 	}
-	raycast->wall_start = (game_wrap->game_view->height - raycast->wall_len)
-		/ 2;
+	raycast->wall_start = (game_wrap->game_view->height - raycast->wall_len) / 2;
 	raycast->iter_gross = 0;
-	invert_texture_x(raycast);
+	invert_texture_x(game_wrap->const_values,raycast);
 	while (raycast->iter_gross < game_wrap->col_gross)
 	{
 		raycast->texture_y_hp = raycast->save_tex_y;
-		draw_player_view_line(game_wrap, raycast, (uint32_t)(raycast->ray_ct
-				* game_wrap->col_gross) + raycast->iter_gross);
+		draw_player_view_line(game_wrap, raycast, (uint32_t)(raycast->ray_ct * game_wrap->col_gross) + raycast->iter_gross);
 		raycast->iter_gross++;
 	}
 }
@@ -112,50 +107,53 @@ static inline void	draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
  *
  * @return Void
  */
-void	draw_rays(t_game *game_wrap, t_player *player_info)
+void draw_rays(t_game *game_wrap, t_player *player_info)
 {
-	t_raycast	raycast;
+	t_raycast raycast;
 
 	init_raycast_values(player_info, &raycast);
-	raycast.ray_angle = player_info->ang - (ONE_DEGREE * HALF_FOV);
-	check_angle_bounds(&raycast.ray_angle);
+	raycast.ray_angle = player_info->ang - (ONE_DEGREE * game_wrap->const_values.half_fov);
+	check_angle_bounds(game_wrap->const_values,&raycast.ray_angle);
 	while (raycast.ray_ct < game_wrap->pixels_cols)
 	{
 		check_horizontal_ray(game_wrap, &raycast);
 		check_vertical_ray(game_wrap, &raycast);
 		check_minor_distance(&raycast);
 		raycast.texture_x_hp -= floor(raycast.texture_x_hp);
-		fix_fish_eye(player_info, &raycast);
+		fix_fish_eye(game_wrap->const_values,player_info, &raycast);
 		draw_frame_cols(game_wrap, &raycast);
-		draw_line_simple(game_wrap, (float []){game_wrap->map_view->width / 2,
-			game_wrap->map_view->height / 2}, (float []){((raycast.ray_x
-					/ CUBSIZE) * game_wrap->tile_size) - game_wrap->offset_x,
-			(raycast.ray_y / CUBSIZE) * game_wrap->tile_size
-			- game_wrap->offset_y}, RAY_COLOR);
+		if (player_info->p_moves)
+			draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width / 2, game_wrap->map_view->height / 2}, (float[]){((raycast.ray_x / CUBSIZE) * game_wrap->tile_size) - game_wrap->offset_x, (raycast.ray_y / CUBSIZE) * game_wrap->tile_size - game_wrap->offset_y}, RAY_COLOR);
 		raycast.ray_angle += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
-		check_angle_bounds(&raycast.ray_angle);
+		check_angle_bounds(game_wrap->const_values,&raycast.ray_angle);
 		raycast.ray_ct++;
 	}
 }
 
-void	draw_sprites(t_game *game_wrap, t_player *player_info)
+void draw_sprites(t_game *game_wrap, t_player *player_info)
 {
-	t_object_render	obj_render;
-	int				i;
+	t_object_render obj_render;
+	int i;
 
 	i = 0;
+	if (game_wrap->obj_num == 0)
+		return;
 	game_wrap->obj_frame = (get_time() / 150) % OBJ_NUMBER;
 	obj_render.cosine = cos(player_info->ang);
 	obj_render.sine = sin(player_info->ang);
 	while (i < game_wrap->obj_num)
 	{
-		if (game_wrap->obj_info[i].state == 1)
+		if (game_wrap->obj_ordered[i].state == 1)
 		{
+			if (player_info->p_moves)
+				game_wrap->obj_ordered[i].dist_to_player = dist(player_info->posx, player_info->posy, game_wrap->obj_ordered[i].x_pos, game_wrap->obj_ordered[i].y_pos);
 			if (calculate_deltas_and_check_depth(game_wrap, player_info,
-					&obj_render, i) && calculate_obj_sprite_position(game_wrap,
-					player_info, &obj_render, i))
+												 &obj_render, i) &&
+				calculate_obj_sprite_position(game_wrap, &obj_render, i))
 				represent_object(game_wrap, player_info, &obj_render);
 		}
 		i++;
 	}
+	if (player_info->p_moves)
+		order_objects(game_wrap);
 }

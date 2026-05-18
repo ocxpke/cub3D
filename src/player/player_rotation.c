@@ -14,6 +14,7 @@
 
 inline void	rotate_player_left(t_player *player_info, float delta_time)
 {
+	player_info->p_moves = 1;
 	player_info->ang -= 0.1 * delta_time;
 	if (player_info->ang < 0)
 		player_info->ang += (2 * PI);
@@ -23,6 +24,7 @@ inline void	rotate_player_left(t_player *player_info, float delta_time)
 
 inline void	rotate_player_right(t_player *player_info, float delta_time)
 {
+	player_info->p_moves = 1;
 	player_info->ang += 0.1 * delta_time;
 	if (player_info->ang > (2 * PI))
 		player_info->ang -= (2 * PI);
