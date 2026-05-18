@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:31:30 by romorale          #+#    #+#             */
-/*   Updated: 2026/05/13 14:57:38 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/18 19:16:27 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,26 @@ void	parsing_part_1(int ac, char **av, t_dpar *game)
 {
 	if (ac != 2 || !check_arg(av[1]))
 	{
-		printf(B_R"Error:"RED" Missing file or invalid file extension!\n"RES);
+		printf(B_R"Error\n "RED" Missing file or invalid file extension!\n"RES);
 		exit(0);
 	}
 	printf(B_G"YAY!"GRN" Valid file extension!!!\n"RES);
 	game->file_cont = get_file(av[1]);
 	if (!game->file_cont)
 	{
-		printf(B_R"Error:"RED" File does not exist!\n"RES);
+		printf(B_R"Error\n "RED" File does not exist!\n"RES);
 		exit(0);
 	}
 	printf(B_G"YAY!"GRN" File opened successfully!!!\n"RES);
 	if (!check_empty_file(game))
 	{
-		printf(B_R"Error:"RED" File is empty!\n"RES);
+		printf(B_R"Error\n "RED" File is empty!\n"RES);
 		free_file_cont(game);
 		exit(0);
 	}
 	if (!check_for_anything_else(game))
 	{
-		printf(B_R"Error:"RED" File contains something unidentifiable!\n"RES);
+		printf(B_R"Error\n "RED" File contains something unidentifiable!\n"RES);
 		free_file_cont(game);
 		exit(0);
 	}
@@ -45,7 +45,7 @@ void	parsing_part_2(t_dpar *game)
 {
 	if (!file_checklist(game))
 	{
-		printf(B_R"Error:"RED" Missing, mislabled or "RES);
+		printf(B_R"Error\n "RED" Missing, mislabled or "RES);
 		printf(RED"invalid number of elements!\n"RES);
 		free_up_to_cheklist(game);
 		exit(0);
@@ -53,14 +53,14 @@ void	parsing_part_2(t_dpar *game)
 	printf(B_G"YAY!"GRN" Valid number of elements!!!\n"RES);
 	if (!map_placement(game))
 	{
-		printf(B_R"Error:"RED" Missing or misplaced map!\n"RES);
+		printf(B_R"Error\n "RED" Missing or misplaced map!\n"RES);
 		free_up_to_cheklist(game);
 		exit(0);
 	}
 	printf(B_G"YAY!"GRN" Valid map placement!!!\n"RES);
 	if (!get_elements(game))
 	{
-		printf(B_R"Error:"RED" Unable to retrieve elements!\n"RES);
+		printf(B_R"Error\n "RED" Unable to retrieve elements!\n"RES);
 		free_up_to_cheklist(game);
 		exit(0);
 	}

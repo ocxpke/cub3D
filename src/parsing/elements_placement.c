@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   elements_placement.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 18:47:05 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/08 19:02:48 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/18 19:15:37 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	elements_placement(t_dpar *game)
 {
 	if (!check_elements_placement(game))
 	{
-		printf(B_R"Error:"RED" Elements out of order!\n"RES);
+		printf(B_R"Error\n"RED" Elements out of order!\n"RES);
 		free_map(game);
 		free_up_to_cheklist(game);
 		exit(0);

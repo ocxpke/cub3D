@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_content.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 16:02:02 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/21 19:47:49 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/18 19:44:30 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	valid_single_player(char **map)
 		i = 0;
 		while (map[j][i])
 		{
-			if (map[j][i] == 'N' || map[j][i] == 'S'
-				|| map[j][i] == 'E' || map[j][i] == 'W')
+			if (map[j][i] == 'N' || map[j][i] == 'S' || map[j][i] == 'E'
+				|| map[j][i] == 'W')
 				player++;
 			i++;
 		}
@@ -114,7 +114,8 @@ int	valid_content(t_dpar *game)
 			|| !valid_single_player(game->map_s->map)
 			|| !valid_map_chars(game->map_s->map))
 		{
-			printf(B_R"Error:"RED" Missing or invalid chars in the map!\n"RES);
+			printf(B_R "Error\n " RED);
+			printf(" Missing or invalid chars in the map!\n" RES);
 			return (0);
 		}
 	}

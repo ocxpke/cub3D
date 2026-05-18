@@ -1,5 +1,5 @@
-NAME	:= cub3d
-CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast -g
+NAME	:= cub3D
+CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
 LIBMLX	:= ./lib/MLX42
 LIBFT	:= ./lib/libft
 
@@ -98,12 +98,12 @@ fclean: clean
 re: clean all
 
 run: all
-	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3d ./maps/placeholder_textures/valid_simple_map_cat_textures.cub
+	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3D ./maps/placeholder_textures/valid_simple_map_cat_textures.cub
 
 run1: all
-	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3d ./maps/valid/diamonds.cub
+	XDG_SESSION_TYPE=x11 DISPLAY=:0 ./cub3D ./maps/valid/diamonds.cub
 
 valgrind_test: all
-	valgrind --leak-check=full --track-origins=yes --suppressions=valgrind-mlx.supp -s ./cub3d ./maps/valid/diamonds.cub
+	valgrind --leak-check=full --track-origins=yes --suppressions=valgrind-mlx.supp -s ./cub3D ./maps/valid/diamonds.cub
 
 .PHONY: all clean fclean re libmlx run valgrind_run
