@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:14:28 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/18 16:07:08 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 19:21:01 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(int argc, char **argv)
 	t_player		player_info;
 
 	if (!parsing(argc, argv, &game_d))
-		return (perror("Something went wrong at parsing"), EXIT_FAILURE);
+		return (write(2, "Error\n", 6), EXIT_FAILURE);
 	set_init_vals(&game_wrap, &player_info, &game_d);
 	manage_mlx42_resources(&game_wrap, &game_d);
 	load_all_sprites(&game_wrap, &player_info, &game_d);

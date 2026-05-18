@@ -114,3 +114,10 @@ The floor and ceiling are drawn in the same color as the rgb value in the .cub f
 "3D Ray-casting Game with Cub3D" by Abdilah CH [Link](https://devabdilah.medium.com/3d-ray-casting-game-with-cub3d-7a116376056a)
 
 "Raycasting in C | 42 Cub3D" by Beqa Tvildiani [link](https://www.youtube.com/watch?v=G9i78WoBBIU)
+
+## AI Resources
+
+[Gemini](https://gemini.google.com) && [Claude](https://claude.ai)
+
+We haved used AI Tools to help us develop our program by trying to understand some math concepts, explaining logic bugs and trying to fix some memory leaks.
+

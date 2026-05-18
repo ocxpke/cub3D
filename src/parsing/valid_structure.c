@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_structure.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 16:02:02 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/21 20:00:58 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/18 19:16:23 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	valid_structure(t_dpar *game)
 	{
 		if (!is_enclosed(game->map_s->map) || !check_inner_chars(game))
 		{
-			printf(B_R"Error:"RED" The map structure is invalid!\n"RES);
+			printf(B_R"Error\n "RED" The map structure is invalid!\n"RES);
 			return (0);
 		}
 	}

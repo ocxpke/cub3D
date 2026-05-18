@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 19:08:21 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/18 16:26:08 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 19:34:02 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static inline void	set_orientation(t_const_vals const_vals,
 	else if (map_info->pstart_orientation == 'W')
 		player_info->ang = const_vals.rad_360_deg;
 	else
-		return (write(STDERR_FILENO, "Error at set_orientation", 24),
+		return (write(STDERR_FILENO, "Error\n at set_orientation\n", 26),
 			exit(EXIT_FAILURE));
 }
 
@@ -90,6 +90,7 @@ static inline void	set_orientation(t_const_vals const_vals,
  */
 void	set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game_d)
 {
+	init_const_values(game_wrap);
 	game_wrap->map = game_d->map_s->map;
 	game_wrap->map_height = game_d->map_s->rows;
 	game_wrap->map_width = game_d->map_s->cols;
@@ -105,7 +106,6 @@ void	set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game_d)
 	player_info->key_control.left_arrow = 0;
 	player_info->key_control.right_arrow = 0;
 	player_info->p_moves = 1;
-	init_const_values(game_wrap);
 }
 
 static inline void	load_obj_texture(t_game *game_wrap, const char *path_name,

@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:24:43 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/15 14:10:15 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 19:14:21 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	load_all_frame_textures(t_ceil_floor_tex *ceil_floor_tex,
 			+ ft_strlen(num_ext) + 1);
 		ceil_floor_tex->all_textures[i - 1] = mlx_load_png(image_path);
 		if (!ceil_floor_tex->all_textures[i - 1])
-			return (perror("fail on image"), exit(EXIT_FAILURE));
+			return (perror("Error\nfail on image"), exit(EXIT_FAILURE));
 		ft_memset(&image_path[ft_strlen(image_path) - ft_strlen(num_ext)], 0,
 			ft_strlen(num_ext) - 1);
 		free(num_ext);

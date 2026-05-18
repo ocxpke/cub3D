@@ -1,13 +1,13 @@
-NO ./src/imgs/s_north.png
-SO ./src/imgs/s_south.png
-WE ./src/imgs/s_west.png
-EA ./src/imgs/s_east.png
+NO ./src/imgs/c_north.png
+SO ./src/imgs/c_south.png
+WE ./src/imgs/c_west.png
+EA ./src/imgs/c_east.png
 
-F 0,0,160
-C 255,0,0
+F 200,0,0
+C 0,110,0
 
-1111111
-10000K1
-100N001
-1000001
-1111111
+111111111111
+10000K000001
+100WK0111101
+100000000001
+111111111111

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_and_check_textures.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 19:34:39 by romorale          #+#    #+#             */
-/*   Updated: 2026/05/15 15:11:14 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/18 19:16:07 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	open_and_check_textures(t_dpar *game)
 {
 	if (!validate_tex_paths(game))
 	{
-		printf(B_R"Error:"RED" Texture/s not found at path!\n"RES);
+		printf(B_R"Error\n "RED" Texture/s not found at path!\n"RES);
 		free_map(game);
 		free_up_to_cheklist(game);
 		exit(0);
