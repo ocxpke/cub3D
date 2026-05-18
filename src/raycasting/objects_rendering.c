@@ -79,11 +79,11 @@ inline int calculate_obj_sprite_position(t_game *game_wrap,t_object_render *obj_
 										 obj_render->depth);
 	obj_render->sprite_size = (int)(game_wrap->game_view->height / obj_render->depth);
 	obj_render->half_spr = obj_render->sprite_size / 2;
-	obj_render->screen_x = (obj_render->angle_to_sprite / (ONE_DEGREE * HALF_FOV)) * (game_wrap->game_view->width / 2.0f) + (game_wrap->game_view->width / 2.0f);
+	obj_render->screen_x = (obj_render->angle_to_sprite / (ONE_DEGREE * game_wrap->const_values.half_fov)) * (game_wrap->game_view->width / 2.0f) + (game_wrap->game_view->width / 2.0f);
 	obj_render->screen_y = game_wrap->game_view->height / 2.0f + obj_render->sprite_size / 4.0f;
 	obj_render->dist_ratio = (game_wrap->obj_ordered[index].dist_to_player *
 							  CUBSIZE) /
-							 MAX_PLAYER_VIEW_DIST;
+							 game_wrap->const_values.max_player_view_dist;
 	if (obj_render->dist_ratio > 1.0f)
 		obj_render->dist_ratio = 1.0f;
 	obj_render->intensity = 0.9f - (obj_render->dist_ratio * 0.8f);

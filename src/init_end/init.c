@@ -12,6 +12,21 @@
 
 #include "../../include/cub3d.h"
 
+static inline void init_const_values(t_game *game_wrap)
+{
+	t_const_vals *aux;
+
+	aux = &(game_wrap->const_values);
+	aux->bit_shift = (uint16_t)log2(CUBSIZE);
+	aux->rad_90_deg = PI / 2;
+	aux->rad_180_deg = PI;
+	aux->rad_270_deg = (PI * 3) / 2;
+	aux->rad_360_deg = PI * 2;
+	aux->half_fov = FOV / 2;
+	aux->max_player_view_dist = FOG * CUBSIZE;
+	aux->bpp = sizeof(int32_t);
+}
+
 /**
  * @brief Just a function that checks all macros have the correct values
  *
@@ -48,18 +63,18 @@
  *
  * @return Void
  */
-static inline void set_orientation(t_player *player_info, t_map *map_info)
+static inline void set_orientation(t_const_vals const_vals, t_player *player_info, t_map *map_info)
 {
 	if (map_info->pstart_orientation == 'N')
-		player_info->ang = RAD_90_DEG;
+		player_info->ang = const_vals.rad_90_deg;
 	else if (map_info->pstart_orientation == 'S')
-		player_info->ang = RAD_270_DEG;
+		player_info->ang = const_vals.rad_270_deg;
 	else if (map_info->pstart_orientation == 'E')
-		player_info->ang = RAD_180_DEG;
+		player_info->ang = const_vals.rad_180_deg;
 	else if (map_info->pstart_orientation == 'W')
-		player_info->ang = RAD_360_DEG;
+		player_info->ang = const_vals.rad_360_deg;
 	else
-		write(STDERR_FILENO, "Error at set_orientation", 24);
+		return (write(STDERR_FILENO, "Error at set_orientation", 24), exit(EXIT_FAILURE));
 }
 
 /**
@@ -78,7 +93,7 @@ void set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game_d)
 	game_wrap->map_width = game_d->map_s->cols;
 	player_info->posx = game_d->map_s->pstart_x + HALF_POS;
 	player_info->posy = game_d->map_s->pstart_y + HALF_POS;
-	set_orientation(player_info, game_d->map_s);
+	set_orientation(game_wrap->const_values, player_info, game_d->map_s);
 	player_info->deltax = cos(player_info->ang) * PLAYER_SPEED;
 	player_info->deltay = sin(player_info->ang) * PLAYER_SPEED;
 	player_info->key_control.w_key = 0;
@@ -88,6 +103,7 @@ void set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game_d)
 	player_info->key_control.left_arrow = 0;
 	player_info->key_control.right_arrow = 0;
 	player_info->p_moves = 0;
+	init_const_values(game_wrap);
 }
 
 static inline void load_obj_texture(t_game *game_wrap, const char *path_name,
@@ -144,7 +160,7 @@ void load_all_sprites(t_game *game_wrap, t_player *player_info, t_dpar *pars)
 	if (!game_wrap->obj_info)
 		exit(EXIT_FAILURE);
 	game_wrap->obj_ordered = (t_object_info *)ft_calloc(map_s->key_count,
-													 sizeof(t_object_info));
+														sizeof(t_object_info));
 	if (!game_wrap->obj_ordered)
 		exit(EXIT_FAILURE);
 	i = 0;

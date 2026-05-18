@@ -16,12 +16,11 @@
 # include "cub3d.h"
 
 void	order_objects(t_game *game_wrap);
-void	check_angle_bounds(float *angle);
+void check_angle_bounds(t_const_vals const_val, float *angle);
 void	draw_rays(t_game *game_wrap, t_player *player_info);
 float	dist(float x0, float y0, float x1, float y1);
-void	check_angle_bounds(float *angle);
 void	check_minor_distance(t_raycast *raycast);
-void	fix_fish_eye(t_player *player_info, t_raycast *raycast);
+void fix_fish_eye(t_const_vals const_val,t_player *player_info, t_raycast *raycast);
 void	check_horizontal_ray(t_game *game_wrap, t_raycast *rc);
 void	check_vertical_ray(t_game *game_wrap, t_raycast *rc);
 void	draw_sprites(t_game *game_wrap, t_player *player_info);

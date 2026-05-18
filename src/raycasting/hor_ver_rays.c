@@ -37,8 +37,8 @@ static inline void	check_distance_of_field(t_game *game_wrap, t_raycast *rc,
 	aux = WALL_TEX;
 	while (rc->distance_of_field < FOG)
 	{
-		rc->map_x = (int)(rc->ray_x) >> BIT_SHIFT;
-		rc->map_y = (int)(rc->ray_y) >> BIT_SHIFT;
+		rc->map_x = (int)(rc->ray_x) >> game_wrap->const_values.bit_shift;
+		rc->map_y = (int)(rc->ray_y) >> game_wrap->const_values.bit_shift;
 		if ((rc->map_x >= 0 && rc->map_x < game_wrap->map_width)
 			&& (rc->map_y >= 0 && rc->map_y < game_wrap->map_height)
 			&& ((game_wrap->map[rc->map_y][rc->map_x] == '1')
@@ -100,13 +100,16 @@ static inline void	edge_angle_case_and_final_values(t_game *game_wrap,
  */
 void	check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 {
+	t_const_vals const_val;
+
+	const_val = game_wrap->const_values;
 	rc->distance_of_field = 0;
 	if (tan(rc->ray_angle) == 0)
 		rc->ray_angle += 0.0001f;
 	rc->arc_tan = -1 / tan(rc->ray_angle);
 	if (rc->ray_angle > PI)
 	{
-		rc->ray_y = (((int)rc->player_posy_cube >> BIT_SHIFT) << BIT_SHIFT)
+		rc->ray_y = (((int)rc->player_posy_cube >> const_val.bit_shift) << const_val.bit_shift)
 			- 0.01f;
 		rc->ray_x = (rc->player_posy_cube - rc->ray_y) * rc->arc_tan
 			+ rc->player_posx_cube;
@@ -115,7 +118,7 @@ void	check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
 	}
 	if (rc->ray_angle < PI)
 	{
-		rc->ray_y = (((int)rc->player_posy_cube >> BIT_SHIFT) << BIT_SHIFT)
+		rc->ray_y = (((int)rc->player_posy_cube >> const_val.bit_shift) << const_val.bit_shift)
 			+ CUBSIZE;
 		rc->ray_x = (rc->player_posy_cube - rc->ray_y) * rc->arc_tan
 			+ rc->player_posx_cube;
@@ -140,22 +143,25 @@ void	check_horizontal_ray(t_game *game_wrap, t_raycast *rc)
  */
 void	check_vertical_ray(t_game *game_wrap, t_raycast *rc)
 {
+	t_const_vals const_val;
+
+	const_val =game_wrap->const_values;
 	rc->distance_of_field = 0;
 	if (tan(rc->ray_angle) == 0)
 		rc->ray_angle += 0.00001;
 	rc->neg_tan = -1 * tan(rc->ray_angle);
-	if (rc->ray_angle > RAD_90_DEG && rc->ray_angle < RAD_270_DEG)
+	if (rc->ray_angle > const_val.rad_90_deg && rc->ray_angle < const_val.rad_270_deg)
 	{
-		rc->ray_x = (((int)rc->player_posx_cube >> BIT_SHIFT) << BIT_SHIFT)
+		rc->ray_x = (((int)rc->player_posx_cube >> const_val.bit_shift) << const_val.bit_shift)
 			- 0.01f;
 		rc->ray_y = (rc->player_posx_cube - rc->ray_x) * rc->neg_tan
 			+ rc->player_posy_cube;
 		rc->ray_x_offset = -CUBSIZE;
 		rc->ray_y_offset = -rc->ray_x_offset * rc->neg_tan;
 	}
-	if (rc->ray_angle < RAD_90_DEG || rc->ray_angle > RAD_270_DEG)
+	if (rc->ray_angle < const_val.rad_90_deg || rc->ray_angle > const_val.rad_270_deg)
 	{
-		rc->ray_x = (((int)rc->player_posx_cube >> BIT_SHIFT) << BIT_SHIFT)
+		rc->ray_x = (((int)rc->player_posx_cube >> const_val.bit_shift) << const_val.bit_shift)
 			+ CUBSIZE;
 		rc->ray_y = (rc->player_posx_cube - rc->ray_x) * rc->neg_tan
 			+ rc->player_posy_cube;

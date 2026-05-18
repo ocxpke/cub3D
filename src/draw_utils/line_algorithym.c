@@ -99,7 +99,7 @@ void	draw_player_view_line(t_game *game_wrap, t_raycast *rc,
 
 	wall_hit_x = (uint16_t)(CUBSIZE * rc->texture_x_hp);
 	rc->ceil_fl_vars.ceil_fl_ang = rc->player_angle - rc->ray_angle;
-	check_angle_bounds(&(rc->ceil_fl_vars.ceil_fl_ang));
+	check_angle_bounds(game_wrap->const_values,&(rc->ceil_fl_vars.ceil_fl_ang));
 	rc->ceil_fl_vars.cos_corrected = cos(rc->ceil_fl_vars.ceil_fl_ang);
 	rc->ceil_fl_vars.cos_ray = cos(rc->ray_angle);
 	rc->ceil_fl_vars.sin_ray = sin(rc->ray_angle);

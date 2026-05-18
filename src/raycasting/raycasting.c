@@ -47,7 +47,7 @@ static inline void init_raycast_values(t_player *player_info,
  *
  * @return Void
  */
-static inline void invert_texture_x(t_raycast *raycast)
+static inline void invert_texture_x(t_const_vals const_vals,t_raycast *raycast)
 {
 	if (raycast->horizontal_dist <= raycast->vertical_dist)
 	{
@@ -56,7 +56,7 @@ static inline void invert_texture_x(t_raycast *raycast)
 	}
 	else
 	{
-		if (raycast->ray_angle > RAD_90_DEG && raycast->ray_angle < RAD_270_DEG)
+		if (raycast->ray_angle > const_vals.rad_90_deg && raycast->ray_angle < const_vals.rad_270_deg)
 			raycast->texture_x_hp = 1.0f - raycast->texture_x_hp;
 	}
 }
@@ -82,7 +82,7 @@ static inline void draw_frame_cols(t_game *game_wrap, t_raycast *raycast)
 	}
 	raycast->wall_start = (game_wrap->game_view->height - raycast->wall_len) / 2;
 	raycast->iter_gross = 0;
-	invert_texture_x(raycast);
+	invert_texture_x(game_wrap->const_values,raycast);
 	while (raycast->iter_gross < game_wrap->col_gross)
 	{
 		raycast->texture_y_hp = raycast->save_tex_y;
@@ -112,20 +112,20 @@ void draw_rays(t_game *game_wrap, t_player *player_info)
 	t_raycast raycast;
 
 	init_raycast_values(player_info, &raycast);
-	raycast.ray_angle = player_info->ang - (ONE_DEGREE * HALF_FOV);
-	check_angle_bounds(&raycast.ray_angle);
+	raycast.ray_angle = player_info->ang - (ONE_DEGREE * game_wrap->const_values.half_fov);
+	check_angle_bounds(game_wrap->const_values,&raycast.ray_angle);
 	while (raycast.ray_ct < game_wrap->pixels_cols)
 	{
 		check_horizontal_ray(game_wrap, &raycast);
 		check_vertical_ray(game_wrap, &raycast);
 		check_minor_distance(&raycast);
 		raycast.texture_x_hp -= floor(raycast.texture_x_hp);
-		fix_fish_eye(player_info, &raycast);
+		fix_fish_eye(game_wrap->const_values,player_info, &raycast);
 		draw_frame_cols(game_wrap, &raycast);
 		if (player_info->p_moves)
 			draw_line_simple(game_wrap, (float[]){game_wrap->map_view->width / 2, game_wrap->map_view->height / 2}, (float[]){((raycast.ray_x / CUBSIZE) * game_wrap->tile_size) - game_wrap->offset_x, (raycast.ray_y / CUBSIZE) * game_wrap->tile_size - game_wrap->offset_y}, RAY_COLOR);
 		raycast.ray_angle += ((ONE_DEGREE * FOV) / game_wrap->pixels_cols);
-		check_angle_bounds(&raycast.ray_angle);
+		check_angle_bounds(game_wrap->const_values,&raycast.ray_angle);
 		raycast.ray_ct++;
 	}
 }

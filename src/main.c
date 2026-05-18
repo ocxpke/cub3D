@@ -32,9 +32,9 @@ void re_draw(t_game *game_wrap, t_player *player_info)
 	player_key_movement(game_wrap, player_info);
 	if (player_info->p_moves)
 	{
-		ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * BPP);
-		draw_player(game_wrap);
+		ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * game_wrap->const_values.bpp);
 		draw_map(game_wrap, player_info);
+		draw_player(game_wrap);
 	}
 	draw_rays(game_wrap, player_info);
 	draw_sprites(game_wrap, player_info);

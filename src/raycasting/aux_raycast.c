@@ -58,12 +58,12 @@ inline float dist(float x0, float y0, float x1, float y1)
  *
  * @return Void
  */
-inline void check_angle_bounds(float *angle)
+inline void check_angle_bounds(t_const_vals const_val, float *angle)
 {
 	if (*angle < 0)
-		*angle += RAD_360_DEG;
-	else if (*angle > RAD_360_DEG)
-		*angle -= RAD_360_DEG;
+		*angle += const_val.rad_360_deg;
+	else if (*angle > const_val.rad_360_deg)
+		*angle -= const_val.rad_360_deg;
 }
 
 /**
@@ -107,10 +107,10 @@ inline void check_minor_distance(t_raycast *raycast)
  *
  * @return Void
  */
-inline void fix_fish_eye(t_player *player_info, t_raycast *raycast)
+inline void fix_fish_eye(t_const_vals const_val,t_player *player_info, t_raycast *raycast)
 {
 	raycast->corrected_angle = player_info->ang - raycast->ray_angle;
-	check_angle_bounds(&raycast->corrected_angle);
+	check_angle_bounds(const_val, &raycast->corrected_angle);
 	raycast->minor_distance = raycast->minor_distance * cos(raycast->corrected_angle);
 	player_info->wall_distance[raycast->ray_ct] = raycast->minor_distance;
 }
