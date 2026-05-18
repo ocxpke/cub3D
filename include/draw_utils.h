@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:40:24 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/05 19:05:31 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 16:06:32 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ void			draw_ceil(t_game *game_wrap, t_raycast *rc, uint32_t x_trunc,
 
 uint32_t		get_color_from_texture(mlx_texture_t *texture, uint16_t x,
 					uint16_t y, float dist);
-mlx_texture_t    *get_wall_texture(t_game *game, t_raycast *rc);
+mlx_texture_t	*get_wall_texture(t_game *game, t_raycast *rc);
 
 #endif

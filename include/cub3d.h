@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:39:59 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/15 14:40:37 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 16:28:06 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@
 # define FOG 10
 # define FOV 60 // @note check for 360º as light source
 # define PIX_COL 10
-//# define MAX_PLAYER_VIEW_DIST (FOG * CUBSIZE)
 # define COLOR_SWAP 0xF5F5F5FF // == 245, 245, 245, 255
 # define CEILING_PATH "./src/imgs/lava_64/"
 # define CEILING_TEXTURE "LavaF"

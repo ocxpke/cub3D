@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 19:26:56 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/13 14:31:05 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 16:11:45 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,7 @@
 
 void	set_init_vals(t_game *game_wrap, t_player *player_info, t_dpar *game_d);
 void	exit_mlx42(t_game *game_wrap, t_player *player_info, t_dpar *game_d);
-void	load_all_sprites(t_game*game_wrap, t_player *player_info,t_dpar *pars);
+void	load_all_sprites(t_game *game_wrap, t_player *player_info,
+			t_dpar *pars);
+void	load_all_obj_textures(t_game *game_wrap);
 #endif

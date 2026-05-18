@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:28:02 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/13 17:46:22 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 16:07:52 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ void	draw_player_view_line(t_game *game_wrap, t_raycast *rc,
 
 	wall_hit_x = (uint16_t)(CUBSIZE * rc->texture_x_hp);
 	rc->ceil_fl_vars.ceil_fl_ang = rc->player_angle - rc->ray_angle;
-	check_angle_bounds(game_wrap->const_values,&(rc->ceil_fl_vars.ceil_fl_ang));
+	check_angle_bounds(game_wrap->const_values,
+		&(rc->ceil_fl_vars.ceil_fl_ang));
 	rc->ceil_fl_vars.cos_corrected = cos(rc->ceil_fl_vars.ceil_fl_ang);
 	rc->ceil_fl_vars.cos_ray = cos(rc->ray_angle);
 	rc->ceil_fl_vars.sin_ray = sin(rc->ray_angle);

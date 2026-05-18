@@ -6,11 +6,21 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:27:07 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/13 17:20:23 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 16:17:31 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+static inline void	map_color_selec(t_game *game_wrap, int i, int j, int pp[2])
+{
+	if (game_wrap->map[i][j] == 'P')
+		mlx_put_pixel(game_wrap->map_view, pp[0], pp[1], DOOR_COLOR);
+	else if (game_wrap->map[i][j] == 'K')
+		mlx_put_pixel(game_wrap->map_view, pp[0], pp[1], KEY_COLOR);
+	else
+		mlx_put_pixel(game_wrap->map_view, pp[0], pp[1], WALL_COLOR);
+}
 
 static inline void	draw_tile(t_game *game_wrap, int i, int j)
 {
@@ -29,14 +39,7 @@ static inline void	draw_tile(t_game *game_wrap, int i, int j)
 			py = (i * game_wrap->tile_size) - game_wrap->offset_y + z;
 			if (px >= 0 && px < (int)game_wrap->map_view->width && py >= 0
 				&& py < (int)game_wrap->map_view->height)
-			{
-				if (game_wrap->map[i][j] == 'P')
-					mlx_put_pixel(game_wrap->map_view, px, py, DOOR_COLOR);
-				else if (game_wrap->map[i][j] == 'K')
-					mlx_put_pixel(game_wrap->map_view, px, py, KEY_COLOR);
-				else
-					mlx_put_pixel(game_wrap->map_view, px, py, WALL_COLOR);
-			}
+				map_color_selec(game_wrap, i, j, (int [2]){px, py});
 			q++;
 		}
 		z++;
@@ -67,7 +70,8 @@ void	draw_map(t_game *game_wrap, t_player *player_info)
 		j = 0;
 		while (j < game_wrap->map_width)
 		{
-			if (game_wrap->map[i][j] == '1' || game_wrap->map[i][j] == 'P' || game_wrap->map[i][j] == 'K')
+			if (game_wrap->map[i][j] == '1' || game_wrap->map[i][j] == 'P'
+				|| game_wrap->map[i][j] == 'K')
 				draw_tile(game_wrap, i, j);
 			j++;
 		}

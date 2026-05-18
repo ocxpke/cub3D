@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:14:28 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/15 14:33:15 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/18 16:07:08 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@
  *
  * @return Void
  */
-void re_draw(t_game *game_wrap, t_player *player_info)
+void	re_draw(t_game *game_wrap, t_player *player_info)
 {
 	player_key_rotation(game_wrap, player_info);
 	player_key_movement(game_wrap, player_info);
 	if (player_info->p_moves)
 	{
-		ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width * game_wrap->map_view->height * game_wrap->const_values.bpp);
+		ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width
+			* game_wrap->map_view->height * game_wrap->const_values.bpp);
 		draw_map(game_wrap, player_info);
 		draw_player(game_wrap);
 	}
@@ -41,11 +42,11 @@ void re_draw(t_game *game_wrap, t_player *player_info)
 	player_info->p_moves = 0;
 }
 
-static inline void init_wall_arr_and_full_wrapper(t_all_structs *all,
-												  t_dpar *parsing, t_game *game_wrap, t_player *player_info)
+static inline void	init_wall_arr_and_full_wrapper(t_all_structs *all,
+		t_dpar *parsing, t_game *game_wrap, t_player *player_info)
 {
 	player_info->wall_distance = ft_calloc(game_wrap->pixels_cols,
-										   sizeof(float));
+			sizeof(float));
 	if (!player_info->wall_distance)
 		exit(EXIT_FAILURE);
 	all->game_wrap = game_wrap;
@@ -53,12 +54,12 @@ static inline void init_wall_arr_and_full_wrapper(t_all_structs *all,
 	all->parser_data = parsing;
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_all_structs all;
-	t_dpar game_d;
-	t_game game_wrap;
-	t_player player_info;
+	t_all_structs	all;
+	t_dpar			game_d;
+	t_game			game_wrap;
+	t_player		player_info;
 
 	if (!parsing(argc, argv, &game_d))
 		return (perror("Something went wrong at parsing"), EXIT_FAILURE);
