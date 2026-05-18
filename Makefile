@@ -22,14 +22,16 @@ DRAW_UTILS := src/draw_utils/line_algorithym.c \
 RAYCASTING := src/raycasting/raycasting.c \
 				src/raycasting/aux_raycast.c \
 				src/raycasting/objects_rendering.c \
-				src/raycasting/hor_ver_rays.c
+				src/raycasting/hor_ver_rays.c \
+				src/raycasting/aux_func_raycast.c
 
 TIME_MNG := src/time_mng/get_time.c
 
 AUX := src/aux/color_mng.c
 
 INIT_END := src/init_end/init.c \
-				src/init_end/end.c
+				src/init_end/end.c \
+				src/init_end/init_aux.c
 
 PARSEO := src/parsing/parsing.c \
 				src/parsing/file_validation_utils.c \

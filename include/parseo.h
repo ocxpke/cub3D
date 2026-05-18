@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parseo.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 20:57:13 by romorale          #+#    #+#             */
-/*   Updated: 2026/05/12 17:29:06 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/18 16:06:22 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 # include "cub3d.h"
 
-//text colors for visabilily
-//no color
+// text colors for visabilily
+// no color
 # define RES "\033[0m"
 
-//regular
+// regular
 # define BLK "\e[0;30m"
 # define RED "\e[0;31m"
 # define GRN "\e[0;32m"
@@ -29,7 +29,7 @@
 # define CYN "\e[0;36m"
 # define WHT "\e[0;37m"
 
-//high intensty
+// high intensty
 # define HBLK "\e[0;90m"
 # define H_R "\e[0;91m"
 # define H_G "\e[0;92m"
@@ -39,7 +39,7 @@
 # define H_C "\e[0;96m"
 # define H_W "\e[0;97m"
 
-//bold
+// bold
 # define B_N "\033[1;30m"
 # define B_R "\033[1;31m"
 # define B_G "\033[1;32m"
@@ -49,7 +49,7 @@
 # define B_C "\033[1;36m"
 # define B_W "\033[1;37m"
 
-//Bold high intensity text
+// Bold high intensity text
 # define BHBLK "\e[1;90m"
 # define BHRED "\e[1;91m"
 # define BHGRN "\e[1;92m"
@@ -59,7 +59,7 @@
 # define BHCYN "\e[1;96m"
 # define BHWHT "\e[1;97m"
 
-//High intensty background
+// High intensty background
 # define BLKHB "\e[0;100m"
 # define REDHB "\e[0;101m"
 # define GRNHB "\e[0;102m"
@@ -69,9 +69,9 @@
 # define CYNHB "\e[0;106m"
 # define WHTHB "\e[0;107m"
 
-//parsing
+// parsing
 int		parsing(int ac, char **av, t_dpar *game);
-int		check_arg(char	*str);
+int		check_arg(char *str);
 char	**get_file(char *av);
 char	**split_file(char *s, char c);
 int		check_empty_file(t_dpar *game);
@@ -93,7 +93,7 @@ int		check_textures(t_dpar *game);
 int		valid_f_c(t_dpar *game);
 void	get_color_val_fl(t_dpar *game, char *line);
 void	get_color_val_cl(t_dpar *game, char *line);
-int		check_rgb(t_dpar	*game);
+int		check_rgb(t_dpar *game);
 int		valid_map(t_dpar *game);
 int		valid_map_content(t_dpar *game);
 int		valid_content(t_dpar *game);
@@ -112,7 +112,7 @@ void	square_map(t_dpar *g);
 void	get_keys_info(t_dpar *game);
 void	print_key_positions(t_dpar *game);
 
-//free
+// free
 void	free_all(t_dpar *path);
 void	free_map(t_dpar *path);
 void	free_file_cont(t_dpar *path);
@@ -121,13 +121,13 @@ void	free_tex_col_val(t_dpar *path);
 void	free_tex_col_paths(t_dpar *path);
 void	free_key_array(t_dpar *path);
 
-//map visualizer
-void	print_mapfile( t_dpar *game);
-void	print_mapfile_content( t_dpar *game);
-void	print_mapfile_tex( t_dpar *game);
-void	print_mapfile_colors( t_dpar *game);
-void	print_mapfile_map( t_dpar *g);
-void	print_mapfile_map_info( t_dpar *game);
+// map visualizer
+void	print_mapfile(t_dpar *game);
+void	print_mapfile_content(t_dpar *game);
+void	print_mapfile_tex(t_dpar *game);
+void	print_mapfile_colors(t_dpar *game);
+void	print_mapfile_map(t_dpar *g);
+void	print_mapfile_map_info(t_dpar *game);
 void	print_mapfile_map2(char c);
 
 #endif
