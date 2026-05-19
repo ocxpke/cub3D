@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_textures.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 19:38:41 by romorale          #+#    #+#             */
-/*   Updated: 2026/05/19 15:53:13 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/19 16:41:30 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	valid_tex_chars(char *s)
 
 void	find_tex_path(t_dpar *game, char *line)
 {
-	int i;
+	int	i;
 
 	i = 2;
 	while (line[i] == 32)
