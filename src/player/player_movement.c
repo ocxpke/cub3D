@@ -12,17 +12,31 @@
 
 #include "../../include/cub3d.h"
 
+/**
+ * @note can[0] = x, can[1] = y
+ */
 static inline void	collision_management(t_game *game_wrap,
 		t_player *player_info, int next[2], float move[2])
 {
 	char	*cell_x;
 	char	*cell_y;
+	char	*cell_diag;
+	int		can[2];
 
 	cell_x = &game_wrap->map[(int)player_info->posy][next[0]];
 	cell_y = &game_wrap->map[next[1]][(int)player_info->posx];
-	if (*cell_x != '1' && *cell_x != 'P')
+	cell_diag = &game_wrap->map[next[1]][next[0]];
+	can[0] = (*cell_x != '1' && *cell_x != 'P');
+	can[1] = (*cell_y != '1' && *cell_y != 'P');
+	if (can[0] && can[1] && move[0] != 0 && move[1] != 0
+		&& (*cell_diag == '1' || *cell_diag == 'P'))
+	{
+		can[0] = 0;
+		can[1] = 0;
+	}
+	if (can[0])
 		player_info->posx += move[0];
-	if (*cell_y != '1' && *cell_y != 'P')
+	if (can[1])
 		player_info->posy += move[1];
 }
 

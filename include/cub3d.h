@@ -74,9 +74,5 @@
 # define BOUNCE_KEY_TIME 200
 
 void		re_draw(t_game *game_wrap, t_player *player_info);
-void		set_color_from_var(t_color *color, uint32_t color_setted);
-void		exit_mlx42(t_game *game_wrap, t_player *player_info,
-				t_dpar *game_d);
-uint32_t	get_color_from_struct(t_color *color, uint8_t alpha);
 
 #endif

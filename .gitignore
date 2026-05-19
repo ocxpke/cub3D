@@ -3,7 +3,7 @@ build/
 *.o
 
 # Ignoramos el archivo ejecutable final
-cub3d
+cub3D
 
 # Ignoramos los archivos generados por la compilacion de la MLX42
 lib/MLX42/build/
