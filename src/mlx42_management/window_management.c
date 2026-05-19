@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:24:47 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/18 19:15:20 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/19 16:35:25 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,5 @@ int	manage_mlx42_resources(t_game *game_wrap, t_dpar *game_d)
 	game_wrap->tile_size = game_wrap->map_view->width / NUM_TILES;
 	set_ceil_floor_texture(game_wrap, game_d->map_s->tex_col_s);
 	mlx_set_cursor_mode(game_wrap->window, MLX_MOUSE_HIDDEN);
-	game_wrap->mouse_trap = true;
-	return (0);
+	return (game_wrap->mouse_trap = true, 0);
 }
