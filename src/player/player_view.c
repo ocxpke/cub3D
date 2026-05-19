@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:22:01 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/18 20:52:17 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/19 16:34:46 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 void	player_interact_door(t_game *game_wrap, t_player *p_info)
 {
-	int				target_map_x;
-	int				target_map_y;
+	int	target_map_x;
+	int	target_map_y;
 
 	p_info->p_moves = 1;
 	if ((get_time() - p_info->last_int_door) < BOUNCE_KEY_TIME)
-		return;
+		return ;
 	target_map_x = (int)(p_info->posx + cos(p_info->ang));
 	target_map_y = (int)(p_info->posy + sin(p_info->ang));
-	if ((((int)p_info->posx) == target_map_x) && (((int)p_info->posy) == target_map_y))
-		return;
+	if ((((int)p_info->posx) == target_map_x)
+		&& (((int)p_info->posy) == target_map_y))
+		return ;
 	p_info->last_int_door = get_time();
 	if (game_wrap->map[target_map_y][target_map_x] == 'P')
 		game_wrap->map[target_map_y][target_map_x] = 'A';

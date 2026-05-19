@@ -6,7 +6,7 @@
 /*   By: romorale <romorale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:31:30 by romorale          #+#    #+#             */
-/*   Updated: 2026/04/13 16:39:37 by romorale         ###   ########.fr       */
+/*   Updated: 2026/05/19 15:59:12 by romorale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	check_path_ext2(char *line)
 	int	i;
 
 	if (!line)
-		return (0);
-	if (line[3] == ' ')
 		return (0);
 	i = 0;
 	while (line[i])
@@ -40,8 +38,6 @@ int	check_path_ext(char *line)
 	int	i;
 
 	if (!line)
-		return (0);
-	if (line[3] == ' ')
 		return (0);
 	i = 0;
 	while (line[i])

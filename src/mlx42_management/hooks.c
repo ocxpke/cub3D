@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:23:57 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/18 20:44:50 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/19 16:34:57 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	mouse_free_trap(t_game *game_wrap)
 {
 	if ((get_time() - game_wrap->mouse_trap_bounce) < BOUNCE_KEY_TIME)
-		return;
+		return ;
 	if (game_wrap->mouse_trap)
 	{
 		game_wrap->mouse_trap = false;
