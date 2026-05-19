@@ -6,7 +6,7 @@
 /*   By: jose-ara < jose-ara@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:14:28 by jose-ara          #+#    #+#             */
-/*   Updated: 2026/05/18 20:52:18 by jose-ara         ###   ########.fr       */
+/*   Updated: 2026/05/19 16:35:40 by jose-ara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	re_draw(t_game *game_wrap, t_player *player_info)
 {
 	player_key_rotation(game_wrap, player_info);
 	player_key_movement(game_wrap, player_info);
-
 	if (player_info->p_moves)
 	{
 		ft_memset(game_wrap->map_view->pixels, 125, game_wrap->map_view->width
