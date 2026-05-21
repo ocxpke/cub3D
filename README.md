@@ -26,7 +26,7 @@ WE ./path_to_the_west_texture
 EA ./path_to_the_east_texture
 ```
 <ins>2 floor and ceiling color value identifiers</ins> (F, C) followed by 1 space and then the RGB values. They must range from 0 to 255, each separated by a comma. Any missing, repeated or wrong identifiers or color values will make the file invalid. It must be in this format and none other.
-Here is an example of valid texture paths:
+Here is an example of valid RGB values:
 ```
 F 220,100,0
 
